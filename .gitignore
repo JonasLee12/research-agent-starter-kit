@@ -1,0 +1,69 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv*/
+*.egg-info/
+dist/
+build/
+
+# Runtime data (private, do not publish)
+.agent-runtime/vector_index/
+research-wiki/runtime-receipts/*.md
+research-wiki/runtime-receipts/*.json
+research-wiki/SESSION_EVENT_LOG.jsonl
+research-wiki/system-audits/*
+!research-wiki/system-audits/.gitkeep
+research-wiki/retrieval-evals/*
+!research-wiki/retrieval-evals/.gitkeep
+research-wiki/skill-evals/Behavioural_Evidence_*
+research-wiki/skill-evals/Skill_Eval_Run_*
+audit-reports/*.md
+audit-reports/*.docx
+audit-reports/claude-reviews/*
+!audit-reports/claude-reviews/.gitkeep
+
+# Generated documents
+*.docx
+*.pdf
+*.png
+
+# Secrets and credentials
+.env
+.env.*
+*.sqlite
+*.db
+*.key
+*.pem
+*.p12
+*.pfx
+*.log
+
+# Zotero local database
+Zotero/
+
+# OS files
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# IDE
+.vscode/
+.idea/
+
+# Local app/session state
+.obsidian/workspace*
+.obsidian/cache
+.codex/
+.mcp.json
+
+# Sensitive or assessed project data
+private/
+raw-data/
+participant-data/
+transcripts/
+recordings/
+consent-forms/
+ethics/raw/
+canvas-screenshots/

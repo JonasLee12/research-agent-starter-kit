@@ -1,0 +1,32 @@
+{
+  "name": "subscription_database_connector",
+  "version": "2026-05-25",
+  "inputs_required": [
+    "query",
+    "provider_list",
+    "credential_environment_variables",
+    "evidence_boundary"
+  ],
+  "outputs_expected": [
+    "connector_status_report",
+    "metadata_search_report",
+    "connector_error_boundary"
+  ],
+  "preconditions": [
+    "lawful_institutional_access",
+    "no_scraping_restricted_databases",
+    "credentials_not_committed_to_git"
+  ],
+  "quality_gate": [
+    "metadata_only_label_present",
+    "subscription_missing_credentials_reported",
+    "no_source_marked_citation_ready_without_review"
+  ],
+  "failure_modes": [
+    "missing_credential",
+    "missing_institutional_endpoint",
+    "subscription_entitlement_denied",
+    "service_rate_limit",
+    "network_failure"
+  ]
+}

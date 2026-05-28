@@ -1,0 +1,8 @@
+# Copy this file to .privacy-patterns and add project-specific private patterns.
+# One regular expression per line.
+# Examples:
+# Your real name
+# your\.email@university\.ac\.uk
+# Supervisor Name
+# private-course-platform\.example\.edu
+# /Users/your-local-username

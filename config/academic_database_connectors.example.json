@@ -1,0 +1,38 @@
+{
+  "purpose": "Template for optional academic database connector settings. Copy to config/academic_database_connectors.local.json and keep the local file private.",
+  "public_metadata_providers": [
+    "openalex",
+    "crossref",
+    "semantic_scholar"
+  ],
+  "subscription_providers": {
+    "scopus": {
+      "required_environment": [
+        "ELSEVIER_CREDENTIAL"
+      ],
+      "optional_environment": [
+        "ELSEVIER_INSTTOKEN"
+      ],
+      "evidence_status": "METADATA ONLY"
+    },
+    "web_of_science": {
+      "required_environment": [
+        "WOS_CREDENTIAL",
+        "WOS_ENDPOINT"
+      ],
+      "note": "Endpoint depends on the institution's subscribed Clarivate API product.",
+      "evidence_status": "METADATA ONLY"
+    },
+    "ebsco": {
+      "required_environment": [
+        "EBSCO_ENDPOINT"
+      ],
+      "auth_options": [
+        "EBSCO_CREDENTIAL",
+        "EBSCO_USER + EBSCO_USER_CREDENTIAL"
+      ],
+      "note": "Authentication depends on institutional EDS/EBSCO configuration.",
+      "evidence_status": "METADATA ONLY"
+    }
+  }
+}

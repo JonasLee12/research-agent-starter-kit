@@ -1,0 +1,5 @@
+interface:
+  display_name: "Dissertation Argument Spine"
+  short_description: "Build and audit the dissertation's central argument, section logic, and evidence boundaries."
+  brand_color: "#2563EB"
+  default_prompt: "Use dissertation-argument-spine to confirm the controlling motivation, build section blueprints, and audit the logic of my proposal or dissertation chapter."

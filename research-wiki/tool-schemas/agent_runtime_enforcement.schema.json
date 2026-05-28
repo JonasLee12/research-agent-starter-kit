@@ -1,0 +1,31 @@
+{
+  "name": "agent_runtime_enforcement",
+  "version": "2026-05-25",
+  "inputs_required": [
+    "task",
+    "window",
+    "strict_mode"
+  ],
+  "outputs_expected": [
+    "deterministic_route_json",
+    "runtime_preflight_markdown",
+    "session_event_log_entry"
+  ],
+  "preconditions": [
+    "AGENTS.md_available",
+    "TASK_STATE_available",
+    "required_gate_files_available"
+  ],
+  "quality_gate": [
+    "mode_selected_deterministically",
+    "skills_selected_deterministically",
+    "required_files_checked",
+    "blocked_status_when_required_files_missing"
+  ],
+  "failure_modes": [
+    "unknown_task_type",
+    "missing_required_file",
+    "wrong_window_warning",
+    "runtime_not_called_by_chat_agent"
+  ]
+}

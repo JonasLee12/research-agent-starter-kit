@@ -1,0 +1,32 @@
+{
+  "name": "citation_claim_support_audit",
+  "version": "2026-05-25",
+  "inputs_required": [
+    "markdown_draft",
+    "source_register",
+    "source_readiness_matrix",
+    "local_source_notes"
+  ],
+  "outputs_expected": [
+    "claim_support_audit_report",
+    "rows_requiring_manual_source_review",
+    "citation_readiness_boundary"
+  ],
+  "preconditions": [
+    "citation_consistency_check_completed",
+    "source_notes_available_or_missing_status_recorded"
+  ],
+  "quality_gate": [
+    "each_cited_claim_listed",
+    "reference_entry_status_recorded",
+    "source_readiness_status_recorded",
+    "no_automatic_claim_support_overclaim"
+  ],
+  "failure_modes": [
+    "unparsed_citation",
+    "missing_reference_entry",
+    "metadata_only_source",
+    "no_local_source_note",
+    "claim_requires_full_text_review"
+  ]
+}
