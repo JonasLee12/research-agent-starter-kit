@@ -26,6 +26,10 @@ Every new skill must include:
 
 3. **No conflicts** with existing skills — check `research-wiki/SKILL_DEPENDENCY_GRAPH.md`
 
+## Skill naming convention
+
+New skills should use generic prefixes (e.g. `research-*`, `academic-*`, `project-*`) rather than `dissertation-*`. Existing `dissertation-*` skills are kept for backwards compatibility and will be renamed in a future release.
+
 ## Code style
 
 - Python: UTF-8 encoding, LF line endings, no BOM

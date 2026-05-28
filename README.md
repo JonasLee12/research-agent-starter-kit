@@ -2,6 +2,8 @@
 
 A local, file-driven dissertation research agent with cognitive reasoning, writing quality self-review, and enforced delivery gates.
 
+[中文说明](README_CN.md)
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3](https://img.shields.io/badge/Python-3-green.svg)](https://www.python.org/)
 [![Evals](https://img.shields.io/badge/Skill_Evals-9%2F9_passing-brightgreen.svg)](#validation)
@@ -20,6 +22,8 @@ It runs entirely on your local machine using file-based rules and Python scripts
 
 ## Architecture
 
+See [docs/architecture.md](docs/architecture.md) for the full system diagram.
+
 The system is organised into seven layers:
 
 | Layer | Purpose | Key files |
@@ -35,7 +39,7 @@ The system is organised into seven layers:
 ## Quick Start
 
 ```bash
-git clone https://github.com/lihonglijonas-dl/research-agent-starter-kit.git
+git clone https://github.com/YOUR_GITHUB_USERNAME/research-agent-starter-kit.git
 cd research-agent-starter-kit
 
 # Install core dependencies

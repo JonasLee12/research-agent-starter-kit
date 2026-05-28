@@ -23,6 +23,10 @@ Status: first public starter-kit release.
 - This release is a local, file-driven research-agent starter kit. It does not include private project data, credentials, subscription-database access, or hosted runtime enforcement.
 - The clean public release should be published from a fresh Git history because earlier private-history commits contained personal workflow metadata.
 
+## Planned
+
+- Rename `dissertation-*` skill prefixes to `research-*` for better alignment with multi-project-type support. Existing `dissertation-*` names will continue to work as aliases during the transition.
+
 ## v0.7.1-public-release-review-pack - 2026-05-28
 
 Status: final public-release review preparation.

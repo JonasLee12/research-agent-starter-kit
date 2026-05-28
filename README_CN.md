@@ -2,6 +2,8 @@
 
 一个本地、文件驱动的 dissertation / thesis 研究 Agent starter kit，包含认知推理、写作质量自审和交付 gate。
 
+[English README](README.md)
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3](https://img.shields.io/badge/Python-3-green.svg)](https://www.python.org/)
 [![Evals](https://img.shields.io/badge/Skill_Evals-9%2F9_passing-brightgreen.svg)](#validation)
@@ -20,6 +22,8 @@
 
 ## 架构
 
+完整系统架构图请参见 [docs/architecture.md](docs/architecture.md)。
+
 系统分成七层：
 
 | Layer | Purpose | Key files |
@@ -35,7 +39,7 @@
 ## 快速开始
 
 ```bash
-git clone https://github.com/lihonglijonas-dl/research-agent-starter-kit.git
+git clone https://github.com/YOUR_GITHUB_USERNAME/research-agent-starter-kit.git
 cd research-agent-starter-kit
 
 # Install core dependencies
