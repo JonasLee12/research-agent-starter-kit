@@ -7,7 +7,7 @@ Contributions are welcome. This guide explains how to contribute to the research
 1. Fork the repository
 2. Create a feature branch: `git checkout -b feature/your-feature-name`
 3. Make your changes
-4. Run validation: `python scripts/run_skill_evals.py && python scripts/validate_agent_schemas.py`
+4. Run validation: `python scripts/run_skill_evals.py && python scripts/validate_agent_schemas.py && python -m unittest discover -s tests`
 5. Commit with a clear message: `git commit -m "Add: description of change"`
 6. Push and open a Pull Request
 

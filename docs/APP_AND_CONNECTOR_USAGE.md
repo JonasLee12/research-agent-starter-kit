@@ -33,7 +33,7 @@ This repository does not bundle private credentials, browser sessions, subscript
 | MarkItDown | Optional | Converts documents into Markdown for source review or knowledge-base ingestion | Use only after privacy review and tool availability check |
 | Claude Code | Optional independent reviewer | Can provide a separate review pass when the user has access | Use only as review feedback; do not treat it as source evidence |
 | OpenAlex / Crossref / Semantic Scholar APIs | Available through script | Public metadata search via `scripts/academic_database_connector.py` | Use for metadata discovery, not claim evidence |
-| Scopus / Web of Science / EBSCO | Connector-ready only | Status checks and credential-aware boundaries | Use only with lawful institutional/institutional credentials |
+| Scopus / Web of Science / EBSCO | Connector-ready only | Status checks and credential-aware boundaries | Use only with lawful institutional credentials |
 | OpenAI credential | Not required by default | Not needed for the template itself | Only needed if you build separate API-powered tools |
 | External MCP servers | Not required by default | Not bundled or required | Add only after a clear project need and security review |
 
@@ -48,6 +48,7 @@ These scripts are included in the repository and use Python 3 standard-library f
 | `scripts/run_skill_evals.py` | Included | Static checks that high-risk skill routes point to real local skills/tools |
 | `scripts/run_behavioral_evidence_checks.py` | Included | Checks whether project files show evidence of runtime, source-readiness, self-review, and checkpoint workflows |
 | `scripts/validate_agent_schemas.py` | Included | Validates local workflow schema files |
+| `scripts/claude_independent_review.py` | Included | Optional privacy-gated Claude Code independent review wrapper with timeout handling |
 | `scripts/privacy_check.sh` | Included | Scans for common privacy risks before sharing |
 | `scripts/academic_database_connector.py` | Included | Public metadata search and subscription credential boundary checks |
 | `scripts/citation_style_check.py` | Included | Citation/reference consistency check |
@@ -56,6 +57,7 @@ These scripts are included in the repository and use Python 3 standard-library f
 ## Important Boundaries
 
 - Public metadata is not source evidence.
+- Claude Code feedback is not source evidence.
 - Subscription databases need lawful access.
 - Browser automation must not submit, upload, download, or modify private sites unless explicitly confirmed.
 - Zotero collection membership does not make a source citation-ready.
@@ -107,7 +109,7 @@ python3 scripts/agent_runtime.py "set up this research project" --window Mainten
 | MarkItDown | 可选 | 把文档转成 Markdown，用于 source review 或知识库导入 | 做过隐私检查并确认工具可用后 |
 | Claude Code | 可选 independent reviewer | 有权限时可作为独立审稿/审查工具 | 只作为反馈，不可当作 source evidence |
 | OpenAlex / Crossref / Semantic Scholar APIs | 脚本可用 | 通过 `scripts/academic_database_connector.py` 做公共 metadata search | 用于发现文献 metadata，不可直接当 claim evidence |
-| Scopus / Web of Science / EBSCO | 仅 connector-ready | 检查凭据状态和访问边界 | 只有具备合法 institutional/institutional credentials 时 |
+| Scopus / Web of Science / EBSCO | 仅 connector-ready | 检查凭据状态和访问边界 | 只有具备合法 institutional credentials 时 |
 | OpenAI credential | 默认不需要 | 模板本身不需要 | 只有你另建 API-powered tools 时 |
 | External MCP servers | 默认不需要 | 模板不自带、不依赖 | 只有明确项目需求并完成安全审查后 |
 
@@ -122,6 +124,7 @@ python3 scripts/agent_runtime.py "set up this research project" --window Mainten
 | `scripts/run_skill_evals.py` | 已包含 | 检查高风险 skill routes 是否指向真实本地 skills/tools |
 | `scripts/run_behavioral_evidence_checks.py` | 已包含 | 检查项目文件是否体现 runtime、source-readiness、self-review 和 checkpoint workflows |
 | `scripts/validate_agent_schemas.py` | 已包含 | 验证本地 workflow schema files |
+| `scripts/claude_independent_review.py` | 已包含 | 可选的 Claude Code 独立 review wrapper，带隐私 gate 和 timeout handling |
 | `scripts/privacy_check.sh` | 已包含 | 分享前扫描常见隐私风险 |
 | `scripts/academic_database_connector.py` | 已包含 | 公共 metadata search 和 subscription credential boundary checks |
 | `scripts/citation_style_check.py` | 已包含 | citation/reference consistency check |
@@ -130,6 +133,7 @@ python3 scripts/agent_runtime.py "set up this research project" --window Mainten
 ## 重要边界
 
 - 公共 metadata 不是正式证据。
+- Claude Code feedback 不是正式证据。
 - 订阅数据库需要合法访问权限。
 - 浏览器自动化不能默认提交、上传、下载或修改私有网站内容。
 - Zotero collection membership 不等于文献已经 citation-ready。

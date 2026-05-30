@@ -16,12 +16,13 @@ graph TD
     F --> F1["Self-review loop<br/>two-pass revision"]
     F --> F2["Writing quality rubric<br/>six internal criteria"]
     F --> F3["UK academic style"]
+    F --> F4["Optional research-* layers<br/>figures and article-style prose"]
 
     F --> G["🚦 Delivery Gates"]
     G --> G1["Source-first gate"]
     G --> G2["Pre-delivery lock"]
     G --> G3["Formal delivery guard"]
-    G --> G4["Distinction review"]
+    G --> G4["Project delivery review"]
 
     G --> H["📄 Output"]
     H --> H1[".docx / .pdf"]
@@ -37,10 +38,12 @@ graph TD
     J --> J2["Crossref"]
     J --> J3["Semantic Scholar"]
     J --> J4["Zotero"]
+    J --> J5["Claude Code wrapper<br/>advisory review only"]
 
     D --> K["🔍 System Audits"]
     D --> L["📊 Skill Evals"]
     D --> M["⚙️ Automation"]
+    M --> M1["Weekly literature gap watch<br/>candidate-only"]
 
     style E fill:#f3e8ff,stroke:#7c3aed
     style F fill:#ecfdf5,stroke:#059669

@@ -45,7 +45,7 @@ TASK_RULES: list[dict] = [
             r"Word",
             r"draft",
             r"supervisor",
-            r"PI",
+            r"\bPI\b",
             r"client",
             r"reviewer",
             r"导师",
@@ -92,7 +92,7 @@ TASK_RULES: list[dict] = [
     },
     {
         "name": "literature_search",
-        "patterns": [r"literature", r"文献", r"database", r"数据库", r"\bsearch\b", r"检索"],
+        "patterns": [r"\bliterature\b", r"文献", r"\bdatabase\b", r"数据库", r"\bsearch\b", r"检索"],
         "mode": "Research Mode",
         "skills": [
             "agent-orchestration",
@@ -198,6 +198,12 @@ TASK_RULES: list[dict] = [
             r"github",
             r"workflow",
             r"rule",
+            r"\baudit\b",
+            r"\bcontext\s+refresh\b",
+            r"\bskill\b.*\b(migration|route|routing|update|audit|stocktake)\b",
+            r"\b(migration|route|routing|update|audit|stocktake)\b.*\bskill\b",
+            r"\bmigration\b",
+            r"\bProduction\s+Window\b",
         ],
         "mode": "Maintenance Mode",
         "skills": [
@@ -220,6 +226,48 @@ TASK_RULES: list[dict] = [
             "research-wiki/SESSION_EVENT_LOG.jsonl",
         ],
     },
+]
+
+MAINTENANCE_HINT_PATTERNS = [
+    r"\baudit\b",
+    r"\bautomation\b",
+    r"\bcheck\b",
+    r"\bcron\b",
+    r"\bimplement\b",
+    r"\bprompt\b",
+    r"\bupgrade\b",
+    r"\bcontext\s+refresh\b",
+    r"\bmigration\b",
+    r"\bstarter kit\b",
+    r"\btemplate\b",
+    r"\bgeneralise\b",
+    r"\bgeneralize\b",
+    r"\badapt\b",
+    r"\bgithub\b",
+    r"\bupdate\b.*\bskill\b",
+    r"\bskill\b.*\b(migration|route|routing|update|audit|stocktake)\b",
+    r"\b(migration|route|routing|update|audit|stocktake)\b.*\bskill\b",
+    r"\bProduction\s+Window\b",
+    r"\bMaintenance\s+Window\b",
+    r"\bworkflow\b",
+    r"\bcheckpoint\b",
+    r"\bself-review\b",
+    r"检查",
+    r"系统",
+    r"维护",
+    r"迭代",
+    r"升级",
+    r"技能",
+    r"规则",
+]
+
+MAINTENANCE_ONLY_PATTERNS = [
+    r"\bautomation\b.*\b(prompt|config|setting|schedule|toml|update)\b",
+    r"\b(prompt|config|setting|schedule|toml|update)\b.*\bautomation\b",
+    r"\bcron\b.*\b(prompt|config|setting|schedule|toml|update)\b",
+    r"\b(prompt|config|setting|schedule|toml|update)\b.*\bcron\b",
+    r"自动化.*(提示词|配置|设置|日程|更新)",
+    r"(提示词|配置|设置|日程|更新).*自动化",
 ]
 
 
@@ -259,15 +307,26 @@ def classify(task: str, window: str) -> RuntimeRoute:
     for rule in TASK_RULES:
         if any(re.search(pattern, task, flags=re.I) for pattern in rule["patterns"]):
             matched.append(rule)
+    # Precedence rule: in the Maintenance Window, explicit audit/system/skill
+    # wording makes `system_maintenance` the lead route. Other genuinely matched
+    # task types can remain as secondary context, but they should not change the
+    # overall mode away from Maintenance. Automation config/prompt updates are
+    # Maintenance-only because they edit the agent system rather than performing
+    # the research task named in the automation.
+    if window.lower() == "maintenance" and any(re.search(pattern, task, flags=re.I) for pattern in MAINTENANCE_HINT_PATTERNS):
+        system_rule = next(rule for rule in TASK_RULES if rule["name"] == "system_maintenance")
+        if any(re.search(pattern, task, flags=re.I) for pattern in MAINTENANCE_ONLY_PATTERNS):
+            matched = [system_rule]
+        elif system_rule not in matched:
+            matched.insert(0, system_rule)
+        else:
+            matched = [system_rule] + [rule for rule in matched if rule is not system_rule]
     if not matched:
         matched = [TASK_RULES[-1] if window.lower() == "maintenance" else TASK_RULES[0]]
 
-    maintenance_hint = bool(
-        re.search(r"starter kit|template|generalise|generalize|adapt|profile|github|system|maintenance|workflow|rule", task, flags=re.I)
-    )
     mode = (
         "Maintenance Mode"
-        if window.lower() == "maintenance" and (maintenance_hint or any(r["name"] == "system_maintenance" for r in matched))
+        if window.lower() == "maintenance" and any(r["name"] == "system_maintenance" for r in matched)
         else matched[0]["mode"]
     )
     task_types = [rule["name"] for rule in matched]
@@ -277,7 +336,9 @@ def classify(task: str, window: str) -> RuntimeRoute:
     missing_files = [path for path in required_files if not (ROOT / path).exists()]
     warnings = []
 
-    if window.lower() == "maintenance" and any(rule["mode"] == "Drafting Mode" for rule in matched) and not maintenance_hint:
+    if window.lower() == "maintenance" and any(rule["mode"] == "Drafting Mode" for rule in matched) and not any(
+        rule["name"] == "system_maintenance" for rule in matched
+    ):
         warnings.append("Task looks like Production drafting but window is Maintenance; confirm window role before drafting.")
     if "requirements_or_rubric" in task_types and "quality-gates/PROJECT_DELIVERY_REVIEW_GATE.md" not in required_files:
         warnings.append("Requirement/rubric task lacks project delivery gate.")

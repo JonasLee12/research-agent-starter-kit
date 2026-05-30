@@ -135,6 +135,8 @@ The loop must include:
 
 Claude Code, another model, or a human reviewer may provide optional independent review. Their feedback does not replace local self-review and must not be treated as evidence.
 
+When Claude Code is available, use `scripts/claude_independent_review.py` for reviewable, non-sensitive artifacts. The wrapper provides a privacy gate, timeout handling, and an advisory-review boundary. It must not be used for raw participant data, private records, credentials, or restricted materials unless the user explicitly accepts the risk.
+
 ## Three-Stage Document Pipeline Rule
 
 For important Word, PDF, or stakeholder-facing outputs, use `research-wiki/DOCUMENT_PIPELINE.md`.
@@ -223,6 +225,9 @@ Included project skills:
 - `playwright-dissertation-browser`: use before controlled browser automation; pair with global `playwright`.
 - `markitdown`: use before file-to-Markdown conversion for source review, Obsidian notes, knowledge-base ingestion, or RAG preparation.
 - `research-project-adapter`: use when adapting the starter kit to a non-dissertation project profile.
+- `research-neural-network-figure`: use only for actual neural-network or AI model architecture figures.
+- `research-nature-figure`: use as an optional quality layer for high-impact research figures, after source/data/privacy checks.
+- `research-nature-writing`: use as an optional article-style prose layer after source-first, cognitive planning, citation/readiness, and self-review gates.
 
 Tool boundary:
 
@@ -237,3 +242,17 @@ Routing boundary:
 - Brainstorming should be used when the decision is genuinely unclear; it should not slow down simple direct tasks.
 - Browser automation must stay read-only for LMS/private sites unless the user explicitly confirms an action.
 - File conversion must not move participant data, private LMS material, or identifiable records into public/shareable layers.
+- `research-*` skills must remain optional quality layers and must not override project-specific requirements, source evidence, privacy gates, or compliance checks.
+
+## Weekly Literature Gap-Watch Automation
+
+Use `docs/WEEKLY_LITERATURE_GAP_WATCH_AUTOMATION.md` when setting up or reviewing recurring literature-monitoring tasks.
+
+Default rule:
+
+- candidate discovery only;
+- top 5-8 candidates;
+- public metadata remains `METADATA ONLY`;
+- no automatic write to source registers, source-readiness matrices, source notes, Obsidian, Zotero, or formal research text;
+- methodology track is off unless a concrete methodology-writing or methodology-gap task is active;
+- Stage C shifts from broad discovery to source-readiness upgrade when formal drafting begins.

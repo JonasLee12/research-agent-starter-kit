@@ -33,7 +33,7 @@ For a plain-language status table of apps, connectors, and optional tools, read 
 | Node.js / npm | [Node.js](https://nodejs.org/) | Optional. Needed only if you choose CLI browser automation workflows that depend on npm/npx. |
 | Playwright | [Playwright](https://playwright.dev/) | Optional. Browser automation for read-only checks, local previews, or UI verification. |
 | MarkItDown | [Microsoft MarkItDown](https://github.com/microsoft/markitdown) | Optional. Converts documents into Markdown for source review or knowledge-base ingestion. |
-| Claude Code | [Claude Code](https://docs.anthropic.com/en/docs/claude-code) | Optional. Can be used as an independent reviewer if the user has access. It is not required by this template. |
+| Claude Code | [Claude Code](https://docs.anthropic.com/en/docs/claude-code) | Optional. Can be used through `scripts/claude_independent_review.py` as a privacy-gated independent reviewer if the user has access. It is not required by this template. |
 
 ## Not Needed At First
 
@@ -88,3 +88,8 @@ Install extra tools only when your project workflow clearly needs them.
 
 - Python 3 runs the built-in scripts.
 - Extra Python packages are not needed unless you choose optional extensions.
+
+`Claude Code` and the Claude review wrapper are different.
+
+- Claude Code is the optional external reviewer.
+- `scripts/claude_independent_review.py` is the local wrapper that checks privacy, applies a timeout, writes a review report, and reminds users that Claude feedback is advisory only.

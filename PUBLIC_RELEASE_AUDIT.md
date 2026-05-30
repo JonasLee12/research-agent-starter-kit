@@ -1,8 +1,8 @@
 # Public Release Audit
 
-Status: `CLEARED FOR V1.0.0 PUBLIC RELEASE`
+Status: `CLEARED FOR PUBLIC STARTER-KIT UPDATE`
 
-Date: 2026-05-28
+Date: 2026-05-30
 
 This file records the release checks completed before publishing the starter kit as an open-source repository.
 
@@ -25,6 +25,10 @@ This file records the release checks completed before publishing the starter kit
 - [x] Runtime receipts and generated eval reports have been removed from the public tree.
 - [x] Example templates exist for source notes, ethics tracking, and university guidance.
 - [x] README, contributing guide, acknowledgements, requirements files, and MIT license are present.
+- [x] v1.1.0 runtime-routing, Claude-review-wrapper, research-skill, and literature gap-watch documentation uses generic public-template language.
+- [x] New `research-*` skills are generic optional layers and do not include private project facts.
+- [x] Claude Code review is documented as advisory only, not as source evidence.
+- [x] Weekly literature gap-watch automation is documented as candidate-only, not as automatic source ingestion.
 
 ## Validation Commands
 

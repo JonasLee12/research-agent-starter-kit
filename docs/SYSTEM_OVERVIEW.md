@@ -60,6 +60,7 @@ Do not use it as a substitute for:
 | Privacy layer | `PRIVACY_CHECKLIST.md`, `PUBLIC_RELEASE_AUDIT.md`, `scripts/privacy_check.sh` | Prevents private data from being shared accidentally |
 | Runtime layer | `scripts/agent_runtime.py`, `research-wiki/runtime-receipts/`, `research-wiki/SESSION_EVENT_LOG.jsonl` | Makes important workflow routing and gate checks auditable |
 | Connector layer | `scripts/academic_database_connector.py`, `config/academic_database_connectors.example.json` | Supports public metadata search and subscription credential checks |
+| Independent review layer | `scripts/claude_independent_review.py` | Optional privacy-gated Claude Code review with timeout handling and advisory-only boundary |
 | Schema layer | `research-wiki/tool-schemas/`, `scripts/validate_agent_schemas.py` | Keeps local workflow tools explicit and testable |
 | GitHub layer | README, setup docs, changelog, template settings | Supports sharing and updating the starter kit |
 
@@ -102,6 +103,8 @@ Use this for system reliability:
 
 The Maintenance Window should avoid formal project drafting unless the user explicitly asks to switch roles.
 
+Maintenance routing is intentionally conservative. In the Maintenance Window, words such as audit, update, implement, workflow, template, and GitHub usually make system maintenance the lead route. This keeps rule edits, automation updates, and public-release work from being mistaken for ordinary research writing.
+
 ## 5. Skill System
 
 Skills are small local workflow files. Each skill tells the agent when to use it and what checks to perform.
@@ -120,6 +123,9 @@ Important skill groups:
 | AI-agent concept work | `ai-agent-design-spec`, `active-learning-design-support`, `prototype-evaluation-audit` |
 | Maintenance | `dissertation-agent-self-debug`, `dissertation-agent-architecture-audit`, `dissertation-workspace-surface-audit`, `dissertation-automation-audit`, `dissertation-skill-stocktake` |
 | Workflow adapters | `using-superpowers`, `brainstorming`, `project-skill-creator-governance`, `playwright-dissertation-browser`, `markitdown` |
+| Research figure and article-style layers | `research-neural-network-figure`, `research-nature-figure`, `research-nature-writing` |
+
+The `research-*` skills are optional quality layers. Use them only after local source, privacy, compliance, and writing-quality gates. They should improve figure logic or article-style flow, not inflate claims or replace evidence.
 
 ## 6. New Workflow Adapters
 
@@ -182,6 +188,7 @@ Version `v0.4.0` adds a local engineering layer.
 | Tool | Job |
 |---|---|
 | `scripts/agent_runtime.py` | Checks task type, mode, skills, gates, and required files before substantial work |
+| `scripts/claude_independent_review.py` | Optional privacy-gated Claude Code review wrapper with timeout handling |
 | `scripts/cognitive_protocol_check.py` | Checks whether a planning note has required cognitive protocol fields |
 | `scripts/academic_database_connector.py` | Searches OpenAlex, Crossref, Semantic Scholar, and checks subscription-provider credentials |
 | `scripts/citation_style_check.py` | Checks author-year citations against reference entries |
@@ -195,7 +202,22 @@ Boundary:
 - subscription databases need lawful credentials;
 - runtime preflight works only when the workflow calls it;
 - claim-support audit still needs source-section reading before verification.
+- Claude Code review is advisory only and cannot replace source, privacy, citation, compliance, or delivery gates.
 - Python 3 is needed for these local scripts; extra Python packages are not needed by default.
+
+## 7B. Weekly Literature Gap-Watch Automation
+
+The starter kit includes a template for weekly literature monitoring in `docs/WEEKLY_LITERATURE_GAP_WATCH_AUTOMATION.md`.
+
+Use it when a project already has a literature map and needs a small, priority-weighted candidate list.
+
+Default boundary:
+
+- top 5-8 candidates only;
+- public metadata remains `METADATA ONLY`;
+- no automatic write to source registers, source-readiness matrices, source notes, Obsidian, Zotero, or formal text;
+- methodology searching stays off unless a concrete methodology gap or active methodology-writing task requires it;
+- when formal drafting begins, the automation should shift from broad discovery to source-readiness upgrade queues.
 
 ## 8. Quality Gates
 

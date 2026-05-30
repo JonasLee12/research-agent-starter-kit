@@ -62,6 +62,9 @@ Use these skills for research-project work. Some skill names still begin with `d
 - `playwright-dissertation-browser`: safely route browser automation to the global `playwright` skill while preserving read-only and privacy boundaries.
 - `markitdown`: guide file-to-Markdown conversion for source review, literature ingestion, Obsidian notes, or RAG-ready knowledge-base preparation.
 - `research-project-adapter`: map the starter kit to the selected project profile and decide which dissertation-specific files are optional.
+- `research-neural-network-figure`: plan or audit neural-network architecture figures and tool routes such as NN-SVG, PlotNeuralNet, draw_convnet, TikZ, or custom SVG.
+- `research-nature-figure`: apply high-impact scientific figure-contract logic to data, conceptual, architecture, and multi-panel figures.
+- `research-nature-writing`: sharpen high-impact article-style argument structure after source, compliance, citation, cognitive, and self-review gates.
 
 Global/system skills intentionally used by this template:
 
@@ -101,6 +104,12 @@ Domain-specific skills are included as optional examples. Rename, edit, or remov
 - Use `markitdown` before file-to-Markdown conversion; check whether MarkItDown is installed and do not install it without explicit confirmation.
 - Use `scripts/academic_database_connector.py` for academic metadata searches when available. Treat all search results as `METADATA ONLY` until source sections are reviewed.
 - Use `scripts/citation_style_check.py` and `scripts/citation_claim_audit.py` for citation-heavy drafts when available. Citation consistency is not proof of claim support.
+- Use `scripts/claude_independent_review.py` only for optional independent review of safe, non-sensitive artifacts. Claude Code feedback is advisory; it does not replace local source, privacy, citation, compliance, or delivery gates.
+- Use `research-neural-network-figure` before planning actual neural-network/model architecture visuals. Do not install or run third-party figure repositories without explicit confirmation.
+- Use `research-nature-figure` before high-impact or multi-panel research figures. It is a figure-quality layer, not a source/data validity layer.
+- Use `research-nature-writing` only after required evidence and integrity gates for formal prose. It can sharpen article-style logic but must not inflate claims or invent citations.
+- Use `research-wiki/GENERAL_RESEARCH_SKILL_COMPATIBILITY_CONTRACT.md` before exporting local `research-*` skills into this public starter kit.
+- Use `docs/WEEKLY_LITERATURE_GAP_WATCH_AUTOMATION.md` before creating or revising a weekly literature-monitoring automation. Preserve the candidate-only boundary unless the user explicitly confirms ingestion.
 
 ## Deliverable Preferences
 
@@ -132,6 +141,9 @@ Domain-specific skills are included as optional examples. Rename, edit, or remov
 19. Use `project-skill-creator-governance` and global `skill-creator` before adding or changing skills.
 20. Use `playwright-dissertation-browser` and global `playwright` for controlled browser automation.
 21. Use `markitdown` only after checking tool availability and privacy boundaries.
+22. Use `research-*` figure/writing skills only as optional quality layers after source, privacy, compliance, citation, and document gates.
+23. Use `scripts/claude_independent_review.py` for optional context-naive independent review when the artifact is safe to send to Claude Code.
+24. Use staged literature gap-watch automation only for candidate discovery unless the user confirms ingestion.
 
 ## Public Template Boundary
 

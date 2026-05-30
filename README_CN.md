@@ -1,16 +1,16 @@
 # Research Agent Starter Kit
 
-一个本地、文件驱动的 dissertation / thesis 研究 Agent starter kit，包含认知推理、写作质量自审和交付 gate。
+一个本地、文件驱动的 research-project Agent starter kit，包含认知推理、写作质量自审和交付 gate。
 
 [English README](README.md)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3](https://img.shields.io/badge/Python-3-green.svg)](https://www.python.org/)
-[![Evals](https://img.shields.io/badge/Skill_Evals-9%2F9_passing-brightgreen.svg)](#validation)
+[![Evals](https://img.shields.io/badge/Skill_Evals-17%2F17_passing-brightgreen.svg)](#validation)
 
 ## 这是什么？
 
-这是一个用于搭建本地 AI research agent 的 starter kit，主要面向需要写 dissertation、thesis 或正式研究文稿的研究者。它适合希望使用 AI 辅助学术写作，同时仍然保持 source integrity、ethical compliance 和 writing quality 的用户。
+这是一个用于搭建本地 AI research agent 的 starter kit，可用于 dissertation、thesis、article、report、proposal 和其他正式研究项目。它适合希望使用 AI 辅助研究写作，同时仍然保持 source integrity、ethical compliance 和 writing quality 的用户。
 
 系统提供三层质量控制：
 
@@ -19,6 +19,8 @@
 3. **Delivery gates** — 正式输出前检查 source verification、citation audit 和高质量交付 readiness。
 
 核心工作流基于本地文件和 Python 脚本运行。默认不依赖 hosted service，也不需要 API dependency 才能使用核心流程。
+
+最新版还加入了 runtime routing 回归测试、带隐私 gate 的 Claude Code 独立 review wrapper、可选的高质量科研图/写作 skills，以及 weekly literature gap-watch automation 模板。
 
 ## 架构
 
@@ -55,6 +57,7 @@ cp templates/AGENTS.example.md AGENTS.md
 # Verify installation
 python scripts/run_skill_evals.py
 python scripts/validate_agent_schemas.py
+python -m unittest discover -s tests
 ```
 
 ## 核心功能
@@ -71,6 +74,9 @@ python scripts/validate_agent_schemas.py
 | Dual-window workflow | Production Window 写作，Maintenance Window 维护；通过文件共享状态 |
 | Audit trail | event log、runtime receipts、Production audits |
 | External integration | OpenAlex、Crossref、Semantic Scholar metadata discovery；Zotero reference management |
+| Claude review wrapper | 可选的 Claude Code 独立 review；有隐私 gate，反馈只作为建议，不是证据 |
+| Research figure/writing skills | 可选 `research-*` skills，用于 neural-network figures、高质量科研图和 article-style prose |
+| Literature gap-watch automation | weekly candidate-only 文献监测模板，带 Stage A/B/C 和 source-readiness 边界 |
 
 ## 自定义
 
@@ -110,6 +116,15 @@ python scripts/run_skill_evals.py
 # Validate workflow schemas
 python scripts/validate_agent_schemas.py
 
+# Run routing regression tests
+python -m unittest discover -s tests
+
+# Check behavioural evidence rules
+python scripts/run_behavioral_evidence_checks.py
+
+# Run privacy check before sharing
+./scripts/privacy_check.sh
+
 # Check vector retrieval (requires requirements-vector.txt)
 bash scripts/run_vector_index.sh --rebuild --summary
 ```
@@ -118,6 +133,7 @@ bash scripts/run_vector_index.sh --rebuild --summary
 
 - [Dual Window Guide](docs/DUAL_WINDOW_GUIDE.md) — Production 和 Maintenance 窗口如何分工
 - [Skill Development Guide](docs/SKILL_DEVELOPMENT_GUIDE.md) — 如何创建和测试新的 skill
+- [Weekly Literature Gap-Watch Automation](docs/WEEKLY_LITERATURE_GAP_WATCH_AUTOMATION.md) — candidate-only weekly 文献监测
 - [Retrieval Protocol](research-wiki/RETRIEVAL_PROTOCOL.md) — 四层 retrieval 如何协同
 - [Document Pipeline](research-wiki/DOCUMENT_PIPELINE.md) — staged checkpoint delivery process
 

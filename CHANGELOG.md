@@ -1,5 +1,32 @@
 # Changelog
 
+## v1.1.0 - Runtime Review And Gap Watch - 2026-05-30
+
+Status: important public starter-kit update.
+
+### Added
+
+- Runtime routing regression tests for research-skill migration and automation-prompt maintenance tasks.
+- `tests/test_agent_runtime.py` for deterministic runtime unit tests.
+- `scripts/claude_independent_review.py` as an optional privacy-gated Claude Code review wrapper with timeout handling.
+- Generic `research-*` skills for neural-network architecture figures, high-impact research figures, and article-style academic prose.
+- `research-wiki/GENERAL_RESEARCH_SKILL_COMPATIBILITY_CONTRACT.md` for exporting generic research skills safely.
+- `docs/WEEKLY_LITERATURE_GAP_WATCH_AUTOMATION.md` as a staged, candidate-only weekly literature monitoring template.
+
+### Changed
+
+- Runtime classification now avoids misrouting `research-* skill migration` maintenance work as a literature-search task.
+- Automation prompt/config updates now route as Maintenance-only work.
+- Skill eval registry expanded from 9 to 17 public checks.
+- README, Chinese README, system overview, app/connector usage, and software requirements now document the new runtime, Claude review, research-skill, and literature gap-watch layers.
+
+### Boundary
+
+- Claude Code review is advisory and does not replace source evidence, citation verification, privacy review, compliance checks, or delivery gates.
+- The literature gap-watch automation is candidate discovery only. It must not automatically write to source registers, source-readiness matrices, source notes, Obsidian, Zotero, or formal research text.
+- The `research-*` skills are optional quality layers. They must not inflate evidence, invent novelty claims, or override local project requirements.
+- No private dissertation workspace content was added.
+
 ## v1.0.0-public-release - 2026-05-28
 
 Status: first public starter-kit release.

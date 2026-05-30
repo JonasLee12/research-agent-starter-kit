@@ -80,6 +80,7 @@ After adding or editing a skill:
 ```bash
 python scripts/run_skill_evals.py
 python scripts/validate_agent_schemas.py
+python -m unittest discover -s tests
 ./scripts/privacy_check.sh
 ```
 

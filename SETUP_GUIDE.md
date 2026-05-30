@@ -21,7 +21,7 @@ Optional but useful:
 - [ChatGPT Codex Connector](https://github.com/apps/chatgpt-codex-connector)
 - [Obsidian](https://obsidian.md/download)
 - [LibreOffice](https://www.libreoffice.org/download/) or [Microsoft Word](https://www.microsoft.com/en-us/microsoft-365/word)
-- [Claude Code](https://docs.anthropic.com/en/docs/claude-code) for optional independent review if you have access
+- [Claude Code](https://docs.anthropic.com/en/docs/claude-code) for optional independent review through `scripts/claude_independent_review.py` if you have access
 
 ## 1. Copy Or Clone
 
@@ -75,6 +75,14 @@ For formal writing, keep these files active:
 
 They help the agent plan the argument, self-review the draft, and record thinking/writing/delivery checkpoints.
 
+Optional specialist skills:
+
+- `research-neural-network-figure` for real AI/model architecture diagrams.
+- `research-nature-figure` for high-quality research figure planning.
+- `research-nature-writing` for article-style structure after evidence checks.
+
+These skills are quality layers. They do not replace source checks, compliance checks, citation review, or delivery gates.
+
 ## 5. Keep Evidence Boundaries
 
 Use labels:
@@ -92,6 +100,9 @@ Run:
 
 ```bash
 ./scripts/privacy_check.sh
+python scripts/run_skill_evals.py
+python scripts/validate_agent_schemas.py
+python -m unittest discover -s tests
 ```
 
 Review the output before pushing to GitHub or sharing with friends.
