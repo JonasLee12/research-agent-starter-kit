@@ -49,6 +49,12 @@ These scripts are included in the repository and use Python 3 standard-library f
 | `scripts/run_behavioral_evidence_checks.py` | Included | Checks whether project files show evidence of runtime, source-readiness, self-review, and checkpoint workflows |
 | `scripts/validate_agent_schemas.py` | Included | Validates local workflow schema files |
 | `scripts/claude_independent_review.py` | Included | Optional privacy-gated Claude Code independent review wrapper with timeout handling |
+| `scripts/academic_integrity_preflight.py` | Included | Checks concrete integrity risks before formal drafting or delivery |
+| `scripts/kb_health_check.py` | Included | Checks self-growing knowledge-base structure, raw-inbox triage, unresolved markers, and private-data boundary hits |
+| `scripts/build_agent_index.py` | Included | Builds a local SQLite index of project memory files |
+| `scripts/local_retrieval_search.py` | Included | Runs local FTS and hashed-vector retrieval over project files |
+| `scripts/build_vector_index.py` | Optional vector deps | Builds a local ChromaDB neural vector index when vector dependencies are installed |
+| `scripts/vector_retrieval_smoke_test.py` | Optional vector deps | Tests whether known queries retrieve expected template files |
 | `scripts/privacy_check.sh` | Included | Scans for common privacy risks before sharing |
 | `scripts/academic_database_connector.py` | Included | Public metadata search and subscription credential boundary checks |
 | `scripts/citation_style_check.py` | Included | Citation/reference consistency check |
@@ -125,6 +131,12 @@ python3 scripts/agent_runtime.py "set up this research project" --window Mainten
 | `scripts/run_behavioral_evidence_checks.py` | 已包含 | 检查项目文件是否体现 runtime、source-readiness、self-review 和 checkpoint workflows |
 | `scripts/validate_agent_schemas.py` | 已包含 | 验证本地 workflow schema files |
 | `scripts/claude_independent_review.py` | 已包含 | 可选的 Claude Code 独立 review wrapper，带隐私 gate 和 timeout handling |
+| `scripts/academic_integrity_preflight.py` | 已包含 | 正式 drafting 或 delivery 前检查具体 academic/professional integrity 风险 |
+| `scripts/kb_health_check.py` | 已包含 | 检查 self-growing knowledge base 结构、raw-inbox triage、未解决标记和 private-data boundary hits |
+| `scripts/build_agent_index.py` | 已包含 | 为项目记忆文件建立本地 SQLite index |
+| `scripts/local_retrieval_search.py` | 已包含 | 对项目文件运行本地 FTS 和 hashed-vector retrieval |
+| `scripts/build_vector_index.py` | 可选 vector dependencies | 安装 vector dependencies 后建立本地 ChromaDB neural vector index |
+| `scripts/vector_retrieval_smoke_test.py` | 可选 vector dependencies | 测试已知 query 是否能检索到预期模板文件 |
 | `scripts/privacy_check.sh` | 已包含 | 分享前扫描常见隐私风险 |
 | `scripts/academic_database_connector.py` | 已包含 | 公共 metadata search 和 subscription credential boundary checks |
 | `scripts/citation_style_check.py` | 已包含 | citation/reference consistency check |

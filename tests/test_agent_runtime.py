@@ -55,6 +55,21 @@ class AgentRuntimeRoutingTests(unittest.TestCase):
         self.assertIn("literature_search", route.task_types)
         self.assertNotIn("system_maintenance", route.task_types)
 
+    def test_formal_output_includes_integrity_preflight(self) -> None:
+        route = classify("Draft a formal research proposal", "Production")
+
+        self.assertIn("formal_research_output", route.task_types)
+        self.assertIn("academic-integrity-preflight", route.skills)
+        self.assertIn("academic_integrity_preflight", route.gates)
+
+    def test_knowledge_base_setup_routes_to_kb_operations(self) -> None:
+        route = classify("Set up a self-growing knowledge base with local retrieval", "Production")
+
+        self.assertEqual(route.mode, "Integration Mode")
+        self.assertIn("knowledge_base_operations", route.task_types)
+        self.assertIn("dissertation-knowledge-ops", route.skills)
+        self.assertIn("kb_health_check", route.gates)
+
 
 if __name__ == "__main__":
     unittest.main()

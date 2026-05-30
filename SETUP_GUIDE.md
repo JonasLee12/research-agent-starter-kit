@@ -69,11 +69,26 @@ Use the skills by name in agent prompts, or let `agent-orchestration` route task
 For formal writing, keep these files active:
 
 - `.agents/skills/cognitive-frameworks/SKILL.md`
+- `.agents/skills/academic-integrity-preflight/SKILL.md`
 - `.agents/skills/academic-self-review-loop/SKILL.md`
 - `research-wiki/WRITING_QUALITY_RUBRIC.md`
 - `research-wiki/DOCUMENT_PIPELINE.md`
 
 They help the agent plan the argument, self-review the draft, and record thinking/writing/delivery checkpoints.
+
+For knowledge-base work, start here:
+
+- `knowledge-base/self-growing/README.md`
+- `knowledge-base/self-growing/growth-queue.md`
+- `knowledge-base/self-growing/compiled-wiki/INDEX.md`
+
+Then run:
+
+```bash
+python scripts/kb_health_check.py
+python scripts/build_agent_index.py --rebuild --summary
+python scripts/local_retrieval_search.py --rebuild --query "source readiness"
+```
 
 Optional specialist skills:
 

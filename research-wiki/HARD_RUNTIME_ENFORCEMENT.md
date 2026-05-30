@@ -65,5 +65,6 @@ Current public-template status:
 
 - Use `scripts/agent_runtime.py` before substantial Production or Maintenance work.
 - Runtime receipts should be regenerated for each important task.
-- Formal writing routes should include `cognitive-frameworks`, `academic-self-review-loop`, and staged checkpoint gates.
+- Formal writing routes should include `cognitive-frameworks`, `academic-integrity-preflight`, `academic-self-review-loop`, and staged checkpoint gates.
+- Knowledge-base routes should include self-growing KB privacy/source boundaries and the KB health-check gate.
 - Historical receipts are examples only and should not be treated as proof that a later task was checked.

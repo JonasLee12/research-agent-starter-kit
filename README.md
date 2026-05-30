@@ -6,7 +6,7 @@ A local, file-driven research-project agent with cognitive reasoning, writing qu
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3](https://img.shields.io/badge/Python-3-green.svg)](https://www.python.org/)
-[![Evals](https://img.shields.io/badge/Skill_Evals-17%2F17_passing-brightgreen.svg)](#validation)
+[![Evals](https://img.shields.io/badge/Skill_Evals-21%2F21_passing-brightgreen.svg)](#validation)
 
 ## What is this?
 
@@ -20,7 +20,7 @@ The system provides three layers of quality assurance that work together:
 
 It runs entirely on your local machine using file-based rules and Python scripts. No hosted service, no API dependency for the core workflow.
 
-The latest public version also includes runtime routing regression tests, a privacy-gated Claude Code review wrapper, optional high-impact figure/writing skills, and a weekly literature gap-watch automation template.
+The latest public version also includes a self-growing knowledge-base scaffold, local retrieval/index tools, an academic-integrity preflight gate, runtime routing regression tests, a privacy-gated Claude Code review wrapper, optional high-impact figure/writing skills, and a weekly literature gap-watch automation template.
 
 ## Architecture
 
@@ -65,12 +65,14 @@ python -m unittest discover -s tests
 | Feature | What it does |
 |---|---|
 | Source-first gate | Prevents the agent from fabricating facts — requires file evidence before writing |
+| Academic integrity preflight | Checks prompt residue, placeholders, fake references, unsupported claims, and disclosure-boundary risks |
 | Cognitive frameworks | Forces argument mapping, gap classification, and warrant testing before formal writing |
 | Academic self-review loop | Two-pass review after drafting: identify weaknesses → revise → fresh re-review |
 | Writing quality rubric | Six internal criteria: one point per paragraph, argument progression, evidence integration, reader journey, redundancy control |
 | Staged checkpoints | Three-phase pipeline: THINKING → WRITING → DELIVERY, each with its own verification |
 | Delivery guard | Blocks formal output if pre-delivery lock, citation audit, or delivery review is missing |
-| Retrieval protocol | Four-layer search: ChromaDB semantic / SQLite FTS keyword / Source Readiness Matrix / Obsidian thinking workspace |
+| Self-growing knowledge base | Raw inbox → growth queue → compiled wiki, with source-of-record and privacy boundaries |
+| Retrieval protocol | Local SQLite index, FTS/hashed retrieval, optional ChromaDB semantic retrieval, source readiness matrix, and human source review |
 | Dual-window workflow | Production Window for writing, Maintenance Window for system upkeep — state shared via files |
 | Audit trail | Structured event log, runtime receipts, and automated Production audits |
 | External integration | OpenAlex, Crossref, Semantic Scholar for metadata discovery; Zotero for reference management |
@@ -92,6 +94,16 @@ Create a new directory in `.agents/skills/your-skill-name/` with a `SKILL.md` fi
 
 See `research-wiki/ZOTERO_AND_CITATION_WORKFLOW_SPEC.md` for setup instructions.
 
+### Set up the self-growing knowledge base
+
+Start with `knowledge-base/self-growing/README.md`, then run:
+
+```bash
+python scripts/kb_health_check.py
+python scripts/build_agent_index.py --rebuild --summary
+python scripts/local_retrieval_search.py --rebuild --query "source readiness"
+```
+
 ### Adapt cognitive frameworks
 
 Edit `.agents/skills/cognitive-frameworks/SKILL.md` to adjust gap type classifications, warrant quality tests, or rhetorical move sequences for your discipline.
@@ -99,6 +111,7 @@ Edit `.agents/skills/cognitive-frameworks/SKILL.md` to adjust gap type classific
 ## What this system cannot do
 
 - Automatically verify that a source supports a specific claim (it generates audit queues for human review)
+- Turn retrieval results into evidence without source-section review
 - Access subscription databases like Scopus, Web of Science, or EBSCO (requires institutional API keys)
 - Complete ethics approval (it tracks readiness but decisions require supervisor and ethics committee input)
 - Guarantee any specific grade or mark
@@ -126,7 +139,7 @@ python scripts/run_behavioral_evidence_checks.py
 ./scripts/privacy_check.sh
 
 # Check vector retrieval (requires requirements-vector.txt)
-bash scripts/run_vector_index.sh --rebuild --summary
+bash scripts/run_vector_index.sh
 ```
 
 ## Documentation
@@ -134,7 +147,8 @@ bash scripts/run_vector_index.sh --rebuild --summary
 - [Dual Window Guide](docs/DUAL_WINDOW_GUIDE.md) — How Production and Maintenance windows work
 - [Skill Development Guide](docs/SKILL_DEVELOPMENT_GUIDE.md) — How to create and test new skills
 - [Weekly Literature Gap-Watch Automation](docs/WEEKLY_LITERATURE_GAP_WATCH_AUTOMATION.md) — Candidate-only weekly literature monitoring
-- [Retrieval Protocol](research-wiki/RETRIEVAL_PROTOCOL.md) — How the four retrieval layers work together
+- [Self-Growing Knowledge Base](knowledge-base/self-growing/README.md) — Controlled knowledge-base growth workflow
+- [Retrieval Protocol](research-wiki/RETRIEVAL_PROTOCOL.md) — How the local retrieval layers work together
 - [Document Pipeline](research-wiki/DOCUMENT_PIPELINE.md) — The staged checkpoint delivery process
 
 ## Acknowledgements

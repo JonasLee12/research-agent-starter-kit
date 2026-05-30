@@ -29,6 +29,9 @@ This file records the release checks completed before publishing the starter kit
 - [x] New `research-*` skills are generic optional layers and do not include private project facts.
 - [x] Claude Code review is documented as advisory only, not as source evidence.
 - [x] Weekly literature gap-watch automation is documented as candidate-only, not as automatic source ingestion.
+- [x] v1.2.0 self-growing knowledge-base scaffold contains templates only, not private compiled project content.
+- [x] Local retrieval/vector scripts are documented as candidate lookup tools, not evidence verification.
+- [x] Academic-integrity preflight is documented as a concrete-risk checker, not an AI detector.
 
 ## Validation Commands
 

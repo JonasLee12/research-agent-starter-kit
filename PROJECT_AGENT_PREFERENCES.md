@@ -137,6 +137,21 @@ Claude Code, another model, or a human reviewer may provide optional independent
 
 When Claude Code is available, use `scripts/claude_independent_review.py` for reviewable, non-sensitive artifacts. The wrapper provides a privacy gate, timeout handling, and an advisory-review boundary. It must not be used for raw participant data, private records, credentials, or restricted materials unless the user explicitly accepts the risk.
 
+## Academic Integrity Preflight Rule
+
+Before substantive formal drafting and again before final delivery, use `.agents/skills/academic-integrity-preflight/SKILL.md` and `scripts/academic_integrity_preflight.py` when available.
+
+This check looks for concrete risks:
+
+- prompt residue;
+- unresolved placeholders;
+- fake or unverified references;
+- unsupported major claims;
+- unresolved compliance or requirement claims;
+- AI-use disclosure statements without source evidence.
+
+It is not an AI detector and must not be used to promise detection outcomes.
+
 ## Three-Stage Document Pipeline Rule
 
 For important Word, PDF, or stakeholder-facing outputs, use `research-wiki/DOCUMENT_PIPELINE.md`.
@@ -205,6 +220,26 @@ Citation-heavy drafts need two checks when possible:
 
 Do not describe a cited claim as verified until the relevant source section has been checked.
 
+## Self-Growing Knowledge Base Rule
+
+Use `knowledge-base/self-growing/` as the controlled intake and synthesis layer for project knowledge.
+
+Default flow:
+
+1. place untriaged material in `raw-inbox/` only after privacy review;
+2. add a row to `growth-queue.md`;
+3. assign evidence status and canonical destination;
+4. compile only source-linked, non-sensitive synthesis into `compiled-wiki/`;
+5. run `python3 scripts/kb_health_check.py --write` for local health checks.
+
+Retrieval tools may help find files:
+
+- `scripts/build_agent_index.py`;
+- `scripts/local_retrieval_search.py`;
+- `scripts/build_vector_index.py`;
+- `scripts/vector_retrieval_smoke_test.py`.
+
+Retrieval output is not evidence. Formal writing still needs source-readiness and claim-support review.
 
 ## Superpowers / Brainstorming / Tool-Skill Integration
 

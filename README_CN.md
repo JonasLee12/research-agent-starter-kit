@@ -6,7 +6,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3](https://img.shields.io/badge/Python-3-green.svg)](https://www.python.org/)
-[![Evals](https://img.shields.io/badge/Skill_Evals-17%2F17_passing-brightgreen.svg)](#validation)
+[![Evals](https://img.shields.io/badge/Skill_Evals-21%2F21_passing-brightgreen.svg)](#validation)
 
 ## 这是什么？
 
@@ -20,7 +20,7 @@
 
 核心工作流基于本地文件和 Python 脚本运行。默认不依赖 hosted service，也不需要 API dependency 才能使用核心流程。
 
-最新版还加入了 runtime routing 回归测试、带隐私 gate 的 Claude Code 独立 review wrapper、可选的高质量科研图/写作 skills，以及 weekly literature gap-watch automation 模板。
+最新版还加入了 self-growing knowledge-base scaffold、本地 retrieval/index 工具、academic-integrity preflight gate、runtime routing 回归测试、带隐私 gate 的 Claude Code 独立 review wrapper、可选的高质量科研图/写作 skills，以及 weekly literature gap-watch automation 模板。
 
 ## 架构
 
@@ -65,12 +65,14 @@ python -m unittest discover -s tests
 | Feature | What it does |
 |---|---|
 | Source-first gate | 写正式事实前先查文件证据，减少编造 |
+| Academic integrity preflight | 检查 prompt residue、placeholder、假引用、unsupported claim 和 disclosure-boundary 风险 |
 | Cognitive frameworks | 正式写作前强制做 argument mapping、gap classification、warrant testing |
 | Academic self-review loop | 初稿后两轮自审：identify weaknesses → revise → fresh re-review |
 | Writing quality rubric | 用六项内部标准检查段落和论证质量 |
 | Staged checkpoints | 三阶段 pipeline：THINKING → WRITING → DELIVERY |
 | Delivery guard | 缺少 pre-delivery lock、citation audit 或 delivery review 时阻止正式输出 |
-| Retrieval protocol | 四层检索：semantic / keyword / source readiness / human source review |
+| Self-growing knowledge base | raw inbox → growth queue → compiled wiki，并保留 source-of-record 和 privacy 边界 |
+| Retrieval protocol | 本地 SQLite index、FTS/hashed retrieval、可选 ChromaDB semantic retrieval、source readiness matrix 和人工 source review |
 | Dual-window workflow | Production Window 写作，Maintenance Window 维护；通过文件共享状态 |
 | Audit trail | event log、runtime receipts、Production audits |
 | External integration | OpenAlex、Crossref、Semantic Scholar metadata discovery；Zotero reference management |
@@ -92,6 +94,16 @@ python -m unittest discover -s tests
 
 参考 `research-wiki/ZOTERO_AND_CITATION_WORKFLOW_SPEC.md`。
 
+### 搭建 self-growing knowledge base
+
+先读 `knowledge-base/self-growing/README.md`，然后运行：
+
+```bash
+python scripts/kb_health_check.py
+python scripts/build_agent_index.py --rebuild --summary
+python scripts/local_retrieval_search.py --rebuild --query "source readiness"
+```
+
 ### 调整 cognitive frameworks
 
 你可以修改 `.agents/skills/cognitive-frameworks/SKILL.md`，让 gap type、warrant quality tests 或 rhetorical moves 更适合你的学科。
@@ -99,6 +111,7 @@ python -m unittest discover -s tests
 ## 这套系统不能做什么
 
 - 不能自动证明某个 source 支持某个具体 claim；它只能生成 audit queue，仍需人工 source review。
+- 不能把 retrieval 结果直接当作证据；正式 claim 仍要 source-section review。
 - 不能直接访问 Scopus、Web of Science、EBSCO 等订阅数据库；这些需要合法机构凭据。
 - 不能替代 ethics approval；它只能追踪 readiness，最终仍需 supervisor 或 ethics committee 判断。
 - 不能保证分数、录用、资助或正式批准。
@@ -126,7 +139,7 @@ python scripts/run_behavioral_evidence_checks.py
 ./scripts/privacy_check.sh
 
 # Check vector retrieval (requires requirements-vector.txt)
-bash scripts/run_vector_index.sh --rebuild --summary
+bash scripts/run_vector_index.sh
 ```
 
 ## 文档
@@ -134,7 +147,8 @@ bash scripts/run_vector_index.sh --rebuild --summary
 - [Dual Window Guide](docs/DUAL_WINDOW_GUIDE.md) — Production 和 Maintenance 窗口如何分工
 - [Skill Development Guide](docs/SKILL_DEVELOPMENT_GUIDE.md) — 如何创建和测试新的 skill
 - [Weekly Literature Gap-Watch Automation](docs/WEEKLY_LITERATURE_GAP_WATCH_AUTOMATION.md) — candidate-only weekly 文献监测
-- [Retrieval Protocol](research-wiki/RETRIEVAL_PROTOCOL.md) — 四层 retrieval 如何协同
+- [Self-Growing Knowledge Base](knowledge-base/self-growing/README.md) — 可控知识库增长工作流
+- [Retrieval Protocol](research-wiki/RETRIEVAL_PROTOCOL.md) — 本地 retrieval 各层如何协同
 - [Document Pipeline](research-wiki/DOCUMENT_PIPELINE.md) — staged checkpoint delivery process
 
 ## Acknowledgements

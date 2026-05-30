@@ -54,8 +54,12 @@ def check() -> tuple[list[str], list[str]]:
             "research-wiki/ZOTERO_AND_CITATION_WORKFLOW_SPEC.md",
             "research-wiki/DOCUMENT_PIPELINE.md",
             "research-wiki/WRITING_QUALITY_RUBRIC.md",
+            "knowledge-base/self-growing/README.md",
+            "knowledge-base/self-growing/growth-queue.md",
+            "knowledge-base/self-growing/compiled-wiki/INDEX.md",
             "knowledge-base/SOURCE_READINESS_MATRIX.md",
             ".agents/skills/academic-self-review-loop/SKILL.md",
+            ".agents/skills/academic-integrity-preflight/SKILL.md",
         ]
     )
     passed = []
@@ -124,6 +128,19 @@ def check() -> tuple[list[str], list[str]]:
         passed.append("Project files record three-stage document checkpoint workflow.")
     else:
         failed.append("Project files do not record three-stage document checkpoint workflow.")
+    if "academic-integrity-preflight" in static_text and (ROOT / "scripts" / "academic_integrity_preflight.py").exists():
+        passed.append("Project files include academic-integrity preflight skill and local checker.")
+    else:
+        failed.append("Project files do not include academic-integrity preflight skill and local checker.")
+    if "self-growing" in static_text and "growth-queue.md" in static_text and (ROOT / "scripts" / "kb_health_check.py").exists():
+        passed.append("Project files include self-growing KB structure and health-check script.")
+    else:
+        failed.append("Project files do not include self-growing KB structure and health-check script.")
+    kb_route = classify("Set up a self-growing knowledge base with local retrieval", "Production")
+    if "knowledge_base_operations" in kb_route.task_types and "kb_health_check" in kb_route.gates:
+        passed.append("Runtime routes self-growing knowledge-base setup to KB operations with health-check gate.")
+    else:
+        failed.append("Runtime does not route self-growing knowledge-base setup to KB operations.")
     return passed, failed
 
 

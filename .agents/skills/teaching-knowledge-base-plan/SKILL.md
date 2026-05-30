@@ -75,7 +75,7 @@ Create or update:
 
 ## Starter Architecture
 
-For this dissertation, prefer:
+For a research-agent starter project, prefer:
 
 1. Markdown knowledge base first.
 2. Clear metadata and source registers.

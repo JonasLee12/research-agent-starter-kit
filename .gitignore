@@ -8,6 +8,7 @@ dist/
 build/
 
 # Runtime data (private, do not publish)
+.agent-runtime/
 .agent-runtime/vector_index/
 research-wiki/runtime-receipts/*.md
 research-wiki/runtime-receipts/*.json
@@ -18,8 +19,12 @@ research-wiki/retrieval-evals/*
 !research-wiki/retrieval-evals/.gitkeep
 research-wiki/skill-evals/Behavioural_Evidence_*
 research-wiki/skill-evals/Skill_Eval_Run_*
+knowledge-base/self-growing/health-checks/*
+!knowledge-base/self-growing/health-checks/README.md
 audit-reports/*.md
 audit-reports/*.docx
+audit-reports/**/*.md
+audit-reports/**/*.docx
 audit-reports/claude-reviews/*
 !audit-reports/claude-reviews/.gitkeep
 
@@ -32,6 +37,9 @@ audit-reports/claude-reviews/*
 .env
 .env.*
 *.sqlite
+*.sqlite3
+*.sqlite3-shm
+*.sqlite3-wal
 *.db
 *.key
 *.pem

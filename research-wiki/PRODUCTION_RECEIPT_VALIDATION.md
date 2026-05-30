@@ -10,6 +10,7 @@ Purpose: check whether a substantial Production run used the system carefully.
 | Skill routing | Mode, skills, skipped skills and gates listed |
 | Source-first | Completed or explicitly not applicable |
 | Cognitive protocol | Section type, claim, gap/problem type, evidence, warrant, boundary and rhetorical plan recorded for formal writing |
+| Academic-integrity preflight | Concrete prompt-residue, placeholder, fake-reference, unsupported-claim, and disclosure-boundary risks checked for formal writing |
 | Self-review loop | Two-pass review completed before style/document-quality gates for formal prose |
 | Writing-quality rubric | Intrinsic writing-quality criteria used without treating them as grade, publication, funding, or client approval prediction |
 | Thinking checkpoint | `*_THINKING_CHECKPOINT.md` created or equivalent section recorded |
@@ -19,6 +20,8 @@ Purpose: check whether a substantial Production run used the system carefully.
 | Document-quality | Completed for formal or stakeholder-facing outputs |
 | Render check | Attempted for important Word outputs |
 | TASK_STATE | Updated after the run |
+| Knowledge-base growth | For KB tasks, raw-inbox/growth-queue/compiled-wiki actions preserve source-of-record and privacy boundaries |
+| Retrieval boundary | Retrieval output recorded as candidate lookup only, not claim support |
 
 ## Result Labels
 

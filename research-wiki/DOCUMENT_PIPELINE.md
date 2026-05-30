@@ -65,6 +65,7 @@ Use:
 
 - current artifact or draft;
 - thinking checkpoint;
+- `academic-integrity-preflight` for concrete prompt-residue, placeholder, fake-reference, unsupported-claim, and disclosure-boundary risks;
 - `academic-self-review-loop`;
 - `research-wiki/WRITING_QUALITY_RUBRIC.md`;
 - `uk-academic-writing-style` when academic/professional prose quality matters;
@@ -79,6 +80,7 @@ Writing checkpoint:
 - Self-review pass 1 findings:
 - Revision actions:
 - Revised text or revision summary:
+- Academic-integrity preflight status:
 - Self-review pass 2 judgement:
 - Writing-quality criteria improved:
 - Remaining weaknesses:
@@ -105,6 +107,7 @@ Use:
 - `quality-gates/PROJECT_DELIVERY_REVIEW_GATE.md`;
 - relevant official requirement source or compliance tracker;
 - citation/style checks when relevant;
+- final `academic-integrity-preflight` when delivering formal prose;
 - Word/PDF/render checks when relevant.
 
 Record:
@@ -115,6 +118,7 @@ Delivery checkpoint:
 - Requirement/compliance gate:
 - Source-first gate:
 - Citation or claim-support gate:
+- Academic-integrity preflight:
 - Project delivery review:
 - Document-quality gate:
 - Render/layout check:

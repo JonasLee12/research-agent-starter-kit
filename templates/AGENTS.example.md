@@ -43,6 +43,7 @@ Use these skills for research-project work. Some skill names still begin with `d
 - `dissertation-research-search-protocol`: structure literature, web, policy, LMS, and source searches.
 - `cognitive-frameworks`: make section type, claim, gap/problem type, evidence, warrant, boundary, and rhetorical plan explicit before major writing.
 - `academic-self-review-loop`: run a two-pass writing-quality review and revision loop before style and document-quality gates.
+- `academic-integrity-preflight`: check prompt residue, placeholders, fake references, unsupported claims, unresolved compliance requirements, and AI-use disclosure boundaries before formal drafting or delivery.
 - `dissertation-argument-spine`: build the controlling argument and section logic.
 - `dissertation-chapter-plan`: plan chapters, section jobs, and writing schedules.
 - `dissertation-research-review`: review research design, questions, methods, claims, and drafts.
@@ -104,7 +105,10 @@ Domain-specific skills are included as optional examples. Rename, edit, or remov
 - Use `markitdown` before file-to-Markdown conversion; check whether MarkItDown is installed and do not install it without explicit confirmation.
 - Use `scripts/academic_database_connector.py` for academic metadata searches when available. Treat all search results as `METADATA ONLY` until source sections are reviewed.
 - Use `scripts/citation_style_check.py` and `scripts/citation_claim_audit.py` for citation-heavy drafts when available. Citation consistency is not proof of claim support.
+- Use `academic-integrity-preflight` and `scripts/academic_integrity_preflight.py` before substantive formal drafting and again before final delivery. This is not an AI detector.
 - Use `scripts/claude_independent_review.py` only for optional independent review of safe, non-sensitive artifacts. Claude Code feedback is advisory; it does not replace local source, privacy, citation, compliance, or delivery gates.
+- Use `knowledge-base/self-growing/` for controlled knowledge-base growth. New items must pass source, evidence-status, privacy, and destination checks before they move from `raw-inbox/` into compiled wiki or formal sources.
+- Use `scripts/build_agent_index.py`, `scripts/local_retrieval_search.py`, `scripts/build_vector_index.py`, and `scripts/vector_retrieval_smoke_test.py` only as local retrieval aids. Retrieval finds candidate files; it does not prove claim support.
 - Use `research-neural-network-figure` before planning actual neural-network/model architecture visuals. Do not install or run third-party figure repositories without explicit confirmation.
 - Use `research-nature-figure` before high-impact or multi-panel research figures. It is a figure-quality layer, not a source/data validity layer.
 - Use `research-nature-writing` only after required evidence and integrity gates for formal prose. It can sharpen article-style logic but must not inflate claims or invent citations.
@@ -127,23 +131,25 @@ Domain-specific skills are included as optional examples. Rename, edit, or remov
 5. Use source-first checks before formal writing.
 6. Use `cognitive-frameworks` before major argument, gap, methodology, literature, proposal, manuscript, report, grant, or stakeholder-facing drafting.
 7. Use `academic-self-review-loop` before style polishing and document-quality review for formal prose.
-8. Use the learning loop after useful reading or confirmed decisions.
-9. Use source-readiness checks before citation-heavy writing.
-10. Use compliance checks before ethics, privacy, funder, journal, client, or data-management claims.
-11. Use rubric or requirement evidence checks before grade-band, journal, funder, deadline, or word-count claims.
-12. Use `research-wiki/DOCUMENT_PIPELINE.md` for important Word/PDF/stakeholder-facing delivery.
-13. Use the project delivery review gate before formal document delivery.
-14. Use relevant academic/professional style gates before delivering prose.
-15. Use document-quality gate before delivering formal outputs.
-16. Update `research-wiki/TASK_STATE.md` after substantial work.
-17. Record substantial Production work in `research-wiki/PRODUCTION_RUN_REGISTER.md` if that register is enabled.
-18. Use `brainstorming` for unclear, high-impact route decisions before drafting or system changes.
-19. Use `project-skill-creator-governance` and global `skill-creator` before adding or changing skills.
-20. Use `playwright-dissertation-browser` and global `playwright` for controlled browser automation.
-21. Use `markitdown` only after checking tool availability and privacy boundaries.
-22. Use `research-*` figure/writing skills only as optional quality layers after source, privacy, compliance, citation, and document gates.
-23. Use `scripts/claude_independent_review.py` for optional context-naive independent review when the artifact is safe to send to Claude Code.
-24. Use staged literature gap-watch automation only for candidate discovery unless the user confirms ingestion.
+8. Use `academic-integrity-preflight` before major revision and again before delivery.
+9. Use the learning loop after useful reading or confirmed decisions.
+10. Use `knowledge-base/self-growing/` for controlled intake, growth queue triage, and compiled-wiki navigation.
+11. Use source-readiness checks before citation-heavy writing.
+12. Use compliance checks before ethics, privacy, funder, journal, client, or data-management claims.
+13. Use rubric or requirement evidence checks before grade-band, journal, funder, deadline, or word-count claims.
+14. Use `research-wiki/DOCUMENT_PIPELINE.md` for important Word/PDF/stakeholder-facing delivery.
+15. Use the project delivery review gate before formal document delivery.
+16. Use relevant academic/professional style gates before delivering prose.
+17. Use document-quality gate before delivering formal outputs.
+18. Update `research-wiki/TASK_STATE.md` after substantial work.
+19. Record substantial Production work in `research-wiki/PRODUCTION_RUN_REGISTER.md` if that register is enabled.
+20. Use `brainstorming` for unclear, high-impact route decisions before drafting or system changes.
+21. Use `project-skill-creator-governance` and global `skill-creator` before adding or changing skills.
+22. Use `playwright-dissertation-browser` and global `playwright` for controlled browser automation.
+23. Use `markitdown` only after checking tool availability and privacy boundaries.
+24. Use `research-*` figure/writing skills only as optional quality layers after source, privacy, compliance, citation, and document gates.
+25. Use `scripts/claude_independent_review.py` for optional context-naive independent review when the artifact is safe to send to Claude Code.
+26. Use staged literature gap-watch automation only for candidate discovery unless the user confirms ingestion.
 
 ## Public Template Boundary
 

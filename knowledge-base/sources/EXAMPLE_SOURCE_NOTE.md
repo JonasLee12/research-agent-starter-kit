@@ -1,31 +1,28 @@
-# Source Note: [Title of Paper]
+# Source Note: Example Source
 
-## Metadata
+This is a placeholder source-note template for users to copy.
 
-- Authors: [Author names]
-- Year: [Year]
-- DOI: [DOI or URL]
-- Source type: Journal article / Conference paper / Book chapter / Report
+## Bibliographic Metadata
 
-## Readiness status
+- Author(s): `AUTHOR_NAME`
+- Year: `YEAR`
+- Title: `TITLE`
+- DOI or URL: `DOI_OR_URL`
+- Source type: journal article / book / report / policy / dataset / other
 
-- [ ] Metadata only
-- [ ] Abstract reviewed
-- [ ] Target sections reviewed
-- [ ] Fully reviewed
+## Readiness Status
 
-## Key findings
+Status: `METADATA ONLY`
 
-[Summarise the main findings relevant to your research]
+Use this note only after replacing the placeholder fields with verified source metadata.
 
-## Relevance to your research
+## Useful For
 
-[Explain how this source connects to your research gap, methodology, or theoretical framework]
+- Possible claim:
+- Relevant section:
+- Evidence boundary:
 
-## Limitations noted
+## Notes
 
-[Any methodological or scope limitations you identified]
-
-## Quotes for potential citation
-
-[Include page numbers for any direct quotes or specific claims]
+- Add page numbers, section names, or quoted passages only after checking the original source.
+- Do not treat this template as a citation-ready source.

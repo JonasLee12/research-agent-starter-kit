@@ -17,6 +17,7 @@ graph TD
     F --> F2["Writing quality rubric<br/>six internal criteria"]
     F --> F3["UK academic style"]
     F --> F4["Optional research-* layers<br/>figures and article-style prose"]
+    F --> F5["Academic integrity preflight<br/>residue and unsupported-claim check"]
 
     F --> G["🚦 Delivery Gates"]
     G --> G1["Source-first gate"]
@@ -28,10 +29,11 @@ graph TD
     H --> H1[".docx / .pdf"]
 
     C --> I["🔍 Retrieval Protocol"]
-    I --> I1["ChromaDB semantic"]
-    I --> I2["SQLite FTS keyword"]
+    I --> I1["Optional ChromaDB semantic"]
+    I --> I2["SQLite FTS / hashed retrieval"]
     I --> I3["Source Readiness Matrix"]
-    I --> I4["Obsidian workspace"]
+    I --> I4["Self-growing KB<br/>raw inbox to compiled wiki"]
+    I --> I5["Obsidian or note app workspace"]
 
     C --> J["🌐 External APIs"]
     J --> J1["OpenAlex"]

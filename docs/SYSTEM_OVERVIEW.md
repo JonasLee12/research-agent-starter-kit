@@ -57,6 +57,9 @@ Do not use it as a substitute for:
 | Compliance layer | `compliance/PROJECT_COMPLIANCE_TRACKER.md` | Tracks ethics, privacy, legal, funder, journal, client, IP, and AI-use requirements |
 | Quality layer | `quality-gates/PROJECT_DELIVERY_REVIEW_GATE.md`, `university-guidance/` | Stores general delivery gates and optional assessed-academic requirements |
 | Writing quality layer | `.agents/skills/cognitive-frameworks/`, `.agents/skills/academic-self-review-loop/`, `research-wiki/WRITING_QUALITY_RUBRIC.md` | Checks argument depth, paragraph quality, warrants, and revision quality before style polishing |
+| Integrity layer | `.agents/skills/academic-integrity-preflight/`, `scripts/academic_integrity_preflight.py` | Checks concrete prompt residue, placeholder, fake-reference, unsupported-claim, and disclosure-boundary risks |
+| Self-growing KB layer | `knowledge-base/self-growing/`, `scripts/kb_health_check.py` | Controls raw intake, growth queue triage, compiled-wiki navigation, and KB health checks |
+| Retrieval layer | `scripts/build_agent_index.py`, `scripts/local_retrieval_search.py`, `scripts/build_vector_index.py` | Provides local SQLite/FTS/hashed retrieval and optional ChromaDB neural retrieval |
 | Privacy layer | `PRIVACY_CHECKLIST.md`, `PUBLIC_RELEASE_AUDIT.md`, `scripts/privacy_check.sh` | Prevents private data from being shared accidentally |
 | Runtime layer | `scripts/agent_runtime.py`, `research-wiki/runtime-receipts/`, `research-wiki/SESSION_EVENT_LOG.jsonl` | Makes important workflow routing and gate checks auditable |
 | Connector layer | `scripts/academic_database_connector.py`, `config/academic_database_connectors.example.json` | Supports public metadata search and subscription credential checks |
@@ -115,7 +118,7 @@ Important skill groups:
 |---|---|
 | Routing and profile adaptation | `agent-orchestration`, `research-project-adapter` |
 | Source checking | `dissertation-source-first-gate`, `dissertation-citation-audit` |
-| Writing and review | `cognitive-frameworks`, `academic-self-review-loop`, `dissertation-argument-spine`, `dissertation-research-review`, `uk-academic-writing-style`, `style-memory-and-revision-gate` |
+| Writing and review | `cognitive-frameworks`, `academic-integrity-preflight`, `academic-self-review-loop`, `dissertation-argument-spine`, `dissertation-research-review`, `uk-academic-writing-style`, `style-memory-and-revision-gate` |
 | Document delivery | `dissertation-document-quality-gate`, `context-continuity` |
 | Literature and sources | `dissertation-research-search-protocol`, `dissertation-literature-review`, `dissertation-learning-loop`, `dissertation-knowledge-ops` |
 | Ethics, compliance, and risk | `responsible-ai-agent-audit`, `dissertation-shared` |
@@ -189,10 +192,16 @@ Version `v0.4.0` adds a local engineering layer.
 |---|---|
 | `scripts/agent_runtime.py` | Checks task type, mode, skills, gates, and required files before substantial work |
 | `scripts/claude_independent_review.py` | Optional privacy-gated Claude Code review wrapper with timeout handling |
+| `scripts/academic_integrity_preflight.py` | Checks concrete integrity risks before formal drafting or delivery |
 | `scripts/cognitive_protocol_check.py` | Checks whether a planning note has required cognitive protocol fields |
 | `scripts/academic_database_connector.py` | Searches OpenAlex, Crossref, Semantic Scholar, and checks subscription-provider credentials |
 | `scripts/citation_style_check.py` | Checks author-year citations against reference entries |
 | `scripts/citation_claim_audit.py` | Creates a claim-by-claim source-support review queue |
+| `scripts/kb_health_check.py` | Checks self-growing KB structure, raw-inbox triage, unresolved markers, and private-data boundary hits |
+| `scripts/build_agent_index.py` | Builds a dependency-free SQLite index of project memory files |
+| `scripts/local_retrieval_search.py` | Runs local FTS and hashed-vector retrieval over project files |
+| `scripts/build_vector_index.py` | Builds optional ChromaDB neural vector index when vector dependencies are installed |
+| `scripts/vector_retrieval_smoke_test.py` | Smoke-tests optional vector retrieval against known template queries |
 | `scripts/run_skill_evals.py` | Checks whether high-risk skill routes point to available local skills/tools |
 | `scripts/run_behavioral_evidence_checks.py` | Checks whether project files contain workflow evidence for runtime, source-readiness, self-review, and checkpoints |
 
@@ -249,8 +258,27 @@ The system separates thinking notes from source evidence.
 | `knowledge-base/SOURCE_REGISTER.md` | Source inventory |
 | `knowledge-base/SOURCE_READINESS_MATRIX.md` | Whether sources are ready for formal use |
 | `knowledge-base/sources/` | Individual source notes |
+| `knowledge-base/self-growing/raw-inbox/` | Temporary intake queue for untriaged material |
+| `knowledge-base/self-growing/growth-queue.md` | Triage queue for material that may become durable knowledge |
+| `knowledge-base/self-growing/compiled-wiki/` | Theme-level navigation and synthesis layer linked to source-of-record files |
 
 Obsidian can be used as a reading and navigation layer, but the source of record should remain in the project files.
+
+Run:
+
+```bash
+python3 scripts/kb_health_check.py
+python3 scripts/build_agent_index.py --rebuild --summary
+python3 scripts/local_retrieval_search.py --query "source readiness"
+```
+
+Optional neural vector retrieval requires `requirements-vector.txt`:
+
+```bash
+bash scripts/run_vector_index.sh
+```
+
+Retrieval output is candidate lookup only. It does not prove citation readiness, official requirements, or claim support.
 
 ## 10. Writing Quality Layer
 

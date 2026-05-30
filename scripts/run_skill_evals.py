@@ -75,7 +75,7 @@ def referenced_tokens(text: str) -> list[str]:
 def check_case(case: EvalCase, available_skills: set[str]) -> tuple[str, list[str]]:
     missing: list[str] = []
     for token in referenced_tokens(case.expected):
-        if token.endswith(".md"):
+        if token.endswith((".md", ".txt", ".json", ".yml", ".yaml")):
             rel_path = LOCAL_FILE_REFS.get(token, token)
             if not (ROOT / rel_path).exists():
                 missing.append(token)

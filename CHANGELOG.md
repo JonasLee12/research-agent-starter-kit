@@ -1,6 +1,35 @@
 # Changelog
 
+## v1.2.0 - Self-Growing Knowledge Base And Integrity Preflight - 2026-05-30
+
+Status: important public starter-kit update.
+
+### Added
+
+- `knowledge-base/self-growing/` scaffold with raw inbox, growth queue, compiled wiki index, example entry, and health-check folder.
+- `scripts/kb_health_check.py` for self-growing knowledge-base structure, unresolved-marker, raw-inbox, and private-data boundary checks.
+- `scripts/build_agent_index.py` for dependency-free SQLite project memory indexing.
+- `scripts/local_retrieval_search.py` for local FTS and hashed-vector retrieval.
+- `scripts/build_vector_index.py` and `scripts/vector_retrieval_smoke_test.py` for optional ChromaDB + sentence-transformers neural retrieval.
+- `.agents/skills/academic-integrity-preflight/` and `scripts/academic_integrity_preflight.py` for concrete pre-delivery integrity checks.
+
+### Changed
+
+- Runtime routing now includes formal-writing integrity preflight and knowledge-base operations.
+- Skill eval registry expanded from 17 to 21 public checks.
+- README, Chinese README, setup guide, app/tool documentation, retrieval protocol, and system overview now document the self-growing KB and retrieval workflow.
+- `scripts/run_vector_index.sh` now runs the optional vector build and smoke test when vector dependencies are installed.
+
+### Boundary
+
+- Self-growing KB content in the public repo is template-only. Real compiled wiki pages, growth queues, source notes, and health-check logs must stay local/private unless deliberately anonymised.
+- Retrieval results are candidate lookup only and do not prove source support, citation readiness, or official requirement compliance.
+- Academic-integrity preflight is not an AI detector and must not be used to promise detection outcomes.
+- No private dissertation workspace content was added.
+
 ## v1.1.0 - Runtime Review And Gap Watch - 2026-05-30
+
+Note: v1.1.0 and v1.2.0 were prepared on the same calendar date; v1.2.0 supersedes v1.1.0 with a larger knowledge-base and integrity-preflight update.
 
 Status: important public starter-kit update.
 

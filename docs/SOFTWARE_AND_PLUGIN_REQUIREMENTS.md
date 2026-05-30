@@ -34,6 +34,7 @@ For a plain-language status table of apps, connectors, and optional tools, read 
 | Playwright | [Playwright](https://playwright.dev/) | Optional. Browser automation for read-only checks, local previews, or UI verification. |
 | MarkItDown | [Microsoft MarkItDown](https://github.com/microsoft/markitdown) | Optional. Converts documents into Markdown for source review or knowledge-base ingestion. |
 | Claude Code | [Claude Code](https://docs.anthropic.com/en/docs/claude-code) | Optional. Can be used through `scripts/claude_independent_review.py` as a privacy-gated independent reviewer if the user has access. It is not required by this template. |
+| ChromaDB + sentence-transformers | [ChromaDB](https://www.trychroma.com/) / [Sentence Transformers](https://www.sbert.net/) | Optional. Needed only for neural vector retrieval via `requirements-vector.txt`. |
 
 ## Not Needed At First
 
@@ -88,6 +89,12 @@ Install extra tools only when your project workflow clearly needs them.
 
 - Python 3 runs the built-in scripts.
 - Extra Python packages are not needed unless you choose optional extensions.
+
+`SQLite/local retrieval` and `neural vector retrieval` are different.
+
+- `scripts/build_agent_index.py` and `scripts/local_retrieval_search.py` use local Python/SQLite workflows.
+- `scripts/build_vector_index.py` and `scripts/vector_retrieval_smoke_test.py` require optional vector packages from `requirements-vector.txt`.
+- Retrieval finds candidate files. It does not prove source support.
 
 `Claude Code` and the Claude review wrapper are different.
 

@@ -45,3 +45,4 @@ Keep the repository private unless it has been fully public-audited.
 - Template repository: yes
 - Latest required local tooling note: Python 3 is needed for the included scripts and validation tests; extra Python packages are not required by default.
 - Claude Code is optional and should be used only through the privacy-gated review workflow when enabled.
+- Neural vector retrieval is optional and requires `requirements-vector.txt`; generated indexes under `.agent-runtime/` should not be committed.
