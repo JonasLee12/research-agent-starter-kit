@@ -55,6 +55,7 @@ Use these skills for research-project work. Some skill names still begin with `d
 - `dissertation-agent-self-debug`: diagnose false runs, stale assumptions, or shallow checking.
 - `dissertation-agent-architecture-audit`: audit rule stacks, memory layers, and skill routing.
 - `dissertation-workspace-surface-audit`: audit local tools, files, rendering, connectors, and missing surfaces.
+- `release-surface-verification`: verify GitHub Releases, About/sidebar, topics, rendered README/docs, and public links before claiming a public release or template update is complete.
 - `dissertation-automation-audit`: audit scheduled checks, hooks, monitors, and automation safety.
 - `dissertation-skill-stocktake`: review skills for overlap, stale rules, and trigger clarity.
 - `using-superpowers`: apply a project-safe Superpowers-style skill-first workflow without overriding source-first, quality-gate, privacy, or window-separation rules.
@@ -99,6 +100,7 @@ Domain-specific skills are included as optional examples. Rename, edit, or remov
 - Use `compliance/PROJECT_COMPLIANCE_TRACKER.md` before handling ethics, IRB, privacy, funder, journal, client, IP, AI-use, or data-management requirements.
 - When editing official templates, preserve fixed template text unless clearly editable.
 - Before GitHub sharing, run `scripts/privacy_check.sh` and complete `PRIVACY_CHECKLIST.md`.
+- Before claiming a GitHub release, public template update, version bump, About/sidebar change, topic update, README badge change, or public documentation update is complete, use `release-surface-verification`. Check the user-visible GitHub surface, not only local files, commits, branches, or tags.
 - Use `brainstorming` before high-impact or unclear research route, method, concept-card, skill, or system design decisions when the next action is not obvious.
 - Use `project-skill-creator-governance` before adding, copying, adapting, or updating project skills; use global `skill-creator` for SKILL.md authoring.
 - Use `playwright-dissertation-browser` before browser automation for LMS, local previews, or browser-visible verification; do not submit, download, or modify browser content without explicit confirmation.
@@ -152,6 +154,7 @@ Domain-specific skills are included as optional examples. Rename, edit, or remov
 25. Use `scripts/build_external_review_bundle.py` for optional context-naive external review when the artifact is safe to share with another reviewer.
 26. Use `scripts/claude_independent_review.py` only as one optional Claude Code runner when available.
 27. Use staged literature gap-watch automation only for candidate discovery unless the user confirms ingestion.
+28. Use `release-surface-verification` before saying a public GitHub release or template update is visible and ready for readers.
 
 ## Public Template Boundary
 

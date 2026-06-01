@@ -20,6 +20,7 @@ Adapt ECC agent-introspection debugging to this dissertation system. The goal is
 - stale memory conflicting with local files
 - missing files after an expected write
 - tool or browser state mismatch
+- source-layer and visible-surface mismatch, such as a commit/tag/file existing while the rendered GitHub, Obsidian, browser, Word/PDF, or release page still shows stale or incomplete information
 - user reports that the system feels unreliable
 
 ## Four-Phase Loop
@@ -59,6 +60,7 @@ Classify the issue:
 | stale memory | TASK_STATE or wiki outdated | compare local files and latest task entry |
 | wrong source | inferred facts used as confirmed facts | run source-first gate |
 | tool state mismatch | browser, cwd, renderer, Obsidian, or config not as assumed | verify actual surface |
+| surface mismatch | source layer changed but user-visible surface was not checked | compare file/git state with rendered page, app view, exported file, or public repo surface |
 
 ### 3. Contained Recovery
 
@@ -71,6 +73,8 @@ Take the smallest safe action:
 5. update `research-wiki/TASK_STATE.md` if the failure affects future work
 
 Do not claim that hidden state was reset unless an actual tool action proves it.
+
+When the failure involves public release, Obsidian, browser, Word/PDF, Canvas, or GitHub visibility, verify the user-visible surface before saying the issue is fixed. A local file, commit, tag, or script output is not enough if the user's concern is what they can see in an app or public page.
 
 ### 4. Debug Report
 

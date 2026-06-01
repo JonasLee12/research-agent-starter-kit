@@ -1,5 +1,17 @@
 # Changelog
 
+## Unreleased
+
+### Added
+
+- `.agents/skills/release-surface-verification/` to verify GitHub Releases, sidebar latest release, About/topics, rendered README/docs, and public links before claiming a public release or template update is complete.
+
+### Changed
+
+- `dissertation-agent-self-debug` now distinguishes source-layer state from user-visible rendered surfaces when investigating false completion.
+- `project-skill-creator-governance` now includes clearer examples for when to create a skill and when to use docs, templates, scripts, or preferences instead.
+- Skill eval registry and README badges now include the release-surface verification case.
+
 ## v1.3.0 - Knowledge Base Setup And External Review Fallback - 2026-06-01
 
 Status: public onboarding and quality-review update.

@@ -11,7 +11,7 @@ Use this skill before creating or updating any project-level skill in `.agents/s
 
 Make sure new skills improve the research-agent system instead of adding duplicated, stale, or unsafe instructions.
 
-This project can use the global `skill-creator` skill for SKILL.md authoring. This governance skill adds dissertation-specific rules.
+This project can use the global `skill-creator` skill for SKILL.md authoring. This governance skill adds research-agent-specific rules.
 
 ## Required Checks
 
@@ -28,6 +28,18 @@ Before adding or editing a skill:
 5. Do not include extra README, changelog, or install guide files inside the skill folder.
 6. Add safety gates if the skill can affect formal documents, institution requirements, participant data, GitHub sharing, browser automation, or external tools.
 7. Update `AGENTS.md`, `PROJECT_AGENT_PREFERENCES.md`, and `research-wiki/TASK_STATE.md` when the new skill changes routing.
+
+## Skill Or Rule Decision
+
+Create or update a skill when the behaviour is repeated, easy to forget, high-risk if skipped, and needs a clear trigger.
+
+Prefer documentation, templates, scripts, or project preferences when the issue is one-time setup, user onboarding, or a deterministic helper.
+
+Examples:
+
+- Obsidian vault entry confusion is best handled by setup docs, a clean vault template, and `.obsidian` boundaries. It should not become a skill unless the agent repeatedly maintains or audits Obsidian state.
+- External-review fallback is best handled by a local review-bundle script and reusable prompt. It should not become a separate skill unless agent behaviour around reviewer routing becomes unreliable.
+- Public release visible-surface verification should become a skill because the agent can easily mistake commits, tags, or local files for a completed GitHub release page, About sidebar, rendered README, or public documentation update.
 
 ## When To Use Global `skill-creator`
 
@@ -54,4 +66,3 @@ Skill check:
 - AGENTS.md updated:
 - TASK_STATE.md updated:
 ```
-

@@ -6,7 +6,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-green.svg)](https://www.python.org/)
-[![Evals](https://img.shields.io/badge/Skill_Evals-22%2F22_passing-brightgreen.svg)](#validation)
+[![Evals](https://img.shields.io/badge/Skill_Evals-23%2F23_passing-brightgreen.svg)](#validation)
 
 它可以配合 Codex、Claude Code、Cursor，或任何能读取本地文件并遵守 `SKILL.md` 指令的 coding agent 使用。这个 starter kit 本身是本地文件驱动；你选择的 agent 工具可能仍然有自己的登录、订阅或 API-key 要求。
 
@@ -105,6 +105,7 @@ bash scripts/run_vector_index.sh
 | Optional vector search | `scripts/build_vector_index.py` | 安装 ChromaDB + sentence-transformers 后可用 |
 | Integrity preflight | `.agents/skills/academic-integrity-preflight/`, `scripts/academic_integrity_preflight.py` | 检查 prompt residue、placeholder、假引用、unsupported claims 和 disclosure-boundary 风险 |
 | External review fallback | `scripts/build_external_review_bundle.py`, `templates/prompts/EXTERNAL_REVIEWER_PROMPT.md` | 在不上传文件的情况下生成本地质审包，供 Codex、ChatGPT、Claude、Gemini 或人工 reviewer 使用 |
+| Release surface verification | `.agents/skills/release-surface-verification/` | 在声称发布完成前，检查 GitHub release 页面、About/sidebar、topics、渲染后的 README/docs 和公开链接 |
 | Delivery pipeline | `research-wiki/DOCUMENT_PIPELINE.md` | 把正式工作拆成 THINKING、WRITING、DELIVERY 三个 checkpoint |
 
 ## 范围和限制
@@ -122,7 +123,7 @@ bash scripts/run_vector_index.sh
 
 ## 验证
 
-当前公开模板显示 **22/22 skill evaluations passing**。
+当前公开模板显示 **23/23 skill evaluations passing**。
 这个 badge 反映的是已发布模板状态；你自定义系统后应重新运行下面的检查。
 
 ```bash

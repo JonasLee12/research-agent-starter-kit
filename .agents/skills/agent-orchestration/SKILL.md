@@ -97,6 +97,7 @@ Classify the user's request into one or more categories:
 | long task / context handoff / compaction risk | `context-continuity`, `dissertation-research-wiki` |
 | formal document delivery / QA | `cognitive-frameworks` when argument planning is needed, `academic-self-review-loop`, `uk-academic-writing-style`, `style-memory-and-revision-gate`, `dissertation-document-quality-gate`, `context-continuity` |
 | agent self-debug / false-run recovery | `dissertation-agent-self-debug`, `dissertation-workspace-surface-audit`, `context-continuity` |
+| GitHub release / public template visible-surface verification | `release-surface-verification`, `dissertation-agent-self-debug`, `dissertation-workspace-surface-audit` when live browser or rendered-surface checks are needed |
 | agent architecture audit / rule conflict | `dissertation-agent-architecture-audit`, `dissertation-skill-stocktake`, `context-continuity` |
 | workspace surface audit | `dissertation-workspace-surface-audit`, `dissertation-automation-audit`, `dissertation-knowledge-ops` |
 | browser automation / LMS browser inspection / local page verification | `playwright-dissertation-browser`, global `playwright`, `dissertation-research-search-protocol` when source capture is involved |

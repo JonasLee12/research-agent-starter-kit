@@ -6,7 +6,7 @@ Build a local research agent that thinks before writing, checks sources before c
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-green.svg)](https://www.python.org/)
-[![Evals](https://img.shields.io/badge/Skill_Evals-22%2F22_passing-brightgreen.svg)](#validation)
+[![Evals](https://img.shields.io/badge/Skill_Evals-23%2F23_passing-brightgreen.svg)](#validation)
 
 Use it with Codex, Claude Code, Cursor, or any coding agent that can read local files and follow `SKILL.md` instructions. The kit itself is file-based and local-first; the agent tool you choose may have its own login, subscription, or API-key requirements.
 
@@ -105,6 +105,7 @@ bash scripts/run_vector_index.sh
 | Optional vector search | `scripts/build_vector_index.py` | Adds ChromaDB + sentence-transformers retrieval when installed |
 | Integrity preflight | `.agents/skills/academic-integrity-preflight/`, `scripts/academic_integrity_preflight.py` | Checks prompt residue, placeholders, fake references, unsupported claims, and disclosure-boundary risks |
 | External review fallback | `scripts/build_external_review_bundle.py`, `templates/prompts/EXTERNAL_REVIEWER_PROMPT.md` | Builds a local review bundle for Codex, ChatGPT, Claude, Gemini, or human review without uploading anything |
+| Release surface verification | `.agents/skills/release-surface-verification/` | Checks GitHub release pages, About/sidebar, topics, rendered README/docs, and public links before claiming a release is complete |
 | Delivery pipeline | `research-wiki/DOCUMENT_PIPELINE.md` | Splits formal work into THINKING, WRITING, and DELIVERY checkpoints |
 
 ## Scope And Limits
@@ -122,7 +123,7 @@ These limits are part of the design. The system should make weak evidence visibl
 
 ## Validation
 
-The public template currently reports **22/22 skill evaluations passing**.
+The public template currently reports **23/23 skill evaluations passing**.
 The badge reflects the published template state; rerun the checks after customising the kit.
 
 ```bash
