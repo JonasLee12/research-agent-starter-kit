@@ -1,5 +1,26 @@
 # Changelog
 
+## v1.2.1 - Obsidian Vault Setup Clarification - 2026-06-01
+
+Status: public documentation and onboarding fix.
+
+### Added
+
+- `docs/OBSIDIAN_SETUP.md` with clear Obsidian entry-point guidance in English and Chinese.
+- `templates/obsidian-vault/` as a generic clean vault template for users who want a separate research notebook outside the repository.
+- Minimal `knowledge-base/.obsidian/app.json` and `knowledge-base/.gitignore` so `knowledge-base/` can be opened as a cleaner Obsidian vault without committing local workspace, cache, plugin, raw-inbox, or attachment state.
+
+### Changed
+
+- README, Chinese README, app/connector usage, and software requirements now warn users to open `knowledge-base/` as the Obsidian vault and not the repository root.
+- Obsidian documentation now states explicitly that Obsidian is a navigation layer, not the source of record.
+
+### Boundary
+
+- No automatic Obsidian sync script was added.
+- The clean vault template contains only generic folder READMEs and neutral Obsidian defaults.
+- No private research project content, institution details, supervisor details, email addresses, participant material, screenshots, or private documents were added.
+
 ## v1.2.0 - Self-Growing Knowledge Base And Integrity Preflight - 2026-05-30
 
 Status: important public starter-kit update.

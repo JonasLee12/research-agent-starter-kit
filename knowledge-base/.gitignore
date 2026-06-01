@@ -1,0 +1,19 @@
+# Obsidian local workspace state.
+# Keep app.json tracked because it contains only neutral vault defaults.
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/cache/
+.obsidian/plugins/
+.obsidian/themes/
+
+# Keep attachments local unless you intentionally decide to share them.
+Attachments/*
+!Attachments/.gitkeep
+
+# Generated health checks stay local by default.
+self-growing/health-checks/*
+!self-growing/health-checks/README.md
+
+# Raw inbox is a staging area, not a formal knowledge layer.
+self-growing/raw-inbox/*
+!self-growing/raw-inbox/README.md

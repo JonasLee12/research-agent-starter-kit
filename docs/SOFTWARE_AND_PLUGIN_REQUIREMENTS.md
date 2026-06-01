@@ -26,7 +26,7 @@ For a plain-language status table of apps, connectors, and optional tools, read 
 
 | Tool | Link | Use |
 |---|---|---|
-| Obsidian | [Download](https://obsidian.md/download) | Reads the Markdown knowledge base like a linked notebook. |
+| Obsidian | [Download](https://obsidian.md/download) | Reads the Markdown knowledge layer like a linked notebook. Open knowledge-base/ as your Obsidian vault. Do not open the repository root. |
 | LibreOffice | [Download](https://www.libreoffice.org/download/) | Free `.docx` opening and rendering. |
 | Microsoft Word | [Word](https://www.microsoft.com/en-us/microsoft-365/word) | Final document editing and comments. |
 | Poppler | [Project site](https://poppler.freedesktop.org/) | Optional PDF/page-image checks for generated documents. |
@@ -84,6 +84,8 @@ Install extra tools only when your project workflow clearly needs them.
 
 - The project works without it.
 - It just makes Markdown notes easier to browse.
+- Open knowledge-base/ as your Obsidian vault. Do not open the repository root.
+- For a cleaner personal notebook, copy `templates/obsidian-vault/` outside the repository and open the copy.
 
 `Python` and `Python packages` are different.
 

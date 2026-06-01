@@ -24,7 +24,7 @@ This repository does not bundle private credentials, browser sessions, subscript
 | GitHub Desktop | Recommended | Beginner-friendly Git interface | Use if command-line Git feels difficult |
 | GitHub CLI `gh` | Recommended | Checks remote repo status, About text, Actions, and pushes | Use for maintenance and GitHub verification |
 | ChatGPT Codex Connector / GitHub App | Recommended | Lets Codex inspect GitHub repository files through the connected app | Use when Codex needs GitHub-side repository context |
-| Obsidian | Optional | Reads `research-wiki/` and `knowledge-base/` as a linked Markdown knowledge base | Use if you want a visual note-taking layer |
+| Obsidian | Optional | Reads `knowledge-base/` or a copied `templates/obsidian-vault/` as a linked Markdown knowledge layer | Use if you want a visual note-taking layer. Open knowledge-base/ as your Obsidian vault. Do not open the repository root. |
 | Microsoft Word | Optional but useful | Final editing, comments, and `.docx` review | Use for formal documents or stakeholder drafts |
 | LibreOffice | Optional | Free `.docx` opening and rendering | Use if Microsoft Word is unavailable |
 | Poppler | Optional | PDF/page-image rendering checks | Use when layout verification matters |
@@ -68,6 +68,7 @@ These scripts are included in the repository and use Python 3 standard-library f
 - Browser automation must not submit, upload, download, or modify private sites unless explicitly confirmed.
 - Zotero collection membership does not make a source citation-ready.
 - Obsidian is a reading/navigation layer; the source of record stays in the project files.
+- Open knowledge-base/ as your Obsidian vault. Do not open the repository root, because it will index system files such as `research-wiki/`, `scripts/`, `tests/`, and audit logs.
 - Do not commit credentials, tokens, cookies, `.env` files, browser profiles, or private local database files.
 
 ## Recommended Minimal Setup
@@ -106,7 +107,7 @@ python3 scripts/agent_runtime.py "set up this research project" --window Mainten
 | GitHub Desktop | 推荐 | 对新手更友好的 Git 图形界面 | 不熟悉命令行 Git 时 |
 | GitHub CLI `gh` | 推荐 | 检查远端 repo、About、Actions 和 push 状态 | 做维护和 GitHub 验证时 |
 | ChatGPT Codex Connector / GitHub App | 推荐 | 让 Codex 通过连接器读取 GitHub 仓库内容 | Codex 需要 GitHub 端仓库上下文时 |
-| Obsidian | 可选 | 把 `research-wiki/` 和 `knowledge-base/` 当作 Markdown 知识库阅读 | 想要可视化笔记层时 |
+| Obsidian | 可选 | 把 `knowledge-base/` 或复制后的 `templates/obsidian-vault/` 当作 Markdown 知识层阅读 | 想要可视化笔记层时。请把 knowledge-base/ 作为 Obsidian vault 打开，不要打开整个仓库根目录。 |
 | Microsoft Word | 可选但常用 | 最终文档编辑、批注和 `.docx` 检查 | 有正式文档或给他人看的 draft 时 |
 | LibreOffice | 可选 | 免费打开和渲染 `.docx` | 没有 Microsoft Word 时 |
 | Poppler | 可选 | PDF/page-image 渲染检查 | 需要检查版面时 |
@@ -150,6 +151,7 @@ python3 scripts/agent_runtime.py "set up this research project" --window Mainten
 - 浏览器自动化不能默认提交、上传、下载或修改私有网站内容。
 - Zotero collection membership 不等于文献已经 citation-ready。
 - Obsidian 是阅读和导航层，项目文件仍然是 source of record。
+- 请把 knowledge-base/ 作为 Obsidian vault 打开，不要打开整个仓库根目录；否则 `research-wiki/`、`scripts/`、`tests/` 和审计日志都会进入图谱。
 - 不要提交 credentials、tokens、cookies、`.env` files、browser profiles 或私人本地数据库文件。
 
 ## 推荐最小配置

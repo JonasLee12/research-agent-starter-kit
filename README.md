@@ -51,6 +51,8 @@ That means the starter kit now covers not only writing and review, but also cont
 
 ## Quick Start
 
+If you use Obsidian: **Open knowledge-base/ as your Obsidian vault. Do not open the repository root.** See [Obsidian Setup](docs/OBSIDIAN_SETUP.md).
+
 ```bash
 git clone https://github.com/JonasLee12/research-agent-starter-kit.git
 cd research-agent-starter-kit
@@ -160,6 +162,14 @@ python scripts/build_agent_index.py --rebuild --summary
 python scripts/local_retrieval_search.py --rebuild --query "source readiness"
 ```
 
+### Set up Obsidian safely
+
+Open knowledge-base/ as your Obsidian vault. Do not open the repository root.
+
+For a cleaner personal notebook, copy `templates/obsidian-vault/` to a location outside this repository and open the copied folder in Obsidian.
+
+See [Obsidian Setup](docs/OBSIDIAN_SETUP.md).
+
 ### Adapt cognitive frameworks
 
 Edit `.agents/skills/cognitive-frameworks/SKILL.md` to adjust gap classifications, warrant quality tests, or rhetorical moves for your discipline.
@@ -175,6 +185,7 @@ Edit `.agents/skills/cognitive-frameworks/SKILL.md` to adjust gap classification
 - [Dual Window Guide](docs/DUAL_WINDOW_GUIDE.md) — Production and Maintenance window workflow
 - [Skill Development Guide](docs/SKILL_DEVELOPMENT_GUIDE.md) — How to create and test new skills
 - [Weekly Literature Gap-Watch Automation](docs/WEEKLY_LITERATURE_GAP_WATCH_AUTOMATION.md) — Candidate-only weekly literature monitoring
+- [Obsidian Setup](docs/OBSIDIAN_SETUP.md) — Open the clean knowledge layer, not the repository root
 - [Self-Growing Knowledge Base](knowledge-base/self-growing/README.md) — Controlled knowledge-base growth workflow
 - [Retrieval Protocol](research-wiki/RETRIEVAL_PROTOCOL.md) — How the local retrieval layers work together
 - [Document Pipeline](research-wiki/DOCUMENT_PIPELINE.md) — Staged checkpoint delivery process

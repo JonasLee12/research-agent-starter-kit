@@ -1,0 +1,15 @@
+# Obsidian local workspace state.
+# Keep app.json tracked because it contains only neutral vault defaults.
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/cache/
+.obsidian/plugins/
+.obsidian/themes/
+
+# Attachments are local by default.
+Attachments/*
+!Attachments/.gitkeep
+
+# Private data folder is a reminder only.
+09_Private_Data_DO_NOT_SYNC/*
+!09_Private_Data_DO_NOT_SYNC/README.md

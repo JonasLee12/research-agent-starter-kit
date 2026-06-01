@@ -51,6 +51,8 @@ flowchart LR
 
 ## 快速开始
 
+如果你使用 Obsidian：**请把 knowledge-base/ 作为 Obsidian vault 打开，不要打开整个仓库根目录。** 见 [Obsidian Setup](docs/OBSIDIAN_SETUP.md)。
+
 ```bash
 git clone https://github.com/JonasLee12/research-agent-starter-kit.git
 cd research-agent-starter-kit
@@ -160,6 +162,14 @@ python scripts/build_agent_index.py --rebuild --summary
 python scripts/local_retrieval_search.py --rebuild --query "source readiness"
 ```
 
+### 安全设置 Obsidian
+
+请把 knowledge-base/ 作为 Obsidian vault 打开，不要打开整个仓库根目录。
+
+如果想要更干净的个人笔记库，把 `templates/obsidian-vault/` 复制到仓库外部，再用 Obsidian 打开复制后的文件夹。
+
+见 [Obsidian Setup](docs/OBSIDIAN_SETUP.md)。
+
 ### 调整 cognitive frameworks
 
 你可以修改 `.agents/skills/cognitive-frameworks/SKILL.md`，让 gap classifications、warrant quality tests 或 rhetorical moves 更适合你的学科。
@@ -175,6 +185,7 @@ python scripts/local_retrieval_search.py --rebuild --query "source readiness"
 - [Dual Window Guide](docs/DUAL_WINDOW_GUIDE.md) — Production 和 Maintenance 窗口如何分工
 - [Skill Development Guide](docs/SKILL_DEVELOPMENT_GUIDE.md) — 如何创建和测试新的 skill
 - [Weekly Literature Gap-Watch Automation](docs/WEEKLY_LITERATURE_GAP_WATCH_AUTOMATION.md) — candidate-only weekly 文献监测
+- [Obsidian Setup](docs/OBSIDIAN_SETUP.md) — 打开干净知识层，不要打开仓库根目录
 - [Self-Growing Knowledge Base](knowledge-base/self-growing/README.md) — 可控知识库增长工作流
 - [Retrieval Protocol](research-wiki/RETRIEVAL_PROTOCOL.md) — 本地 retrieval 各层如何协同
 - [Document Pipeline](research-wiki/DOCUMENT_PIPELINE.md) — staged checkpoint delivery process
