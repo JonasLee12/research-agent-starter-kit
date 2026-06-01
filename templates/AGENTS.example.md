@@ -106,7 +106,8 @@ Domain-specific skills are included as optional examples. Rename, edit, or remov
 - Use `scripts/academic_database_connector.py` for academic metadata searches when available. Treat all search results as `METADATA ONLY` until source sections are reviewed.
 - Use `scripts/citation_style_check.py` and `scripts/citation_claim_audit.py` for citation-heavy drafts when available. Citation consistency is not proof of claim support.
 - Use `academic-integrity-preflight` and `scripts/academic_integrity_preflight.py` before substantive formal drafting and again before final delivery. This is not an AI detector.
-- Use `scripts/claude_independent_review.py` only for optional independent review of safe, non-sensitive artifacts. Claude Code feedback is advisory; it does not replace local source, privacy, citation, compliance, or delivery gates.
+- Use `scripts/build_external_review_bundle.py` when a safe, non-sensitive artifact needs an optional second opinion from a separate Codex, ChatGPT, Claude, Gemini, or human reviewer. External reviewer feedback is advisory; it does not replace local source, privacy, citation, compliance, or delivery gates.
+- Use `scripts/claude_independent_review.py` only as one optional Claude Code runner for safe, non-sensitive artifacts when Claude Code is available.
 - Use `knowledge-base/self-growing/` for controlled knowledge-base growth. New items must pass source, evidence-status, privacy, and destination checks before they move from `raw-inbox/` into compiled wiki or formal sources.
 - Use `scripts/build_agent_index.py`, `scripts/local_retrieval_search.py`, `scripts/build_vector_index.py`, and `scripts/vector_retrieval_smoke_test.py` only as local retrieval aids. Retrieval finds candidate files; it does not prove claim support.
 - Use `research-neural-network-figure` before planning actual neural-network/model architecture visuals. Do not install or run third-party figure repositories without explicit confirmation.
@@ -148,8 +149,9 @@ Domain-specific skills are included as optional examples. Rename, edit, or remov
 22. Use `playwright-dissertation-browser` and global `playwright` for controlled browser automation.
 23. Use `markitdown` only after checking tool availability and privacy boundaries.
 24. Use `research-*` figure/writing skills only as optional quality layers after source, privacy, compliance, citation, and document gates.
-25. Use `scripts/claude_independent_review.py` for optional context-naive independent review when the artifact is safe to send to Claude Code.
-26. Use staged literature gap-watch automation only for candidate discovery unless the user confirms ingestion.
+25. Use `scripts/build_external_review_bundle.py` for optional context-naive external review when the artifact is safe to share with another reviewer.
+26. Use `scripts/claude_independent_review.py` only as one optional Claude Code runner when available.
+27. Use staged literature gap-watch automation only for candidate discovery unless the user confirms ingestion.
 
 ## Public Template Boundary
 

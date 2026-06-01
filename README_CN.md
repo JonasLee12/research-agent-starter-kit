@@ -6,7 +6,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-green.svg)](https://www.python.org/)
-[![Evals](https://img.shields.io/badge/Skill_Evals-21%2F21_passing-brightgreen.svg)](#validation)
+[![Evals](https://img.shields.io/badge/Skill_Evals-22%2F22_passing-brightgreen.svg)](#validation)
 
 它可以配合 Codex、Claude Code、Cursor，或任何能读取本地文件并遵守 `SKILL.md` 指令的 coding agent 使用。这个 starter kit 本身是本地文件驱动；你选择的 agent 工具可能仍然有自己的登录、订阅或 API-key 要求。
 
@@ -45,13 +45,15 @@ flowchart LR
 
 ## 最新更新
 
-**v1.2.0** 加入了 self-growing knowledge base、本地 retrieval 工具、可选 neural vector search，以及 academic-integrity preflight gate。
+**v1.3.0** 加入了更清晰的 Obsidian 入口说明，以及给没有 Claude Code 用户使用的 external-review fallback。
 
-这意味着系统现在不只管写作和审查，也能管理知识库增长：raw inbox -> growth queue -> compiled wiki -> source-aware retrieval。
+这意味着系统现在既能管理知识库导航，也能让用户通过 Claude Code、另一个 Codex 窗口、ChatGPT、Gemini 或人工 reviewer 获取第二意见。External review 仍然只是建议层。
 
 ## 快速开始
 
 如果你使用 Obsidian：**请把 knowledge-base/ 作为 Obsidian vault 打开，不要打开整个仓库根目录。** 见 [Obsidian Setup](docs/OBSIDIAN_SETUP.md)。
+
+如果你没有 Claude Code：使用 external-review bundle workflow，把生成的 prompt 复制到另一个 Codex、ChatGPT、Claude、Gemini 或人工 review 流程。见 [External Review Options](docs/EXTERNAL_REVIEW_OPTIONS.md)。
 
 ```bash
 git clone https://github.com/JonasLee12/research-agent-starter-kit.git
@@ -88,6 +90,7 @@ bash scripts/run_vector_index.sh
 | 知识散落在聊天、文件和笔记里 | Self-growing KB workflow | 新材料经过 raw inbox、growth queue、compiled wiki，保留边界 |
 | Retrieval 结果容易被误当证据 | Retrieval protocol | 检索结果只作为候选，必须回到 source section review |
 | 正式文档太早交付 | Delivery guard and checkpoints | 缺少必要审查时阻止正式输出 |
+| 用户没有 Claude Code | External-review bundle | 仍可通过 Codex、ChatGPT、其他 LLM chat 或人工 reviewer 获取第二意见 |
 | 公开分享时可能泄露私人材料 | Privacy checks and `.gitignore` boundaries | 本地索引、audit logs、raw/private data 默认不发布 |
 
 ## 核心组成
@@ -101,6 +104,7 @@ bash scripts/run_vector_index.sh
 | Retrieval | `scripts/local_retrieval_search.py`, `scripts/build_agent_index.py` | 建立本地可检索索引，但不替代 source review |
 | Optional vector search | `scripts/build_vector_index.py` | 安装 ChromaDB + sentence-transformers 后可用 |
 | Integrity preflight | `.agents/skills/academic-integrity-preflight/`, `scripts/academic_integrity_preflight.py` | 检查 prompt residue、placeholder、假引用、unsupported claims 和 disclosure-boundary 风险 |
+| External review fallback | `scripts/build_external_review_bundle.py`, `templates/prompts/EXTERNAL_REVIEWER_PROMPT.md` | 在不上传文件的情况下生成本地质审包，供 Codex、ChatGPT、Claude、Gemini 或人工 reviewer 使用 |
 | Delivery pipeline | `research-wiki/DOCUMENT_PIPELINE.md` | 把正式工作拆成 THINKING、WRITING、DELIVERY 三个 checkpoint |
 
 ## 范围和限制
@@ -118,7 +122,7 @@ bash scripts/run_vector_index.sh
 
 ## 验证
 
-当前公开模板显示 **21/21 skill evaluations passing**。
+当前公开模板显示 **22/22 skill evaluations passing**。
 这个 badge 反映的是已发布模板状态；你自定义系统后应重新运行下面的检查。
 
 ```bash
@@ -170,6 +174,18 @@ python scripts/local_retrieval_search.py --rebuild --query "source readiness"
 
 见 [Obsidian Setup](docs/OBSIDIAN_SETUP.md)。
 
+### 没有 Claude Code 时获取外部第二意见
+
+生成本地 review bundle：
+
+```bash
+python scripts/build_external_review_bundle.py path/to/draft.md
+```
+
+然后检查 `privacy_scan.md`。如果安全，再把 `EXTERNAL_REVIEW_PROMPT.md` 复制到另一个 Codex、ChatGPT、Claude、Gemini 或人工 review 流程。
+
+见 [External Review Options](docs/EXTERNAL_REVIEW_OPTIONS.md)。
+
 ### 调整 cognitive frameworks
 
 你可以修改 `.agents/skills/cognitive-frameworks/SKILL.md`，让 gap classifications、warrant quality tests 或 rhetorical moves 更适合你的学科。
@@ -186,6 +202,7 @@ python scripts/local_retrieval_search.py --rebuild --query "source readiness"
 - [Skill Development Guide](docs/SKILL_DEVELOPMENT_GUIDE.md) — 如何创建和测试新的 skill
 - [Weekly Literature Gap-Watch Automation](docs/WEEKLY_LITERATURE_GAP_WATCH_AUTOMATION.md) — candidate-only weekly 文献监测
 - [Obsidian Setup](docs/OBSIDIAN_SETUP.md) — 打开干净知识层，不要打开仓库根目录
+- [External Review Options](docs/EXTERNAL_REVIEW_OPTIONS.md) — 把 Claude Code、Codex、ChatGPT、Gemini 或人工 review 作为建议层使用
 - [Self-Growing Knowledge Base](knowledge-base/self-growing/README.md) — 可控知识库增长工作流
 - [Retrieval Protocol](research-wiki/RETRIEVAL_PROTOCOL.md) — 本地 retrieval 各层如何协同
 - [Document Pipeline](research-wiki/DOCUMENT_PIPELINE.md) — staged checkpoint delivery process

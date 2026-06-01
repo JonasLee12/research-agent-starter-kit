@@ -58,6 +58,8 @@ def check() -> tuple[list[str], list[str]]:
             "knowledge-base/self-growing/growth-queue.md",
             "knowledge-base/self-growing/compiled-wiki/INDEX.md",
             "knowledge-base/SOURCE_READINESS_MATRIX.md",
+            "docs/EXTERNAL_REVIEW_OPTIONS.md",
+            "templates/prompts/EXTERNAL_REVIEWER_PROMPT.md",
             ".agents/skills/academic-self-review-loop/SKILL.md",
             ".agents/skills/academic-integrity-preflight/SKILL.md",
         ]
@@ -136,6 +138,15 @@ def check() -> tuple[list[str], list[str]]:
         passed.append("Project files include self-growing KB structure and health-check script.")
     else:
         failed.append("Project files do not include self-growing KB structure and health-check script.")
+    if (
+        (ROOT / "scripts" / "build_external_review_bundle.py").exists()
+        and (ROOT / "templates" / "prompts" / "EXTERNAL_REVIEWER_PROMPT.md").exists()
+        and "advisory" in static_text.lower()
+        and "Claude Code" in static_text
+    ):
+        passed.append("Project files include vendor-neutral external-review bundle workflow with advisory boundary.")
+    else:
+        failed.append("Project files do not record a vendor-neutral external-review fallback workflow.")
     kb_route = classify("Set up a self-growing knowledge base with local retrieval", "Production")
     if "knowledge_base_operations" in kb_route.task_types and "kb_health_check" in kb_route.gates:
         passed.append("Runtime routes self-growing knowledge-base setup to KB operations with health-check gate.")

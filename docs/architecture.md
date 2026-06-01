@@ -40,7 +40,8 @@ graph TD
     J --> J2["Crossref"]
     J --> J3["Semantic Scholar"]
     J --> J4["Zotero"]
-    J --> J5["Claude Code wrapper<br/>advisory review only"]
+    J --> J5["External review bundle<br/>Codex / ChatGPT / Claude / human"]
+    J --> J6["Claude Code runner<br/>optional advisory path"]
 
     D --> K["🔍 System Audits"]
     D --> L["📊 Skill Evals"]

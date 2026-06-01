@@ -1,5 +1,32 @@
 # Changelog
 
+## v1.3.0 - Knowledge Base Setup And External Review Fallback - 2026-06-01
+
+Status: public onboarding and quality-review update.
+
+### Added
+
+- `docs/EXTERNAL_REVIEW_OPTIONS.md` explaining local self-review, manual external-review bundles, and the optional Claude Code runner.
+- `scripts/build_external_review_bundle.py` to create a local review bundle for Codex, ChatGPT, Claude, Gemini, or human review without calling an LLM, connecting to the internet, or uploading files.
+- `templates/prompts/EXTERNAL_REVIEWER_PROMPT.md` as the shared vendor-neutral reviewer prompt.
+- Tests for clean bundle generation, sensitive-content blocking, and advisory/no-invention prompt boundaries.
+- `docs/OBSIDIAN_SETUP.md` and `templates/obsidian-vault/` from the Obsidian setup clarification.
+
+### Changed
+
+- Claude Code is now documented as one optional external-review runner, not the only independent-review path.
+- README, Chinese README, app/tool documentation, system overview, AGENTS template, and architecture diagram now document Codex/ChatGPT/manual reviewer fallback.
+- `scripts/claude_independent_review.py` now reuses the shared external-review prompt template.
+- Skill eval registry now includes an external-review fallback case.
+- `knowledge-base/` includes minimal Obsidian defaults and local-state ignore rules so it can be opened as a cleaner Obsidian vault.
+
+### Boundary
+
+- External reviewer feedback remains advisory only. It is not source evidence, claim-support proof, compliance approval, a mark, or a delivery pass.
+- No automatic upload, sync script, hosted review service, or required Claude subscription was added.
+- Obsidian remains a navigation layer, not the source of record.
+- No private research project content, institution details, supervisor details, email addresses, participant material, screenshots, or private documents were added.
+
 ## v1.2.1 - Obsidian Vault Setup Clarification - 2026-06-01
 
 Status: public documentation and onboarding fix.

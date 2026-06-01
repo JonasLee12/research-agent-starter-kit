@@ -6,7 +6,7 @@ Build a local research agent that thinks before writing, checks sources before c
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-green.svg)](https://www.python.org/)
-[![Evals](https://img.shields.io/badge/Skill_Evals-21%2F21_passing-brightgreen.svg)](#validation)
+[![Evals](https://img.shields.io/badge/Skill_Evals-22%2F22_passing-brightgreen.svg)](#validation)
 
 Use it with Codex, Claude Code, Cursor, or any coding agent that can read local files and follow `SKILL.md` instructions. The kit itself is file-based and local-first; the agent tool you choose may have its own login, subscription, or API-key requirements.
 
@@ -45,13 +45,15 @@ The workflow is strict where it matters:
 
 ## What's New
 
-**v1.2.0** adds a self-growing knowledge base, local retrieval tools, optional neural vector search, and an academic-integrity preflight gate.
+**v1.3.0** adds safer Obsidian onboarding and an external-review fallback for users who do not have Claude Code.
 
-That means the starter kit now covers not only writing and review, but also controlled knowledge-base growth: raw inbox -> growth queue -> compiled wiki -> source-aware retrieval.
+That means the starter kit now covers controlled knowledge-base navigation and optional second-opinion review through Claude Code, another Codex window, ChatGPT, Gemini, or a human reviewer. External review remains advisory only.
 
 ## Quick Start
 
 If you use Obsidian: **Open knowledge-base/ as your Obsidian vault. Do not open the repository root.** See [Obsidian Setup](docs/OBSIDIAN_SETUP.md).
+
+If you do not have Claude Code: use the external-review bundle workflow and paste the generated prompt into a separate Codex, ChatGPT, Claude, Gemini, or human review process. See [External Review Options](docs/EXTERNAL_REVIEW_OPTIONS.md).
 
 ```bash
 git clone https://github.com/JonasLee12/research-agent-starter-kit.git
@@ -88,6 +90,7 @@ bash scripts/run_vector_index.sh
 | Knowledge grows chaotically across chats and files | Self-growing KB workflow | New notes move through raw inbox, growth queue, and compiled wiki with boundaries |
 | Retrieval results get mistaken for evidence | Retrieval protocol | Search results stay candidate-only until source sections are reviewed |
 | Formal documents are delivered too early | Delivery guard and checkpoints | Outputs can be blocked when required review gates are missing |
+| Users do not have Claude Code | External-review bundle | Users can still request a second opinion through Codex, ChatGPT, another LLM chat, or a human reviewer |
 | Public sharing risks leaking private project data | Privacy checks and `.gitignore` boundaries | Generated indexes, audit logs, and raw/private data stay local |
 
 ## Core Pieces
@@ -101,6 +104,7 @@ bash scripts/run_vector_index.sh
 | Retrieval | `scripts/local_retrieval_search.py`, `scripts/build_agent_index.py` | Builds local searchable indexes without replacing source review |
 | Optional vector search | `scripts/build_vector_index.py` | Adds ChromaDB + sentence-transformers retrieval when installed |
 | Integrity preflight | `.agents/skills/academic-integrity-preflight/`, `scripts/academic_integrity_preflight.py` | Checks prompt residue, placeholders, fake references, unsupported claims, and disclosure-boundary risks |
+| External review fallback | `scripts/build_external_review_bundle.py`, `templates/prompts/EXTERNAL_REVIEWER_PROMPT.md` | Builds a local review bundle for Codex, ChatGPT, Claude, Gemini, or human review without uploading anything |
 | Delivery pipeline | `research-wiki/DOCUMENT_PIPELINE.md` | Splits formal work into THINKING, WRITING, and DELIVERY checkpoints |
 
 ## Scope And Limits
@@ -118,7 +122,7 @@ These limits are part of the design. The system should make weak evidence visibl
 
 ## Validation
 
-The public template currently reports **21/21 skill evaluations passing**.
+The public template currently reports **22/22 skill evaluations passing**.
 The badge reflects the published template state; rerun the checks after customising the kit.
 
 ```bash
@@ -170,6 +174,18 @@ For a cleaner personal notebook, copy `templates/obsidian-vault/` to a location 
 
 See [Obsidian Setup](docs/OBSIDIAN_SETUP.md).
 
+### Get an external second opinion without Claude Code
+
+Build a local review bundle:
+
+```bash
+python scripts/build_external_review_bundle.py path/to/draft.md
+```
+
+Then inspect `privacy_scan.md` and copy `EXTERNAL_REVIEW_PROMPT.md` into a separate Codex, ChatGPT, Claude, Gemini, or human review process if safe.
+
+See [External Review Options](docs/EXTERNAL_REVIEW_OPTIONS.md).
+
 ### Adapt cognitive frameworks
 
 Edit `.agents/skills/cognitive-frameworks/SKILL.md` to adjust gap classifications, warrant quality tests, or rhetorical moves for your discipline.
@@ -186,6 +202,7 @@ Edit `.agents/skills/cognitive-frameworks/SKILL.md` to adjust gap classification
 - [Skill Development Guide](docs/SKILL_DEVELOPMENT_GUIDE.md) — How to create and test new skills
 - [Weekly Literature Gap-Watch Automation](docs/WEEKLY_LITERATURE_GAP_WATCH_AUTOMATION.md) — Candidate-only weekly literature monitoring
 - [Obsidian Setup](docs/OBSIDIAN_SETUP.md) — Open the clean knowledge layer, not the repository root
+- [External Review Options](docs/EXTERNAL_REVIEW_OPTIONS.md) — Use Claude Code, Codex, ChatGPT, Gemini, or human review as advisory feedback
 - [Self-Growing Knowledge Base](knowledge-base/self-growing/README.md) — Controlled knowledge-base growth workflow
 - [Retrieval Protocol](research-wiki/RETRIEVAL_PROTOCOL.md) — How the local retrieval layers work together
 - [Document Pipeline](research-wiki/DOCUMENT_PIPELINE.md) — Staged checkpoint delivery process

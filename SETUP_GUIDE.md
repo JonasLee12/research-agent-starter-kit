@@ -21,7 +21,8 @@ Optional but useful:
 - [ChatGPT Codex Connector](https://github.com/apps/chatgpt-codex-connector)
 - [Obsidian](https://obsidian.md/download)
 - [LibreOffice](https://www.libreoffice.org/download/) or [Microsoft Word](https://www.microsoft.com/en-us/microsoft-365/word)
-- [Claude Code](https://docs.anthropic.com/en/docs/claude-code) for optional independent review through `scripts/claude_independent_review.py` if you have access
+- [ChatGPT](https://chatgpt.com/) or another LLM chat for optional manual external review through `scripts/build_external_review_bundle.py`
+- [Claude Code](https://docs.anthropic.com/en/docs/claude-code) for one optional direct external-review runner through `scripts/claude_independent_review.py` if you have access
 
 ## 1. Copy Or Clone
 

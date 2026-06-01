@@ -1,6 +1,6 @@
 # Research Agent Starter Kit System Overview
 
-Date: 2026-05-25
+Date: 2026-06-01
 
 Status: depersonalised public-template explanation
 
@@ -63,7 +63,7 @@ Do not use it as a substitute for:
 | Privacy layer | `PRIVACY_CHECKLIST.md`, `PUBLIC_RELEASE_AUDIT.md`, `scripts/privacy_check.sh` | Prevents private data from being shared accidentally |
 | Runtime layer | `scripts/agent_runtime.py`, `research-wiki/runtime-receipts/`, `research-wiki/SESSION_EVENT_LOG.jsonl` | Makes important workflow routing and gate checks auditable |
 | Connector layer | `scripts/academic_database_connector.py`, `config/academic_database_connectors.example.json` | Supports public metadata search and subscription credential checks |
-| Independent review layer | `scripts/claude_independent_review.py` | Optional privacy-gated Claude Code review with timeout handling and advisory-only boundary |
+| Independent review layer | `scripts/build_external_review_bundle.py`, `scripts/claude_independent_review.py` | Optional advisory review through a local bundle for Codex/ChatGPT/Claude/Gemini/human review, with Claude Code as one direct runner |
 | Schema layer | `research-wiki/tool-schemas/`, `scripts/validate_agent_schemas.py` | Keeps local workflow tools explicit and testable |
 | GitHub layer | README, setup docs, changelog, template settings | Supports sharing and updating the starter kit |
 
@@ -191,7 +191,8 @@ Version `v0.4.0` adds a local engineering layer.
 | Tool | Job |
 |---|---|
 | `scripts/agent_runtime.py` | Checks task type, mode, skills, gates, and required files before substantial work |
-| `scripts/claude_independent_review.py` | Optional privacy-gated Claude Code review wrapper with timeout handling |
+| `scripts/build_external_review_bundle.py` | Builds a local external-review bundle for Codex, ChatGPT, Claude, Gemini, or human review |
+| `scripts/claude_independent_review.py` | Optional privacy-gated Claude Code runner for the same advisory external-review role |
 | `scripts/academic_integrity_preflight.py` | Checks concrete integrity risks before formal drafting or delivery |
 | `scripts/cognitive_protocol_check.py` | Checks whether a planning note has required cognitive protocol fields |
 | `scripts/academic_database_connector.py` | Searches OpenAlex, Crossref, Semantic Scholar, and checks subscription-provider credentials |
@@ -211,7 +212,7 @@ Boundary:
 - subscription databases need lawful credentials;
 - runtime preflight works only when the workflow calls it;
 - claim-support audit still needs source-section reading before verification.
-- Claude Code review is advisory only and cannot replace source, privacy, citation, compliance, or delivery gates.
+- External reviewer feedback from Codex, ChatGPT, Claude, Gemini, or a human reviewer is advisory only and cannot replace source, privacy, citation, compliance, or delivery gates.
 - Python 3 is needed for these local scripts; extra Python packages are not needed by default.
 
 ## 7B. Weekly Literature Gap-Watch Automation
@@ -397,7 +398,8 @@ Do not invent names, institutional, journal, funder, client, ethics, or legal re
 - It does not include official requirements for any specific institution, journal, funder, client, or discipline.
 - It does not include real participant data.
 - It does not require Claude Code for the default workflow.
-- Claude Code can be used as optional independent review if the user has access; it does not replace source evidence or local gates.
+- Users without Claude Code can use the local external-review bundle workflow with another Codex window, ChatGPT, Claude, Gemini, or a human reviewer.
+- Claude Code can still be used as one optional direct runner if the user has access; it does not replace source evidence or local gates.
 - It does not require credentials by default.
 - It does not install external packages by default.
 

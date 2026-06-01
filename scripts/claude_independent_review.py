@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run a privacy-gated Claude Code independent review for research artifacts."""
+"""Run Claude Code as one optional privacy-gated external reviewer."""
 
 from __future__ import annotations
 
@@ -16,6 +16,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 REPORT_DIR = ROOT / "audit-reports" / "claude-reviews"
 SESSION_LOG = ROOT / "research-wiki" / "SESSION_EVENT_LOG.jsonl"
+PROMPT_TEMPLATE = ROOT / "templates" / "prompts" / "EXTERNAL_REVIEWER_PROMPT.md"
 
 SENSITIVE_PATH_PATTERNS = [
     r"raw",
@@ -51,7 +52,7 @@ def relative_or_abs(path: Path) -> str:
     try:
         return str(path.relative_to(ROOT))
     except ValueError:
-        return str(path)
+        return f"outside-repo:{path.name}"
 
 
 def append_event(event: dict) -> None:
@@ -73,33 +74,12 @@ def scan_sensitive(target: Path, text: str) -> list[str]:
 
 
 def build_prompt(target: Path, text: str, review_question: str) -> str:
-    return f"""You are an independent reviewer for a local research-agent project.
-
-Review task:
-{review_question}
-
-Review boundaries:
-- Judge only the current artifact below.
-- Do not assume prior revision history.
-- Do not invent citations, source support, project facts, reviewer feedback, participants, dates, or institutional requirements.
-- Treat source readiness, compliance status, and requirement/rubric evidence as local-project matters that must be verified separately.
-- Your feedback is advisory. It should become a revision queue, not evidence.
-
-Return concise Markdown with:
-1. Readiness judgement
-2. Top findings by severity
-3. Evidence, logic, privacy, or maintenance risks
-4. Concrete revision queue
-5. Questions to verify locally
-
-Artifact path:
-{relative_or_abs(target)}
-
-Artifact:
-```text
-{text}
-```
-"""
+    template = PROMPT_TEMPLATE.read_text(encoding="utf-8")
+    return (
+        template.replace("{{REVIEW_QUESTION}}", review_question)
+        .replace("{{ARTIFACT_PATH}}", relative_or_abs(target))
+        .replace("{{ARTIFACT_TEXT}}", text)
+    )
 
 
 def run_claude(prompt: str, model: str | None, effort: str | None, timeout_seconds: int) -> subprocess.CompletedProcess[str]:
@@ -112,7 +92,7 @@ def run_claude(prompt: str, model: str | None, effort: str | None, timeout_secon
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Run a safe Claude Code independent review.")
+    parser = argparse.ArgumentParser(description="Run Claude Code as one optional privacy-gated external reviewer.")
     parser.add_argument("target", help="Markdown/text file to review.")
     parser.add_argument("--review-question", default="Review this artifact for argument quality, evidence risks, clarity, privacy risks, and concrete revision priorities.")
     parser.add_argument("--output", help="Optional output report path.")
@@ -164,7 +144,7 @@ def main() -> int:
                 "",
                 "## Boundary",
                 "",
-                "Claude review was not run. Use anonymised/sanitised material or rerun only with explicit user approval and `--allow-sensitive --override-reason`.",
+                "Claude Code runner was not run. Use anonymised/sanitised material, build a local external-review bundle, or rerun only with explicit user approval and `--allow-sensitive --override-reason`.",
                 "",
             ]
         )
@@ -199,7 +179,7 @@ def main() -> int:
         f"Generated: {datetime.now().isoformat(timespec='seconds')}",
         f"Target: `{relative_or_abs(target)}`",
         f"Status: `{status}`",
-        f"Claude command: `claude -p --tools \"\" --no-session-persistence --effort {args.effort}`",
+        f"Claude command: `claude -p --tools \"\" --no-session-persistence{f' --model {args.model}' if args.model else ''} --effort {args.effort}`",
         f"Input truncated: `{str(truncated).lower()}`",
         "",
         "## Privacy Gate",
@@ -219,7 +199,7 @@ def main() -> int:
             "",
             "## Boundary",
             "",
-            "This Claude Code review is advisory. It does not prove source support, compliance readiness, citation correctness, or rubric/requirement compliance.",
+            "This Claude Code review is one optional external-review path. It is advisory and does not prove source support, compliance readiness, citation correctness, rubric/requirement compliance, marks, or approval.",
             "",
         ]
     )

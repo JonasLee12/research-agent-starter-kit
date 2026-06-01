@@ -31,7 +31,8 @@ This repository does not bundle private credentials, browser sessions, subscript
 | Zotero | Optional | Reference manager for literature collections and citation workflows | Use when your project has a serious bibliography workflow |
 | Playwright | Optional | Browser automation for read-only checks, local previews, and UI verification | Use only when browser workflows are needed |
 | MarkItDown | Optional | Converts documents into Markdown for source review or knowledge-base ingestion | Use only after privacy review and tool availability check |
-| Claude Code | Optional independent reviewer | Can provide a separate review pass when the user has access | Use only as review feedback; do not treat it as source evidence |
+| External review bundle | Included local workflow | Builds a local prompt bundle for Codex, ChatGPT, Claude, Gemini, or human review | Use when you want a second opinion without making Claude Code required |
+| Claude Code | Optional external reviewer runner | Can provide a direct separate review pass when the user has access | Use only as one optional review path; do not treat it as source evidence |
 | OpenAlex / Crossref / Semantic Scholar APIs | Available through script | Public metadata search via `scripts/academic_database_connector.py` | Use for metadata discovery, not claim evidence |
 | Scopus / Web of Science / EBSCO | Connector-ready only | Status checks and credential-aware boundaries | Use only with lawful institutional credentials |
 | OpenAI credential | Not required by default | Not needed for the template itself | Only needed if you build separate API-powered tools |
@@ -48,7 +49,8 @@ These scripts are included in the repository and use Python 3 standard-library f
 | `scripts/run_skill_evals.py` | Included | Static checks that high-risk skill routes point to real local skills/tools |
 | `scripts/run_behavioral_evidence_checks.py` | Included | Checks whether project files show evidence of runtime, source-readiness, self-review, and checkpoint workflows |
 | `scripts/validate_agent_schemas.py` | Included | Validates local workflow schema files |
-| `scripts/claude_independent_review.py` | Included | Optional privacy-gated Claude Code independent review wrapper with timeout handling |
+| `scripts/build_external_review_bundle.py` | Included | Builds a local review bundle and reusable prompt for Codex, ChatGPT, Claude, Gemini, or human review |
+| `scripts/claude_independent_review.py` | Included | Optional privacy-gated Claude Code runner for the same external-review role |
 | `scripts/academic_integrity_preflight.py` | Included | Checks concrete integrity risks before formal drafting or delivery |
 | `scripts/kb_health_check.py` | Included | Checks self-growing knowledge-base structure, raw-inbox triage, unresolved markers, and private-data boundary hits |
 | `scripts/build_agent_index.py` | Included | Builds a local SQLite index of project memory files |
@@ -63,7 +65,8 @@ These scripts are included in the repository and use Python 3 standard-library f
 ## Important Boundaries
 
 - Public metadata is not source evidence.
-- Claude Code feedback is not source evidence.
+- External reviewer feedback from Codex, ChatGPT, Claude, Gemini, or a human reviewer is not source evidence.
+- Claude Code is optional. Users without Claude can use `scripts/build_external_review_bundle.py` and paste the generated prompt into a separate reviewer.
 - Subscription databases need lawful access.
 - Browser automation must not submit, upload, download, or modify private sites unless explicitly confirmed.
 - Zotero collection membership does not make a source citation-ready.
@@ -114,7 +117,8 @@ python3 scripts/agent_runtime.py "set up this research project" --window Mainten
 | Zotero | 可选 | 管理文献 collection 和 citation workflow | 项目有正式参考文献管理需求时 |
 | Playwright | 可选 | 浏览器自动化、只读检查、本地预览、UI 验证 | 项目真的需要浏览器流程时 |
 | MarkItDown | 可选 | 把文档转成 Markdown，用于 source review 或知识库导入 | 做过隐私检查并确认工具可用后 |
-| Claude Code | 可选 independent reviewer | 有权限时可作为独立审稿/审查工具 | 只作为反馈，不可当作 source evidence |
+| External review bundle | 已包含的本地流程 | 为 Codex、ChatGPT、Claude、Gemini 或人工 reviewer 生成本地 prompt bundle | 想要第二意见但不想把 Claude Code 设为必需工具时 |
+| Claude Code | 可选 external reviewer runner | 有权限时可直接运行独立 review | 只是一个可选 review path，不可当作 source evidence |
 | OpenAlex / Crossref / Semantic Scholar APIs | 脚本可用 | 通过 `scripts/academic_database_connector.py` 做公共 metadata search | 用于发现文献 metadata，不可直接当 claim evidence |
 | Scopus / Web of Science / EBSCO | 仅 connector-ready | 检查凭据状态和访问边界 | 只有具备合法 institutional credentials 时 |
 | OpenAI credential | 默认不需要 | 模板本身不需要 | 只有你另建 API-powered tools 时 |
@@ -131,7 +135,8 @@ python3 scripts/agent_runtime.py "set up this research project" --window Mainten
 | `scripts/run_skill_evals.py` | 已包含 | 检查高风险 skill routes 是否指向真实本地 skills/tools |
 | `scripts/run_behavioral_evidence_checks.py` | 已包含 | 检查项目文件是否体现 runtime、source-readiness、self-review 和 checkpoint workflows |
 | `scripts/validate_agent_schemas.py` | 已包含 | 验证本地 workflow schema files |
-| `scripts/claude_independent_review.py` | 已包含 | 可选的 Claude Code 独立 review wrapper，带隐私 gate 和 timeout handling |
+| `scripts/build_external_review_bundle.py` | 已包含 | 为 Codex、ChatGPT、Claude、Gemini 或人工 review 生成本地质审包和通用 prompt |
+| `scripts/claude_independent_review.py` | 已包含 | 同一 external-review 角色的可选 Claude Code runner，带隐私 gate 和 timeout handling |
 | `scripts/academic_integrity_preflight.py` | 已包含 | 正式 drafting 或 delivery 前检查具体 academic/professional integrity 风险 |
 | `scripts/kb_health_check.py` | 已包含 | 检查 self-growing knowledge base 结构、raw-inbox triage、未解决标记和 private-data boundary hits |
 | `scripts/build_agent_index.py` | 已包含 | 为项目记忆文件建立本地 SQLite index |
@@ -146,7 +151,8 @@ python3 scripts/agent_runtime.py "set up this research project" --window Mainten
 ## 重要边界
 
 - 公共 metadata 不是正式证据。
-- Claude Code feedback 不是正式证据。
+- Codex、ChatGPT、Claude、Gemini 或人工 reviewer 给出的 external feedback 都不是正式证据。
+- Claude Code 是可选工具。没有 Claude 的用户可以使用 `scripts/build_external_review_bundle.py`，把生成的 prompt 复制到另一个 reviewer。
 - 订阅数据库需要合法访问权限。
 - 浏览器自动化不能默认提交、上传、下载或修改私有网站内容。
 - Zotero collection membership 不等于文献已经 citation-ready。
