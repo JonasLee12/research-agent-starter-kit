@@ -1,5 +1,32 @@
 # Changelog
 
+## v1.4.0 - Material Passport And Formal Delivery Guard - 2026-06-02
+
+Status: formal delivery reliability update.
+
+### Added
+
+- `.agents/skills/material-passport/` to package source-readiness, compliance/requirement status, citation boundaries, and unresolved confirmations before formal artifacts move forward.
+- `scripts/material_passport.py` to generate short or full Material Passport reports.
+- `.agents/skills/formal-delivery-guard/` for final formal-output delivery checks.
+- `scripts/pre_delivery_lock.py` to create/check local pre-delivery lock receipts.
+- `scripts/formal_delivery_guard.py` to block formal delivery when required evidence is missing, with an explicit auditable override path.
+- Unit tests for Material Passport, pre-delivery lock, and formal delivery guard behaviour.
+
+### Changed
+
+- Runtime routing now includes `material-passport` and `formal-delivery-guard` for formal research outputs.
+- Document pipeline now records Material Passport, pre-delivery lock, and formal delivery guard status in staged checkpoints.
+- README, Chinese README, AGENTS template, software docs, and skill eval registry now document the new formal delivery workflow.
+- Skill eval registry expanded from 23 to 25 public checks.
+
+### Boundary
+
+- Material Passport packages readiness evidence; it does not prove source support, compliance approval, acceptance, publication readiness, or official requirement compliance.
+- Formal Delivery Guard can block agent-mediated delivery, but it cannot prevent manual bypass outside the workflow.
+- Overrides create traceability records only; they are not quality passes.
+- No private research project content, institution details, participant material, screenshots, or private local paths were added.
+
 ## v1.3.1 - Release Surface Verification And Public Sync Policy - 2026-06-02
 
 Status: release hygiene and private/public sync boundary update.

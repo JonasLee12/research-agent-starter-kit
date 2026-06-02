@@ -6,7 +6,7 @@ Build a local research agent that thinks before writing, checks sources before c
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-green.svg)](https://www.python.org/)
-[![Evals](https://img.shields.io/badge/Skill_Evals-23%2F23_passing-brightgreen.svg)](#validation)
+[![Evals](https://img.shields.io/badge/Skill_Evals-25%2F25_passing-brightgreen.svg)](#validation)
 
 Use it with Codex, Claude Code, Cursor, or any coding agent that can read local files and follow `SKILL.md` instructions. The kit itself is file-based and local-first; the agent tool you choose may have its own login, subscription, or API-key requirements.
 
@@ -45,7 +45,11 @@ The workflow is strict where it matters:
 
 ## What's New
 
-**v1.3.1** adds release-surface verification and a public sync policy.
+**v1.4.0** adds Material Passport and Formal Delivery Guard.
+
+That means formal research artifacts now get a compact evidence passport before they move forward, and final Word/PDF/stakeholder-facing delivery can be blocked when required lock, integrity, citation, compliance, or requirement evidence is missing.
+
+**v1.3.1** added release-surface verification and a public sync policy.
 
 That means the starter kit now checks GitHub-visible release surfaces before claiming a public update is complete, and it defines what can be synced from a private project workspace into the public template without leaking private research content.
 
@@ -106,6 +110,8 @@ bash scripts/run_vector_index.sh
 | Retrieval | `scripts/local_retrieval_search.py`, `scripts/build_agent_index.py` | Builds local searchable indexes without replacing source review |
 | Optional vector search | `scripts/build_vector_index.py` | Adds ChromaDB + sentence-transformers retrieval when installed |
 | Integrity preflight | `.agents/skills/academic-integrity-preflight/`, `scripts/academic_integrity_preflight.py` | Checks prompt residue, placeholders, fake references, unsupported claims, and disclosure-boundary risks |
+| Material Passport | `.agents/skills/material-passport/`, `scripts/material_passport.py` | Packages source readiness, compliance/requirement status, citation boundaries, and `TO CONFIRM` items before formal artifacts move forward |
+| Formal delivery guard | `.agents/skills/formal-delivery-guard/`, `scripts/pre_delivery_lock.py`, `scripts/formal_delivery_guard.py` | Creates/checks pre-delivery locks and blocks formal delivery when required evidence is missing |
 | External review fallback | `scripts/build_external_review_bundle.py`, `templates/prompts/EXTERNAL_REVIEWER_PROMPT.md` | Builds a local review bundle for Codex, ChatGPT, Claude, Gemini, or human review without uploading anything |
 | Release surface verification | `.agents/skills/release-surface-verification/` | Checks GitHub release pages, About/sidebar, topics, rendered README/docs, and public links before claiming a release is complete |
 | Public sync policy | `PUBLIC_SYNC_POLICY.md` | Defines shared core files, private-only content, public-only onboarding files, sync checks, and release-boundary rules |
@@ -126,7 +132,7 @@ These limits are part of the design. The system should make weak evidence visibl
 
 ## Validation
 
-The public template currently reports **23/23 skill evaluations passing**.
+The public template currently reports **25/25 skill evaluations passing**.
 The badge reflects the published template state; rerun the checks after customising the kit.
 
 ```bash
@@ -135,6 +141,14 @@ python scripts/validate_agent_schemas.py
 python -m unittest discover -s tests
 python scripts/run_behavioral_evidence_checks.py
 bash scripts/privacy_check.sh
+```
+
+Formal delivery helpers:
+
+```bash
+python scripts/material_passport.py --artifact path/to/draft.md --scope short
+python scripts/pre_delivery_lock.py create --target path/to/final.docx --runtime-receipt path/to/receipt.md --material-passport path/to/passport.md --source-map path/to/source-map.md --integrity-preflight path/to/integrity.md --quality-gate path/to/quality.md
+python scripts/formal_delivery_guard.py --artifact path/to/final.docx --source path/to/source.md
 ```
 
 Optional vector smoke test:

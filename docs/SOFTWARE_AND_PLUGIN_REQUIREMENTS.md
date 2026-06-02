@@ -49,6 +49,12 @@ For a plain-language status table of apps, connectors, and optional tools, read 
 
 Python 3 itself is needed for the local scripts if you want runtime preflight, skill evals, connector checks, or cognitive protocol checks. Extra Python packages are not needed for the default workflow.
 
+The formal-delivery helpers are also standard-library Python scripts:
+
+- `scripts/material_passport.py`
+- `scripts/pre_delivery_lock.py`
+- `scripts/formal_delivery_guard.py`
+
 Install extra tools only when your project workflow clearly needs them.
 
 ## Beginner Setup Checklist

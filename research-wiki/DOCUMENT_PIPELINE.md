@@ -27,6 +27,7 @@ Use:
 - `agent-orchestration`
 - `research-project-adapter` when profile is unclear
 - `dissertation-source-first-gate`
+- `material-passport` with `--scope short` when the artifact will move into formal drafting
 - `cognitive-frameworks`
 - `dissertation-argument-spine` or equivalent argument logic
 - requirement/compliance source checks when relevant
@@ -38,6 +39,7 @@ Thinking checkpoint:
 - Project profile:
 - Task mode:
 - Source map:
+- Material Passport:
 - Confirmed facts:
 - TO CONFIRM:
 - Section type:
@@ -65,6 +67,7 @@ Use:
 
 - current artifact or draft;
 - thinking checkpoint;
+- current Material Passport, updating it if source, compliance, citation, or `TO CONFIRM` status changed;
 - `academic-integrity-preflight` for concrete prompt-residue, placeholder, fake-reference, unsupported-claim, and disclosure-boundary risks;
 - `academic-self-review-loop`;
 - `research-wiki/WRITING_QUALITY_RUBRIC.md`;
@@ -104,10 +107,13 @@ Use:
 
 - thinking checkpoint;
 - writing checkpoint;
+- `material-passport` with `--scope full` for reviewer-facing, stakeholder-facing, client-facing, or submission-facing output;
 - `quality-gates/PROJECT_DELIVERY_REVIEW_GATE.md`;
 - relevant official requirement source or compliance tracker;
 - citation/style checks when relevant;
 - final `academic-integrity-preflight` when delivering formal prose;
+- pre-delivery lock with `scripts/pre_delivery_lock.py`;
+- final guard with `scripts/formal_delivery_guard.py`;
 - Word/PDF/render checks when relevant.
 
 Record:
@@ -115,11 +121,14 @@ Record:
 ```text
 Delivery checkpoint:
 - Delivery artifact:
+- Full Material Passport:
 - Requirement/compliance gate:
 - Source-first gate:
 - Citation or claim-support gate:
 - Academic-integrity preflight:
 - Project delivery review:
+- Pre-delivery lock:
+- Formal delivery guard:
 - Document-quality gate:
 - Render/layout check:
 - Final status:
@@ -140,3 +149,4 @@ Delivery checkpoint: not applicable because no Word/PDF/stakeholder-facing artif
 - If a requirement source is missing, mark it `TO CONFIRM`.
 - If the output is for public sharing, run the privacy check first.
 - Checkpoints are evidence of workflow discipline; they do not guarantee grade, publication, funding, approval, or client acceptance.
+- A `HOLD` Material Passport or `BLOCK` formal delivery guard means the artifact should remain a draft unless the user explicitly records an override.

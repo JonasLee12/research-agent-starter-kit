@@ -21,9 +21,10 @@ graph TD
 
     F --> G["🚦 Delivery Gates"]
     G --> G1["Source-first gate"]
-    G --> G2["Pre-delivery lock"]
-    G --> G3["Formal delivery guard"]
-    G --> G4["Project delivery review"]
+    G --> G2["Material Passport"]
+    G --> G3["Pre-delivery lock"]
+    G --> G4["Formal delivery guard"]
+    G --> G5["Project delivery review"]
 
     G --> H["📄 Output"]
     H --> H1[".docx / .pdf"]

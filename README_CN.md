@@ -6,7 +6,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-green.svg)](https://www.python.org/)
-[![Evals](https://img.shields.io/badge/Skill_Evals-23%2F23_passing-brightgreen.svg)](#validation)
+[![Evals](https://img.shields.io/badge/Skill_Evals-25%2F25_passing-brightgreen.svg)](#validation)
 
 它可以配合 Codex、Claude Code、Cursor，或任何能读取本地文件并遵守 `SKILL.md` 指令的 coding agent 使用。这个 starter kit 本身是本地文件驱动；你选择的 agent 工具可能仍然有自己的登录、订阅或 API-key 要求。
 
@@ -44,6 +44,10 @@ flowchart LR
 3. **交付前先审查** — 草稿必须经过 self-review、integrity check 和 delivery gate，才能被当作可用的正式输出。
 
 ## 最新更新
+
+**v1.4.0** 加入了 Material Passport 和 Formal Delivery Guard。
+
+这意味着正式研究文档在继续推进前会先生成 evidence passport；最终 Word/PDF/给 reviewer 或 stakeholder 的交付，如果缺少 lock、integrity、citation、compliance 或 requirement evidence，会被明确拦截。
 
 **v1.3.1** 加入了 release-surface verification 和 public sync policy。
 
@@ -106,6 +110,8 @@ bash scripts/run_vector_index.sh
 | Retrieval | `scripts/local_retrieval_search.py`, `scripts/build_agent_index.py` | 建立本地可检索索引，但不替代 source review |
 | Optional vector search | `scripts/build_vector_index.py` | 安装 ChromaDB + sentence-transformers 后可用 |
 | Integrity preflight | `.agents/skills/academic-integrity-preflight/`, `scripts/academic_integrity_preflight.py` | 检查 prompt residue、placeholder、假引用、unsupported claims 和 disclosure-boundary 风险 |
+| Material Passport | `.agents/skills/material-passport/`, `scripts/material_passport.py` | 在正式文档推进前打包 source readiness、compliance/requirement status、citation boundary 和 `TO CONFIRM` |
+| Formal delivery guard | `.agents/skills/formal-delivery-guard/`, `scripts/pre_delivery_lock.py`, `scripts/formal_delivery_guard.py` | 创建/检查 pre-delivery lock，并在缺少必要证据时阻止正式交付 |
 | External review fallback | `scripts/build_external_review_bundle.py`, `templates/prompts/EXTERNAL_REVIEWER_PROMPT.md` | 在不上传文件的情况下生成本地质审包，供 Codex、ChatGPT、Claude、Gemini 或人工 reviewer 使用 |
 | Release surface verification | `.agents/skills/release-surface-verification/` | 在声称发布完成前，检查 GitHub release 页面、About/sidebar、topics、渲染后的 README/docs 和公开链接 |
 | Public sync policy | `PUBLIC_SYNC_POLICY.md` | 说明 shared core、private-only、public-only、同步检查和 release 边界 |
@@ -126,7 +132,7 @@ bash scripts/run_vector_index.sh
 
 ## 验证
 
-当前公开模板显示 **23/23 skill evaluations passing**。
+当前公开模板显示 **25/25 skill evaluations passing**。
 这个 badge 反映的是已发布模板状态；你自定义系统后应重新运行下面的检查。
 
 ```bash
@@ -135,6 +141,14 @@ python scripts/validate_agent_schemas.py
 python -m unittest discover -s tests
 python scripts/run_behavioral_evidence_checks.py
 bash scripts/privacy_check.sh
+```
+
+正式交付辅助工具：
+
+```bash
+python scripts/material_passport.py --artifact path/to/draft.md --scope short
+python scripts/pre_delivery_lock.py create --target path/to/final.docx --runtime-receipt path/to/receipt.md --material-passport path/to/passport.md --source-map path/to/source-map.md --integrity-preflight path/to/integrity.md --quality-gate path/to/quality.md
+python scripts/formal_delivery_guard.py --artifact path/to/final.docx --source path/to/source.md
 ```
 
 可选 vector smoke test：

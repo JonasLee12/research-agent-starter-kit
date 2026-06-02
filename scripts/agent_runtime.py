@@ -58,16 +58,19 @@ TASK_RULES: list[dict] = [
             "cognitive-frameworks",
             "dissertation-argument-spine",
             "dissertation-research-review",
+            "material-passport",
             "academic-integrity-preflight",
             "academic-self-review-loop",
             "uk-academic-writing-style",
             "style-memory-and-revision-gate",
             "dissertation-document-quality-gate",
+            "formal-delivery-guard",
             "context-continuity",
         ],
         "gates": [
             "source_first_gate",
             "requirement_or_rubric_evidence_gate_when_relevant",
+            "material_passport",
             "cognitive_protocol_check",
             "academic_integrity_preflight",
             "academic_self_review_loop",
@@ -76,6 +79,8 @@ TASK_RULES: list[dict] = [
             "writing_checkpoint",
             "delivery_checkpoint_when_delivering_docx",
             "project_delivery_review_gate",
+            "pre_delivery_lock_when_formal_delivery",
+            "formal_delivery_guard_when_formal_delivery",
             "citation_consistency_check",
             "claim_support_audit_when_citation_heavy",
             "document_quality_gate",
@@ -88,10 +93,15 @@ TASK_RULES: list[dict] = [
             "research-wiki/DOCUMENT_PIPELINE.md",
             "research-wiki/WRITING_QUALITY_RUBRIC.md",
             ".agents/skills/cognitive-frameworks/SKILL.md",
+            ".agents/skills/material-passport/SKILL.md",
             ".agents/skills/academic-integrity-preflight/SKILL.md",
             ".agents/skills/academic-self-review-loop/SKILL.md",
+            ".agents/skills/formal-delivery-guard/SKILL.md",
             "scripts/cognitive_protocol_check.py",
+            "scripts/material_passport.py",
             "scripts/academic_integrity_preflight.py",
+            "scripts/pre_delivery_lock.py",
+            "scripts/formal_delivery_guard.py",
         ],
     },
     {
@@ -396,10 +406,15 @@ def classify(task: str, window: str) -> RuntimeRoute:
         warnings.append("Formal output lacks project delivery review gate.")
     if "formal_research_output" in task_types and "academic-self-review-loop" not in skills:
         warnings.append("Formal output lacks academic self-review loop.")
+    if "formal_research_output" in task_types and "material-passport" not in skills:
+        warnings.append("Formal output lacks Material Passport.")
+    if "formal_research_output" in task_types and "formal-delivery-guard" not in skills:
+        warnings.append("Formal output lacks formal delivery guard.")
     if "formal_research_output" in task_types and not {
         "thinking_checkpoint",
         "writing_checkpoint",
         "delivery_checkpoint_when_delivering_docx",
+        "material_passport",
     }.issubset(set(gates)):
         warnings.append("Formal output lacks staged checkpoint gates.")
 

@@ -16,9 +16,14 @@ These files may be kept broadly aligned between a private workspace and the publ
 - `.agents/skills/dissertation-agent-self-debug/SKILL.md`
 - `.agents/skills/project-skill-creator-governance/SKILL.md`
 - `.agents/skills/release-surface-verification/SKILL.md`
+- `.agents/skills/material-passport/SKILL.md`
+- `.agents/skills/formal-delivery-guard/SKILL.md`
 - `scripts/agent_runtime.py`
 - `scripts/claude_independent_review.py`
 - `scripts/academic_integrity_preflight.py`
+- `scripts/material_passport.py`
+- `scripts/pre_delivery_lock.py`
+- `scripts/formal_delivery_guard.py`
 - `scripts/citation_claim_audit.py`
 - `scripts/build_vector_index.py`
 - `scripts/vector_retrieval_smoke_test.py`

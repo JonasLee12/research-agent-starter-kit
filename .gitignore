@@ -19,6 +19,10 @@ research-wiki/retrieval-evals/*
 !research-wiki/retrieval-evals/.gitkeep
 research-wiki/skill-evals/Behavioural_Evidence_*
 research-wiki/skill-evals/Skill_Eval_Run_*
+research-wiki/material-passports/*
+!research-wiki/material-passports/.gitkeep
+research-wiki/pre-delivery-locks/*
+!research-wiki/pre-delivery-locks/.gitkeep
 knowledge-base/self-growing/health-checks/*
 !knowledge-base/self-growing/health-checks/README.md
 audit-reports/*.md

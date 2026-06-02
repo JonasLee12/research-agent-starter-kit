@@ -37,6 +37,12 @@ for pattern in "${PATTERNS[@]}"; do
     --exclude-dir=.git \
     --exclude-dir=.obsidian \
     --exclude-dir=.codex \
+    --exclude-dir=.agent-runtime \
+    --exclude-dir=audit-reports \
+    --exclude-dir=research-wiki/skill-evals \
+    --exclude-dir=research-wiki/runtime-receipts \
+    --exclude-dir=research-wiki/material-passports \
+    --exclude-dir=research-wiki/pre-delivery-locks \
     --exclude=.DS_Store \
     --exclude=privacy_check.sh \
     --exclude=.privacy-patterns.example || true)"

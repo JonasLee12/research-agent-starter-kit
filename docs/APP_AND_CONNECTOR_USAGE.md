@@ -52,6 +52,9 @@ These scripts are included in the repository and use Python 3 standard-library f
 | `scripts/build_external_review_bundle.py` | Included | Builds a local review bundle and reusable prompt for Codex, ChatGPT, Claude, Gemini, or human review |
 | `scripts/claude_independent_review.py` | Included | Optional privacy-gated Claude Code runner for the same external-review role |
 | `scripts/academic_integrity_preflight.py` | Included | Checks concrete integrity risks before formal drafting or delivery |
+| `scripts/material_passport.py` | Included | Packages source, compliance/requirement, citation, and open-confirmation status before formal artifacts move forward |
+| `scripts/pre_delivery_lock.py` | Included | Creates/checks local pre-delivery lock receipts before formal delivery |
+| `scripts/formal_delivery_guard.py` | Included | Blocks formal delivery when required evidence is missing, with an explicit override audit path |
 | `scripts/kb_health_check.py` | Included | Checks self-growing knowledge-base structure, raw-inbox triage, unresolved markers, and private-data boundary hits |
 | `scripts/build_agent_index.py` | Included | Builds a local SQLite index of project memory files |
 | `scripts/local_retrieval_search.py` | Included | Runs local FTS and hashed-vector retrieval over project files |
@@ -138,6 +141,9 @@ python3 scripts/agent_runtime.py "set up this research project" --window Mainten
 | `scripts/build_external_review_bundle.py` | 已包含 | 为 Codex、ChatGPT、Claude、Gemini 或人工 review 生成本地质审包和通用 prompt |
 | `scripts/claude_independent_review.py` | 已包含 | 同一 external-review 角色的可选 Claude Code runner，带隐私 gate 和 timeout handling |
 | `scripts/academic_integrity_preflight.py` | 已包含 | 正式 drafting 或 delivery 前检查具体 academic/professional integrity 风险 |
+| `scripts/material_passport.py` | 已包含 | 在正式文档推进前打包 source、compliance/requirement、citation 和 open-confirmation 状态 |
+| `scripts/pre_delivery_lock.py` | 已包含 | 正式交付前创建/检查本地 pre-delivery lock receipts |
+| `scripts/formal_delivery_guard.py` | 已包含 | 缺少必要证据时阻止正式交付，并提供明确的 override audit path |
 | `scripts/kb_health_check.py` | 已包含 | 检查 self-growing knowledge base 结构、raw-inbox triage、未解决标记和 private-data boundary hits |
 | `scripts/build_agent_index.py` | 已包含 | 为项目记忆文件建立本地 SQLite index |
 | `scripts/local_retrieval_search.py` | 已包含 | 对项目文件运行本地 FTS 和 hashed-vector retrieval |

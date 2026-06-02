@@ -17,9 +17,10 @@ The operating sequence is:
 3. check sources before formal claims;
 4. make claims, gaps, warrants, and boundaries explicit before drafting;
 5. run self-review before style polishing;
-6. use quality gates before formal delivery;
-7. record important decisions in project memory;
-8. keep production work and system maintenance separate.
+6. package evidence status with a Material Passport before formal artifacts move forward;
+7. use quality gates and formal delivery guards before formal delivery;
+8. record important decisions in project memory;
+9. keep production work and system maintenance separate.
 
 ## 2. What The System Is For
 
@@ -58,6 +59,7 @@ Do not use it as a substitute for:
 | Quality layer | `quality-gates/PROJECT_DELIVERY_REVIEW_GATE.md`, `university-guidance/` | Stores general delivery gates and optional assessed-academic requirements |
 | Writing quality layer | `.agents/skills/cognitive-frameworks/`, `.agents/skills/academic-self-review-loop/`, `research-wiki/WRITING_QUALITY_RUBRIC.md` | Checks argument depth, paragraph quality, warrants, and revision quality before style polishing |
 | Integrity layer | `.agents/skills/academic-integrity-preflight/`, `scripts/academic_integrity_preflight.py` | Checks concrete prompt residue, placeholder, fake-reference, unsupported-claim, and disclosure-boundary risks |
+| Formal delivery layer | `.agents/skills/material-passport/`, `.agents/skills/formal-delivery-guard/`, `scripts/material_passport.py`, `scripts/pre_delivery_lock.py`, `scripts/formal_delivery_guard.py` | Packages readiness evidence, creates pre-delivery locks, and blocks formal delivery when required evidence is missing |
 | Self-growing KB layer | `knowledge-base/self-growing/`, `scripts/kb_health_check.py` | Controls raw intake, growth queue triage, compiled-wiki navigation, and KB health checks |
 | Retrieval layer | `scripts/build_agent_index.py`, `scripts/local_retrieval_search.py`, `scripts/build_vector_index.py` | Provides local SQLite/FTS/hashed retrieval and optional ChromaDB neural retrieval |
 | Privacy layer | `PRIVACY_CHECKLIST.md`, `PUBLIC_RELEASE_AUDIT.md`, `scripts/privacy_check.sh` | Prevents private data from being shared accidentally |
@@ -118,8 +120,8 @@ Important skill groups:
 |---|---|
 | Routing and profile adaptation | `agent-orchestration`, `research-project-adapter` |
 | Source checking | `dissertation-source-first-gate`, `dissertation-citation-audit` |
-| Writing and review | `cognitive-frameworks`, `academic-integrity-preflight`, `academic-self-review-loop`, `dissertation-argument-spine`, `dissertation-research-review`, `uk-academic-writing-style`, `style-memory-and-revision-gate` |
-| Document delivery | `dissertation-document-quality-gate`, `context-continuity` |
+| Writing and review | `cognitive-frameworks`, `material-passport`, `academic-integrity-preflight`, `academic-self-review-loop`, `dissertation-argument-spine`, `dissertation-research-review`, `uk-academic-writing-style`, `style-memory-and-revision-gate` |
+| Document delivery | `formal-delivery-guard`, `dissertation-document-quality-gate`, `context-continuity` |
 | Literature and sources | `dissertation-research-search-protocol`, `dissertation-literature-review`, `dissertation-learning-loop`, `dissertation-knowledge-ops` |
 | Ethics, compliance, and risk | `responsible-ai-agent-audit`, `dissertation-shared` |
 | Qualitative research | `qualitative-theme-audit`, `codesign-output-synthesis`, `teacher-adoption-modeling` |
@@ -194,6 +196,9 @@ Version `v0.4.0` adds a local engineering layer.
 | `scripts/build_external_review_bundle.py` | Builds a local external-review bundle for Codex, ChatGPT, Claude, Gemini, or human review |
 | `scripts/claude_independent_review.py` | Optional privacy-gated Claude Code runner for the same advisory external-review role |
 | `scripts/academic_integrity_preflight.py` | Checks concrete integrity risks before formal drafting or delivery |
+| `scripts/material_passport.py` | Generates short or full readiness passports for formal research artifacts |
+| `scripts/pre_delivery_lock.py` | Creates/checks local pre-delivery lock receipts |
+| `scripts/formal_delivery_guard.py` | Blocks formal delivery when required lock or final checks are missing, with an auditable override path |
 | `scripts/cognitive_protocol_check.py` | Checks whether a planning note has required cognitive protocol fields |
 | `scripts/academic_database_connector.py` | Searches OpenAlex, Crossref, Semantic Scholar, and checks subscription-provider credentials |
 | `scripts/citation_style_check.py` | Checks author-year citations against reference entries |
@@ -242,6 +247,9 @@ Formal outputs should pass the relevant gates before delivery.
 | Style gate | Before user-facing academic prose |
 | Writing quality rubric | Before formal prose moves to style polishing |
 | Academic self-review loop | Before formal prose moves to document-quality or delivery checks |
+| Material Passport | Before a formal artifact moves from planning to drafting, drafting to review, or review to delivery |
+| Pre-delivery lock | Before presenting a formal Word/PDF/stakeholder-facing artifact as usable |
+| Formal delivery guard | Final check before formal delivery or explicit override |
 | Document-quality gate | Before formal documents, Word files, or stakeholder-facing outputs |
 | Context-continuity gate | After long tasks or important decisions |
 
@@ -329,7 +337,7 @@ For important Word, PDF, or stakeholder-facing outputs, use a three-stage checkp
 |---|---|---|
 | Thinking | route task, check sources, build cognitive protocol and argument logic | `*_THINKING_CHECKPOINT.md` |
 | Writing | draft/revise, run self-review loop, apply writing-quality and style checks | `*_WRITING_CHECKPOINT.md` |
-| Delivery | run project delivery gate, citation checks, Word/PDF/render checks | `*_DELIVERY_CHECKPOINT.md` |
+| Delivery | run full Material Passport, project delivery gate, pre-delivery lock, formal delivery guard, citation checks, Word/PDF/render checks | `*_DELIVERY_CHECKPOINT.md` |
 
 If no formal artifact is generated, the delivery checkpoint should be marked not applicable.
 
