@@ -1,5 +1,28 @@
 # Changelog
 
+## v1.5.0 - Authorial Voice Integrity And Real Project Operating Guide - 2026-06-02
+
+Status: public research-agent writing integrity and operating-practice update.
+
+### Added
+
+- `.agents/skills/authorial-voice-integrity/` to route "less AI-like", "humanise", "lower AI rate", detector, AIGC, and AI-use disclosure requests into integrity-safe authorial voice revision.
+- `research-wiki/AI_WRITING_AUTHORIAL_VOICE_POLICY.md` to define what authorial voice work may and may not do.
+- `scripts/authorial_voice_scan.py` to flag detector-evasion framing, disclosure hiding, prompt residue, generic AI-style phrasing, inflated vocabulary, and possible overclaiming.
+- Unit tests for authorial-voice scan boundaries.
+- `docs/REAL_PROJECT_OPERATING_GUIDE.md` for turning the starter kit into a working dissertation, thesis, manuscript, report, or evidence-synthesis workflow.
+
+### Changed
+
+- README, Chinese README, system overview, app/tool docs, AGENTS template, project preferences, orchestration, academic-integrity, UK style, style-memory, and writing-quality files now document the authorial voice boundary.
+- Skill eval registry expanded from 25 to 28 public checks.
+
+### Boundary
+
+- This release does not add AI detector evasion, detection-score optimisation, disclosure hiding, ghostwriting concealment, or random style-noise rewriting.
+- Authorial voice checks improve clarity, judgement, evidence boundaries, and project-specific style. They do not prove originality, authorship, source support, compliance approval, or detector outcomes.
+- No private research project content, institution details, participant material, screenshots, personal files, local paths, or credentials were added.
+
 ## v1.4.0 - Material Passport And Formal Delivery Guard - 2026-06-02
 
 Status: formal delivery reliability update.

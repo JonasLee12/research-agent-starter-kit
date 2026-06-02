@@ -80,6 +80,7 @@ For English dissertation prose, check:
 - no generic AI transitions such as `in today's rapidly evolving landscape`
 - no excessive signposting when one clear sentence works
 - no unnecessary em dashes when a comma, semicolon, or clause is cleaner
+- no detector-evasion framing, AI-score promises, or disclosure hiding; use `authorial-voice-integrity` for those requests
 
 For supervisor-facing writing, prefer:
 
@@ -118,4 +119,5 @@ File:
 
 - Do not compress away evidence boundaries, source uncertainty, ethics cautions, or unresolved fields.
 - Do not use style rules to bypass citation checks.
+- Do not use style rules to bypass AI-use disclosure or detector-evasion boundaries.
 - Do not claim a document is submission-ready unless evidence, formatting, and unresolved fields have been checked.

@@ -28,6 +28,7 @@ Use:
 - `research-project-adapter` when profile is unclear
 - `dissertation-source-first-gate`
 - `material-passport` with `--scope short` when the artifact will move into formal drafting
+- `academic-integrity-preflight` before substantive drafting when the artifact will make formal claims
 - `cognitive-frameworks`
 - `dissertation-argument-spine` or equivalent argument logic
 - requirement/compliance source checks when relevant
@@ -40,6 +41,7 @@ Thinking checkpoint:
 - Task mode:
 - Source map:
 - Material Passport:
+- Academic-integrity preflight:
 - Confirmed facts:
 - TO CONFIRM:
 - Section type:
@@ -68,9 +70,10 @@ Use:
 - current artifact or draft;
 - thinking checkpoint;
 - current Material Passport, updating it if source, compliance, citation, or `TO CONFIRM` status changed;
-- `academic-integrity-preflight` for concrete prompt-residue, placeholder, fake-reference, unsupported-claim, and disclosure-boundary risks;
+- `academic-integrity-preflight` again if the draft, claims, references, disclosure wording, or compliance status changed;
 - `academic-self-review-loop`;
 - `research-wiki/WRITING_QUALITY_RUBRIC.md`;
+- `authorial-voice-integrity` and `scripts/authorial_voice_scan.py` when prose risks generic AI-style phrasing, detector framing, disclosure hiding, or inflated style;
 - `uk-academic-writing-style` when academic/professional prose quality matters;
 - `style-memory-and-revision-gate`;
 - `dissertation-document-quality-gate` at draft level.
@@ -86,6 +89,7 @@ Writing checkpoint:
 - Academic-integrity preflight status:
 - Self-review pass 2 judgement:
 - Writing-quality criteria improved:
+- Authorial voice scan:
 - Remaining weaknesses:
 - Source/citation risks:
 - Ready for delivery stage: yes / no / yes with TO CONFIRM

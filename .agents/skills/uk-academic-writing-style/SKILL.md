@@ -27,6 +27,7 @@ Keep the writing suitable for the selected project profile while preserving the 
 - broad claims about an entire field, population, technology, organisation, method, or policy area
 - long setup before the main argument
 - style polishing that adds unsupported claims
+- detector-evasion, de-AI, lower-AI-rate, or humanising work that promises detector outcomes
 
 ## British English Preference For UK Projects
 
@@ -78,6 +79,17 @@ Before delivering academic prose, check:
 4. Are generic AI-style phrases removed?
 5. Are British spellings preserved where appropriate?
 6. If journal-informed style was requested, is the contribution visible without overclaiming?
+
+## Authorial Voice Boundary
+
+When the user asks for writing to sound less AI-like, more human, less generic, or less detector-prone, use `authorial-voice-integrity` first. This style skill can then improve register, clarity, and British-English academic prose where relevant.
+
+Do not:
+
+- promise detector-score changes;
+- insert random variation, noise, or deliberate imperfection;
+- weaken source uncertainty to make prose sound smoother;
+- hide AI-use disclosure requirements or unresolved evidence boundaries.
 
 ## Guardrails
 

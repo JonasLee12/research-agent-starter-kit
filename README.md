@@ -6,7 +6,7 @@ Build a local research agent that thinks before writing, checks sources before c
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-green.svg)](https://www.python.org/)
-[![Evals](https://img.shields.io/badge/Skill_Evals-25%2F25_passing-brightgreen.svg)](#validation)
+[![Evals](https://img.shields.io/badge/Skill_Evals-28%2F28_passing-brightgreen.svg)](#validation)
 
 Use it with Codex, Claude Code, Cursor, or any coding agent that can read local files and follow `SKILL.md` instructions. The kit itself is file-based and local-first; the agent tool you choose may have its own login, subscription, or API-key requirements.
 
@@ -20,32 +20,40 @@ It does not replace source review, ethics/compliance approval, supervisor judgem
 flowchart LR
     A["User task"] --> B["Route skills"]
     B --> C["Source-first check"]
-    C --> D["Cognitive map"]
-    D --> E["Draft or revise"]
-    E --> F["Two-pass self-review"]
-    F --> G["Academic integrity preflight"]
-    G --> H["Delivery gate"]
-    H --> I["Knowledge update"]
+    C --> D["Material Passport"]
+    D --> E["Academic integrity preflight"]
+    E --> F["Cognitive map"]
+    F --> G["Draft or revise"]
+    G --> H["Two-pass self-review"]
+    H --> I["Authorial voice check"]
+    I --> J["Delivery gate"]
+    J --> K["Knowledge update"]
 
     C -. blocks unsupported facts .-> X["Revise evidence"]
     X -. back to source check .-> C
-    G -. catches placeholders / fake refs .-> Y["Fix artifact"]
-    Y -. back to draft .-> E
-    H -. blocks weak formal output .-> Z["Complete required gates"]
-    Z -. back to review .-> F
+    E -. catches placeholders / fake refs .-> Y["Fix artifact"]
+    Y -. back to source package .-> D
+    J -. blocks weak formal output .-> Z["Complete required gates"]
+    Z -. back to review .-> H
 ```
 
 The dashed paths are revision loops. They show where the agent should stop, fix the weak point, and rerun the relevant gate.
 
 The workflow is strict where it matters:
 
-1. **Plan before writing** — the agent maps the claim, gap, evidence status, warrant, and section role.
-2. **Write with source boundaries** — formal claims require local source evidence or a visible `NEEDS VERIFICATION` boundary.
-3. **Review before delivery** — drafts go through self-review, integrity checks, and delivery gates before they are treated as usable formal outputs.
+1. **Check evidence before writing** — formal claims require local source evidence or a visible `NEEDS VERIFICATION` boundary.
+2. **Plan the argument before drafting** — the agent maps the claim, gap, evidence status, warrant, and section role.
+3. **Review before delivery** — drafts go through source packaging, integrity preflight, cognitive planning, self-review, authorial voice checks, and delivery gates before they are treated as usable formal outputs.
 
 ## What's New
 
-**v1.4.0** adds Material Passport and Formal Delivery Guard.
+**v1.5.0** adds Authorial Voice Integrity and a Real Project Operating Guide.
+
+That means requests such as "make this less AI-like", "humanise this", or "lower AI rate" are routed into authorial voice, academic/professional integrity, and evidence-led style. The system does not promise detector scores or use evasion tactics.
+
+It also adds a practical guide for turning the starter kit into a working dissertation, thesis, manuscript, report, or evidence-synthesis agent.
+
+**v1.4.0** added Material Passport and Formal Delivery Guard.
 
 That means formal research artifacts now get a compact evidence passport before they move forward, and final Word/PDF/stakeholder-facing delivery can be blocked when required lock, integrity, citation, compliance, or requirement evidence is missing.
 
@@ -60,6 +68,8 @@ That means the starter kit now checks GitHub-visible release surfaces before cla
 If you use Obsidian: **Open knowledge-base/ as your Obsidian vault. Do not open the repository root.** See [Obsidian Setup](docs/OBSIDIAN_SETUP.md).
 
 If you do not have Claude Code: use the external-review bundle workflow and paste the generated prompt into a separate Codex, ChatGPT, Claude, Gemini, or human review process. See [External Review Options](docs/EXTERNAL_REVIEW_OPTIONS.md).
+
+If you want to use the kit on a real project, start with [Real Project Operating Guide](docs/REAL_PROJECT_OPERATING_GUIDE.md).
 
 ```bash
 git clone https://github.com/JonasLee12/research-agent-starter-kit.git
@@ -92,6 +102,7 @@ bash scripts/run_vector_index.sh
 |---|---|---|
 | The agent invents facts or requirements | Source-first gate | Formal writing starts from local evidence, not memory |
 | The draft sounds polished but the argument is thin | Cognitive frameworks + self-review loop | Claims, warrants, and paragraph logic are checked before delivery |
+| The user asks to reduce AI rate or humanise prose | Authorial voice integrity | The task is reframed as evidence-led authorial voice, not detector evasion |
 | Citations look correct but may not support the claim | Citation audit and source-readiness matrix | The system separates citation consistency from claim support |
 | Knowledge grows chaotically across chats and files | Self-growing KB workflow | New notes move through raw inbox, growth queue, and compiled wiki with boundaries |
 | Retrieval results get mistaken for evidence | Retrieval protocol | Search results stay candidate-only until source sections are reviewed |
@@ -110,6 +121,7 @@ bash scripts/run_vector_index.sh
 | Retrieval | `scripts/local_retrieval_search.py`, `scripts/build_agent_index.py` | Builds local searchable indexes without replacing source review |
 | Optional vector search | `scripts/build_vector_index.py` | Adds ChromaDB + sentence-transformers retrieval when installed |
 | Integrity preflight | `.agents/skills/academic-integrity-preflight/`, `scripts/academic_integrity_preflight.py` | Checks prompt residue, placeholders, fake references, unsupported claims, and disclosure-boundary risks |
+| Authorial voice integrity | `.agents/skills/authorial-voice-integrity/`, `scripts/authorial_voice_scan.py`, `research-wiki/AI_WRITING_AUTHORIAL_VOICE_POLICY.md` | Improves authorial judgement and academic/professional voice without detector-evasion claims |
 | Material Passport | `.agents/skills/material-passport/`, `scripts/material_passport.py` | Packages source readiness, compliance/requirement status, citation boundaries, and `TO CONFIRM` items before formal artifacts move forward |
 | Formal delivery guard | `.agents/skills/formal-delivery-guard/`, `scripts/pre_delivery_lock.py`, `scripts/formal_delivery_guard.py` | Creates/checks pre-delivery locks and blocks formal delivery when required evidence is missing |
 | External review fallback | `scripts/build_external_review_bundle.py`, `templates/prompts/EXTERNAL_REVIEWER_PROMPT.md` | Builds a local review bundle for Codex, ChatGPT, Claude, Gemini, or human review without uploading anything |
@@ -132,7 +144,7 @@ These limits are part of the design. The system should make weak evidence visibl
 
 ## Validation
 
-The public template currently reports **25/25 skill evaluations passing**.
+The public template currently reports **28/28 skill evaluations passing**.
 The badge reflects the published template state; rerun the checks after customising the kit.
 
 ```bash
@@ -147,6 +159,7 @@ Formal delivery helpers:
 
 ```bash
 python scripts/material_passport.py --artifact path/to/draft.md --scope short
+python scripts/authorial_voice_scan.py --target path/to/draft.md
 python scripts/pre_delivery_lock.py create --target path/to/final.docx --runtime-receipt path/to/receipt.md --material-passport path/to/passport.md --source-map path/to/source-map.md --integrity-preflight path/to/integrity.md --quality-gate path/to/quality.md
 python scripts/formal_delivery_guard.py --artifact path/to/final.docx --source path/to/source.md
 ```

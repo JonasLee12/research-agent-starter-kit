@@ -55,6 +55,12 @@ The formal-delivery helpers are also standard-library Python scripts:
 - `scripts/pre_delivery_lock.py`
 - `scripts/formal_delivery_guard.py`
 
+The authorial-voice helper is also a standard-library Python script:
+
+- `scripts/authorial_voice_scan.py`
+
+It is not an AI detector. It flags risky task framing, prompt residue, generic AI-style prose, disclosure-hiding requests, and possible overclaiming so the agent can revise towards clearer authorial judgement and evidence-led style.
+
 Install extra tools only when your project workflow clearly needs them.
 
 ## Beginner Setup Checklist
@@ -110,3 +116,8 @@ Install extra tools only when your project workflow clearly needs them.
 - Claude Code is one optional external reviewer path.
 - `scripts/claude_independent_review.py` is the local wrapper that checks privacy, applies a timeout, writes a review report, and reminds users that Claude feedback is advisory only.
 - Users without Claude Code can run `scripts/build_external_review_bundle.py` and paste the generated `EXTERNAL_REVIEW_PROMPT.md` into a separate Codex, ChatGPT, Claude, Gemini, or human review process.
+
+`Authorial voice` and `AI detector evasion` are different.
+
+- The kit can help remove prompt residue, generic phrasing, vague claims, and inflated style.
+- It must not promise lower detector scores, bypass AI detection, hide AI-use disclosure, or add random stylistic noise.

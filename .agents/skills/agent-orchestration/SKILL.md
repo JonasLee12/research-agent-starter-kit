@@ -23,11 +23,13 @@ Before answering rubric, grade-band, marking-criteria, journal/funder/client req
 
 Before delivering formal documents or important project notes, use `dissertation-document-quality-gate` at the appropriate level.
 
-For major proposal, manuscript, report, grant, methodology, literature review, or stakeholder-facing writing, use `cognitive-frameworks` after source-first and before drafting. The output should name section type, claim, gap/problem type, evidence, warrant, boundary, and rhetorical plan.
+For major proposal, manuscript, report, grant, methodology, literature review, or stakeholder-facing writing, use source-first, `material-passport`, and `academic-integrity-preflight` before `cognitive-frameworks`. The cognitive output should name section type, claim, gap/problem type, evidence, warrant, boundary, and rhetorical plan.
 
 For formal academic or professional prose, use `academic-self-review-loop` after `cognitive-frameworks` and before style/document-quality gates. The loop should identify concrete weaknesses, revise argument quality, and make a fresh second-pass judgement.
 
 When language quality, British English, or the user's preferred output pattern matters, use `uk-academic-writing-style` and `style-memory-and-revision-gate` before delivery.
+
+When the user asks for AI-looking prose cleanup, de-AI, humanising, lower-AI-rate, AIGC, AI detector, or disclosure-hiding help, use `authorial-voice-integrity` to reframe the task as authorial voice, academic/professional integrity, and evidence-led style. For formal artifacts, source-first, Material Passport, and integrity checks still come before substantive style revision. Do not promise detector outcomes or use evasion tactics.
 
 ## Production Auto Skill Routing
 
@@ -75,7 +77,7 @@ Classify the user's request into one or more categories:
 |---|---|
 | project setup / project type adaptation | `research-project-adapter`, `agent-orchestration`, `dissertation-knowledge-ops` |
 | project memory / notes / supervisor discussion | `dissertation-research-wiki`, `dissertation-learning-loop`, `supervisor-feedback-loop` |
-| proposal / manuscript / report / grant writing | `research-project-adapter`, `dissertation-source-first-gate`, `cognitive-frameworks`, `dissertation-argument-spine`, `dissertation-chapter-plan`, `dissertation-research-review`, `academic-self-review-loop`, `uk-academic-writing-style`, `style-memory-and-revision-gate`, `dissertation-document-quality-gate` |
+| proposal / manuscript / report / grant writing | `research-project-adapter`, `dissertation-source-first-gate`, `material-passport`, `academic-integrity-preflight`, `cognitive-frameworks`, `dissertation-argument-spine`, `dissertation-chapter-plan`, `dissertation-research-review`, `academic-self-review-loop`, `authorial-voice-integrity`, `uk-academic-writing-style`, `style-memory-and-revision-gate`, `dissertation-document-quality-gate` |
 | ethics / compliance / participant materials | `dissertation-source-first-gate`, `responsible-ai-agent-audit`, `dissertation-research-review`, `dissertation-shared`, `dissertation-document-quality-gate` |
 | LMS/module requirements | `dissertation-research-search-protocol`, `dissertation-research-wiki`, `dissertation-chapter-plan`, `dissertation-citation-audit` |
 | literature search / literature review | `dissertation-research-search-protocol`, `dissertation-learning-loop`, `dissertation-literature-review`, `cognitive-frameworks`, `dissertation-argument-spine`, `dissertation-citation-audit`, `academic-self-review-loop` when drafting formal synthesis |
@@ -89,7 +91,7 @@ Classify the user's request into one or more categories:
 | unclear research route / high-impact idea / early design discussion | `brainstorming`, `dissertation-argument-spine`, `dissertation-research-review` |
 | file-to-Markdown conversion / source ingestion from documents | `markitdown`, `dissertation-source-first-gate`, `dissertation-knowledge-ops`, `dissertation-learning-loop` |
 | learning loop / source ingestion | `dissertation-learning-loop`, `dissertation-knowledge-ops`, `context-continuity` |
-| UK academic writing / de-AI style review | `academic-self-review-loop`, `uk-academic-writing-style`, `style-memory-and-revision-gate`, `dissertation-document-quality-gate` |
+| academic writing / authorial voice / AI-style cleanup | `authorial-voice-integrity`, `academic-integrity-preflight` when disclosure or prompt-residue risk appears, `academic-self-review-loop`, `uk-academic-writing-style`, `style-memory-and-revision-gate`, `dissertation-document-quality-gate` |
 | rubric / marking criteria / journal / funder / client requirement audit | `research-project-adapter`, `dissertation-source-first-gate`, `dissertation-research-search-protocol`, `dissertation-argument-spine`, `dissertation-research-review`, `dissertation-citation-audit`, `dissertation-chapter-plan` |
 | LMS / portal / requirement / deadline / word count / submission rule | `research-project-adapter`, `dissertation-source-first-gate`, `dissertation-research-search-protocol`, `dissertation-research-wiki`, `dissertation-document-quality-gate` |
 | major chapter rewrite / argument audit | `dissertation-argument-spine`, `dissertation-research-review`, `dissertation-citation-audit` |

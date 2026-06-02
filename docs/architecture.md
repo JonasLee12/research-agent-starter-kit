@@ -7,7 +7,13 @@ graph TD
     B --> C["📖 Production Window"]
     B --> D["🔧 Maintenance Window"]
 
-    C --> E["🧠 Cognitive Layer"]
+    C --> S["📚 Source And Passport Layer"]
+    S --> S1["Source-first gate"]
+    S --> S2["Material Passport"]
+    S --> S3["Requirement and source status"]
+
+    S --> Q["🧾 Integrity Preflight<br/>residue, disclosure, unsupported claims"]
+    Q --> E["🧠 Cognitive Layer"]
     E --> E1["Argument mapping"]
     E --> E2["Gap classification"]
     E --> E3["Warrant testing"]
@@ -17,14 +23,14 @@ graph TD
     F --> F2["Writing quality rubric<br/>six internal criteria"]
     F --> F3["UK academic style"]
     F --> F4["Optional research-* layers<br/>figures and article-style prose"]
-    F --> F5["Academic integrity preflight<br/>residue and unsupported-claim check"]
+    F --> F6["Authorial voice integrity<br/>no detector-evasion or disclosure hiding"]
 
     F --> G["🚦 Delivery Gates"]
-    G --> G1["Source-first gate"]
-    G --> G2["Material Passport"]
-    G --> G3["Pre-delivery lock"]
-    G --> G4["Formal delivery guard"]
-    G --> G5["Project delivery review"]
+    G --> G1["Full Material Passport if needed"]
+    G --> G2["Pre-delivery lock"]
+    G --> G3["Formal delivery guard"]
+    G --> G4["Project delivery review"]
+    G --> G5["Render / format checks"]
 
     G --> H["📄 Output"]
     H --> H1[".docx / .pdf"]
@@ -51,6 +57,8 @@ graph TD
 
     style E fill:#f3e8ff,stroke:#7c3aed
     style F fill:#ecfdf5,stroke:#059669
+    style S fill:#fff7ed,stroke:#ea580c
+    style Q fill:#fefce8,stroke:#ca8a04
     style G fill:#fef2f2,stroke:#dc2626
     style I fill:#eff6ff,stroke:#2563eb
 ```

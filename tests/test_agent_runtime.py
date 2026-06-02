@@ -61,6 +61,16 @@ class AgentRuntimeRoutingTests(unittest.TestCase):
         self.assertIn("formal_research_output", route.task_types)
         self.assertIn("academic-integrity-preflight", route.skills)
         self.assertIn("academic_integrity_preflight", route.gates)
+        self.assertIn("authorial-voice-integrity", route.skills)
+
+    def test_formal_output_skill_order_keeps_evidence_before_voice(self) -> None:
+        route = classify("Draft a formal research proposal", "Production")
+
+        ordered = route.skills
+        self.assertLess(ordered.index("material-passport"), ordered.index("academic-integrity-preflight"))
+        self.assertLess(ordered.index("academic-integrity-preflight"), ordered.index("cognitive-frameworks"))
+        self.assertLess(ordered.index("cognitive-frameworks"), ordered.index("academic-self-review-loop"))
+        self.assertLess(ordered.index("academic-self-review-loop"), ordered.index("authorial-voice-integrity"))
 
     def test_knowledge_base_setup_routes_to_kb_operations(self) -> None:
         route = classify("Set up a self-growing knowledge base with local retrieval", "Production")
@@ -69,6 +79,37 @@ class AgentRuntimeRoutingTests(unittest.TestCase):
         self.assertIn("knowledge_base_operations", route.task_types)
         self.assertIn("dissertation-knowledge-ops", route.skills)
         self.assertIn("kb_health_check", route.gates)
+
+    def test_authorial_voice_request_routes_to_integrity_not_evasion(self) -> None:
+        route = classify("Make this paragraph less AI-like but keep the evidence boundaries", "Production")
+
+        self.assertEqual(route.mode, "Drafting Mode")
+        self.assertIn("authorial_voice_integrity", route.task_types)
+        self.assertIn("authorial-voice-integrity", route.skills)
+        self.assertIn("authorial_voice_scan", route.gates)
+        self.assertIn("no_detector_evasion_or_score_promise", route.gates)
+
+    def test_chinese_ai_rate_request_routes_to_authorial_voice(self) -> None:
+        route = classify("帮我降低 AI 率，但不要改动引用和证据边界", "Production")
+
+        self.assertEqual(route.mode, "Drafting Mode")
+        self.assertIn("authorial_voice_integrity", route.task_types)
+        self.assertIn("ai_use_disclosure_boundary", route.gates)
+
+    def test_non_ai_disclosure_does_not_force_authorial_voice(self) -> None:
+        route = classify("Review the conflict of interest disclosure for this report", "Production")
+
+        self.assertNotIn("authorial_voice_integrity", route.task_types)
+
+    def test_financial_disclosure_statement_does_not_force_authorial_voice(self) -> None:
+        route = classify("Review the financial disclosure statement for this report", "Production")
+
+        self.assertNotIn("authorial_voice_integrity", route.task_types)
+
+    def test_ai_statement_of_work_does_not_force_authorial_voice(self) -> None:
+        route = classify("Review the AI statement of work for this report", "Production")
+
+        self.assertNotIn("authorial_voice_integrity", route.task_types)
 
 
 if __name__ == "__main__":

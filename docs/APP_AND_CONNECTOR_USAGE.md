@@ -52,6 +52,7 @@ These scripts are included in the repository and use Python 3 standard-library f
 | `scripts/build_external_review_bundle.py` | Included | Builds a local review bundle and reusable prompt for Codex, ChatGPT, Claude, Gemini, or human review |
 | `scripts/claude_independent_review.py` | Included | Optional privacy-gated Claude Code runner for the same external-review role |
 | `scripts/academic_integrity_preflight.py` | Included | Checks concrete integrity risks before formal drafting or delivery |
+| `scripts/authorial_voice_scan.py` | Included | Flags detector-evasion framing, disclosure hiding, prompt residue, generic AI-style phrasing, inflated vocabulary, and possible overclaiming |
 | `scripts/material_passport.py` | Included | Packages source, compliance/requirement, citation, and open-confirmation status before formal artifacts move forward |
 | `scripts/pre_delivery_lock.py` | Included | Creates/checks local pre-delivery lock receipts before formal delivery |
 | `scripts/formal_delivery_guard.py` | Included | Blocks formal delivery when required evidence is missing, with an explicit override audit path |
@@ -70,6 +71,7 @@ These scripts are included in the repository and use Python 3 standard-library f
 - Public metadata is not source evidence.
 - External reviewer feedback from Codex, ChatGPT, Claude, Gemini, or a human reviewer is not source evidence.
 - Claude Code is optional. Users without Claude can use `scripts/build_external_review_bundle.py` and paste the generated prompt into a separate reviewer.
+- Authorial voice checks are not AI detectors. They improve evidence-led style and block detector-evasion or disclosure-hiding requests.
 - Subscription databases need lawful access.
 - Browser automation must not submit, upload, download, or modify private sites unless explicitly confirmed.
 - Zotero collection membership does not make a source citation-ready.
@@ -141,6 +143,7 @@ python3 scripts/agent_runtime.py "set up this research project" --window Mainten
 | `scripts/build_external_review_bundle.py` | 已包含 | 为 Codex、ChatGPT、Claude、Gemini 或人工 review 生成本地质审包和通用 prompt |
 | `scripts/claude_independent_review.py` | 已包含 | 同一 external-review 角色的可选 Claude Code runner，带隐私 gate 和 timeout handling |
 | `scripts/academic_integrity_preflight.py` | 已包含 | 正式 drafting 或 delivery 前检查具体 academic/professional integrity 风险 |
+| `scripts/authorial_voice_scan.py` | 已包含 | 检查检测规避表述、隐藏 AI-use disclosure、prompt residue、泛泛 AI 式表达、虚高词汇和可能的 overclaiming |
 | `scripts/material_passport.py` | 已包含 | 在正式文档推进前打包 source、compliance/requirement、citation 和 open-confirmation 状态 |
 | `scripts/pre_delivery_lock.py` | 已包含 | 正式交付前创建/检查本地 pre-delivery lock receipts |
 | `scripts/formal_delivery_guard.py` | 已包含 | 缺少必要证据时阻止正式交付，并提供明确的 override audit path |
@@ -159,6 +162,7 @@ python3 scripts/agent_runtime.py "set up this research project" --window Mainten
 - 公共 metadata 不是正式证据。
 - Codex、ChatGPT、Claude、Gemini 或人工 reviewer 给出的 external feedback 都不是正式证据。
 - Claude Code 是可选工具。没有 Claude 的用户可以使用 `scripts/build_external_review_bundle.py`，把生成的 prompt 复制到另一个 reviewer。
+- Authorial voice check 不是 AI detector。它用于改进 evidence-led style，并阻止检测规避或隐藏 AI-use disclosure 的请求。
 - 订阅数据库需要合法访问权限。
 - 浏览器自动化不能默认提交、上传、下载或修改私有网站内容。
 - Zotero collection membership 不等于文献已经 citation-ready。

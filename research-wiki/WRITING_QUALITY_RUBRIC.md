@@ -17,6 +17,8 @@ This rubric judges paragraph and argument quality. It does not predict:
 
 Use `quality-gates/PROJECT_DELIVERY_REVIEW_GATE.md` for project delivery readiness. Use `university-guidance/DISTINCTION_DELIVERY_REVIEW_GATE.md` only when assessed academic high-band readiness is relevant.
 
+For AI-looking, generic, de-AI, humanising, detector-framed, or disclosure-risk writing requests, use `research-wiki/AI_WRITING_AUTHORIAL_VOICE_POLICY.md` and `authorial-voice-integrity`. This rubric can improve paragraph quality, but it must not be used to promise detector outcomes.
+
 ## Six Criteria
 
 | Criterion | Strong Signal | Weak Signal | Revision Move |
@@ -46,3 +48,5 @@ Writing-quality review:
 ## Practical Rule
 
 A formal draft should not move to final delivery until at least the top two writing-quality weaknesses have been revised or explicitly marked as deferred with a reason.
+
+Authorial voice work should improve the argument, not only the surface wording. A revision is stronger when it clarifies the claim, warrant, evidence boundary, and reader journey while preserving source uncertainty.

@@ -6,7 +6,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-green.svg)](https://www.python.org/)
-[![Evals](https://img.shields.io/badge/Skill_Evals-25%2F25_passing-brightgreen.svg)](#validation)
+[![Evals](https://img.shields.io/badge/Skill_Evals-28%2F28_passing-brightgreen.svg)](#validation)
 
 它可以配合 Codex、Claude Code、Cursor，或任何能读取本地文件并遵守 `SKILL.md` 指令的 coding agent 使用。这个 starter kit 本身是本地文件驱动；你选择的 agent 工具可能仍然有自己的登录、订阅或 API-key 要求。
 
@@ -20,30 +20,38 @@
 flowchart LR
     A["User task"] --> B["Route skills"]
     B --> C["Source-first check"]
-    C --> D["Cognitive map"]
-    D --> E["Draft or revise"]
-    E --> F["Two-pass self-review"]
-    F --> G["Academic integrity preflight"]
-    G --> H["Delivery gate"]
-    H --> I["Knowledge update"]
+    C --> D["Material Passport"]
+    D --> E["Academic integrity preflight"]
+    E --> F["Cognitive map"]
+    F --> G["Draft or revise"]
+    G --> H["Two-pass self-review"]
+    H --> I["Authorial voice check"]
+    I --> J["Delivery gate"]
+    J --> K["Knowledge update"]
 
     C -. blocks unsupported facts .-> X["Revise evidence"]
     X -. back to source check .-> C
-    G -. catches placeholders / fake refs .-> Y["Fix artifact"]
-    Y -. back to draft .-> E
-    H -. blocks weak formal output .-> Z["Complete required gates"]
-    Z -. back to review .-> F
+    E -. catches placeholders / fake refs .-> Y["Fix artifact"]
+    Y -. back to source package .-> D
+    J -. blocks weak formal output .-> Z["Complete required gates"]
+    Z -. back to review .-> H
 ```
 
 虚线代表 revision loop。意思是：如果某个 gate 发现问题，agent 应该停下来修复，再重新运行相关检查。
 
 这套流程在关键位置会变严格：
 
-1. **写作前先规划** — 先明确 claim、gap、evidence status、warrant 和 section role。
-2. **带着证据边界写作** — 正式 claim 要么有本地证据，要么明确标记 `NEEDS VERIFICATION`。
-3. **交付前先审查** — 草稿必须经过 self-review、integrity check 和 delivery gate，才能被当作可用的正式输出。
+1. **写作前先查证据** — 正式 claim 要么有本地证据，要么明确标记 `NEEDS VERIFICATION`。
+2. **起草前先规划论证** — 先明确 claim、gap、evidence status、warrant 和 section role。
+3. **交付前先审查** — 草稿必须经过 source packaging、integrity preflight、cognitive planning、self-review、authorial voice check 和 delivery gate，才能被当作可用的正式输出。
 
 ## 最新更新
+
+**v1.5.0** 加入了 Authorial Voice Integrity 和 Real Project Operating Guide。
+
+这意味着“帮我去 AI 味”“humanise this”“降低 AI 率”这类请求会被路由为作者声音、学术/专业诚信和 evidence-led style 任务。系统不会承诺 AI detector 分数，也不会使用检测规避策略。
+
+它还新增了一份实操指南，帮助用户把 starter kit 从模板变成能真正工作的 dissertation、thesis、manuscript、report 或 evidence-synthesis agent。
 
 **v1.4.0** 加入了 Material Passport 和 Formal Delivery Guard。
 
@@ -60,6 +68,8 @@ flowchart LR
 如果你使用 Obsidian：**请把 knowledge-base/ 作为 Obsidian vault 打开，不要打开整个仓库根目录。** 见 [Obsidian Setup](docs/OBSIDIAN_SETUP.md)。
 
 如果你没有 Claude Code：使用 external-review bundle workflow，把生成的 prompt 复制到另一个 Codex、ChatGPT、Claude、Gemini 或人工 review 流程。见 [External Review Options](docs/EXTERNAL_REVIEW_OPTIONS.md)。
+
+如果你想把这套模板真正用到自己的项目上，先读 [Real Project Operating Guide](docs/REAL_PROJECT_OPERATING_GUIDE.md)。
 
 ```bash
 git clone https://github.com/JonasLee12/research-agent-starter-kit.git
@@ -92,6 +102,7 @@ bash scripts/run_vector_index.sh
 |---|---|---|
 | Agent 容易编造事实或要求 | Source-first gate | 正式写作先查本地证据，不靠记忆发挥 |
 | 文稿看起来流畅，但论证很薄 | Cognitive frameworks + self-review loop | 交付前检查 claim、warrant 和段落推进 |
+| 用户想“去 AI 味”或降低 AI 率 | Authorial voice integrity | 把任务改为 evidence-led authorial voice，而不是检测规避 |
 | 引用格式看似正确，但不一定支持正文 | Citation audit and source-readiness matrix | 区分 citation consistency 和 claim support |
 | 知识散落在聊天、文件和笔记里 | Self-growing KB workflow | 新材料经过 raw inbox、growth queue、compiled wiki，保留边界 |
 | Retrieval 结果容易被误当证据 | Retrieval protocol | 检索结果只作为候选，必须回到 source section review |
@@ -110,6 +121,7 @@ bash scripts/run_vector_index.sh
 | Retrieval | `scripts/local_retrieval_search.py`, `scripts/build_agent_index.py` | 建立本地可检索索引，但不替代 source review |
 | Optional vector search | `scripts/build_vector_index.py` | 安装 ChromaDB + sentence-transformers 后可用 |
 | Integrity preflight | `.agents/skills/academic-integrity-preflight/`, `scripts/academic_integrity_preflight.py` | 检查 prompt residue、placeholder、假引用、unsupported claims 和 disclosure-boundary 风险 |
+| Authorial voice integrity | `.agents/skills/authorial-voice-integrity/`, `scripts/authorial_voice_scan.py`, `research-wiki/AI_WRITING_AUTHORIAL_VOICE_POLICY.md` | 提升作者判断和学术/专业表达，但不承诺 AI detector 结果 |
 | Material Passport | `.agents/skills/material-passport/`, `scripts/material_passport.py` | 在正式文档推进前打包 source readiness、compliance/requirement status、citation boundary 和 `TO CONFIRM` |
 | Formal delivery guard | `.agents/skills/formal-delivery-guard/`, `scripts/pre_delivery_lock.py`, `scripts/formal_delivery_guard.py` | 创建/检查 pre-delivery lock，并在缺少必要证据时阻止正式交付 |
 | External review fallback | `scripts/build_external_review_bundle.py`, `templates/prompts/EXTERNAL_REVIEWER_PROMPT.md` | 在不上传文件的情况下生成本地质审包，供 Codex、ChatGPT、Claude、Gemini 或人工 reviewer 使用 |
@@ -132,7 +144,7 @@ bash scripts/run_vector_index.sh
 
 ## 验证
 
-当前公开模板显示 **25/25 skill evaluations passing**。
+当前公开模板显示 **28/28 skill evaluations passing**。
 这个 badge 反映的是已发布模板状态；你自定义系统后应重新运行下面的检查。
 
 ```bash
@@ -147,6 +159,7 @@ bash scripts/privacy_check.sh
 
 ```bash
 python scripts/material_passport.py --artifact path/to/draft.md --scope short
+python scripts/authorial_voice_scan.py --target path/to/draft.md
 python scripts/pre_delivery_lock.py create --target path/to/final.docx --runtime-receipt path/to/receipt.md --material-passport path/to/passport.md --source-map path/to/source-map.md --integrity-preflight path/to/integrity.md --quality-gate path/to/quality.md
 python scripts/formal_delivery_guard.py --artifact path/to/final.docx --source path/to/source.md
 ```

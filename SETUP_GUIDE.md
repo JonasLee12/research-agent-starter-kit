@@ -5,6 +5,7 @@
 Before cloning the template, read:
 
 - [`docs/SOFTWARE_AND_PLUGIN_REQUIREMENTS.md`](docs/SOFTWARE_AND_PLUGIN_REQUIREMENTS.md)
+- [`docs/REAL_PROJECT_OPERATING_GUIDE.md`](docs/REAL_PROJECT_OPERATING_GUIDE.md) when you want to use the kit on a real dissertation, thesis, manuscript, report, or evidence-synthesis project.
 
 Minimum setup:
 
@@ -72,10 +73,12 @@ For formal writing, keep these files active:
 - `.agents/skills/cognitive-frameworks/SKILL.md`
 - `.agents/skills/academic-integrity-preflight/SKILL.md`
 - `.agents/skills/academic-self-review-loop/SKILL.md`
+- `.agents/skills/authorial-voice-integrity/SKILL.md`
 - `research-wiki/WRITING_QUALITY_RUBRIC.md`
+- `research-wiki/AI_WRITING_AUTHORIAL_VOICE_POLICY.md`
 - `research-wiki/DOCUMENT_PIPELINE.md`
 
-They help the agent plan the argument, self-review the draft, and record thinking/writing/delivery checkpoints.
+They help the agent package evidence status, check integrity, plan the argument, self-review the draft, revise authorial voice safely, and record thinking/writing/delivery checkpoints.
 
 For knowledge-base work, start here:
 

@@ -41,6 +41,7 @@ Use these skills for research-project work. Some skill names still begin with `d
 - `cognitive-frameworks`: make section type, claim, gap/problem type, evidence, warrant, boundary, and rhetorical plan explicit before major writing.
 - `academic-self-review-loop`: run a two-pass writing-quality review and revision loop before style and document-quality gates.
 - `academic-integrity-preflight`: check prompt residue, placeholders, fake references, unsupported claims, unresolved compliance requirements, and AI-use disclosure boundaries before formal drafting or delivery.
+- `authorial-voice-integrity`: handle AI-writing, de-AI, humanising, detector-framed, generic-AI-style, and AI-use disclosure writing requests by improving authorial voice and integrity without detector-evasion.
 - `material-passport`: package source readiness, compliance or requirement evidence, citation boundaries, and open confirmations before formal writing or delivery.
 - `formal-delivery-guard`: create/check pre-delivery locks and final guard reports before presenting formal artifacts as usable.
 - `dissertation-argument-spine`: build the controlling argument and section logic.
@@ -85,7 +86,7 @@ Domain-specific skills are included as optional examples. Rename, edit, or remov
   If it returns `BLOCKED`, fix the missing file or gate before continuing.
 - Do not invent names, emails, supervisor/PI/client details, dates, funder/journal/client/institutional requirements, rubrics, citations, participant facts, datasets, results, or findings.
 - For formal drafting or editing, use `dissertation-source-first-gate`.
-- For substantial proposal, manuscript, report, grant, literature review, methodology, or stakeholder-facing writing, use `cognitive-frameworks` after source-first and before drafting.
+- For substantial proposal, manuscript, report, grant, literature review, methodology, or stakeholder-facing writing, use source-first, then `material-passport`, then `academic-integrity-preflight`, then `cognitive-frameworks` before drafting.
 - For formal academic or professional prose, use `academic-self-review-loop` after cognitive planning and before style/document-quality gates.
 - For formal-writing pipelines, use `material-passport` after source-first checks and before the artifact moves from planning to drafting, drafting to review, or review to delivery. Use a short passport for internal movement and a full passport for reviewer/stakeholder/submission-facing outputs.
 - For important Word, PDF, or stakeholder-facing delivery, follow `research-wiki/DOCUMENT_PIPELINE.md` and record thinking, writing, and delivery checkpoints, or mark delivery checkpoint not applicable.
@@ -94,6 +95,7 @@ Domain-specific skills are included as optional examples. Rename, edit, or remov
 - For formal outputs, use `dissertation-document-quality-gate` before delivery.
 - Before presenting a formal Word, PDF, reviewer-facing, stakeholder-facing, client-facing, or submission-facing artifact as usable, use `formal-delivery-guard` with `scripts/pre_delivery_lock.py` and `scripts/formal_delivery_guard.py`. A blocked guard means the artifact is not ready unless the user explicitly records a risk override.
 - For academic or professional prose, use `uk-academic-writing-style` and `style-memory-and-revision-gate` when language quality matters. Adapt spelling, tone, and format to the project context.
+- For AI-writing, de-AI, humanising, lower-AI-rate, AIGC, AI detector, or disclosure-hiding requests, use `authorial-voice-integrity` and `research-wiki/AI_WRITING_AUTHORIAL_VOICE_POLICY.md`. Reframe the task as authorial voice, academic/professional integrity, and evidence-led style. Do not promise detector scores, use evasion tactics, or hide AI-use disclosure.
 - Keep confirmed evidence separate from interpretation.
 - Mark unresolved facts as `TO CONFIRM`.
 - Treat participant data, identifiable notes, recordings, transcripts, and signed consent forms as sensitive.
@@ -110,6 +112,7 @@ Domain-specific skills are included as optional examples. Rename, edit, or remov
 - Use `scripts/academic_database_connector.py` for academic metadata searches when available. Treat all search results as `METADATA ONLY` until source sections are reviewed.
 - Use `scripts/citation_style_check.py` and `scripts/citation_claim_audit.py` for citation-heavy drafts when available. Citation consistency is not proof of claim support.
 - Use `academic-integrity-preflight` and `scripts/academic_integrity_preflight.py` before substantive formal drafting and again before final delivery. This is not an AI detector.
+- Use `scripts/authorial_voice_scan.py` when prose has generic AI-style, detector-framed, or disclosure-risk wording. The scan is advisory for authorial voice and integrity; it is not an AI detector.
 - Use `scripts/material_passport.py` to create a readiness passport for formal artifacts. It packages evidence status; it does not prove claim support, approval, acceptance, or official compliance.
 - Use `scripts/pre_delivery_lock.py` and `scripts/formal_delivery_guard.py` before final formal delivery. Overrides are allowed only with explicit user acknowledgement and do not become quality passes.
 - Use `scripts/claude_independent_review.py` only for optional independent review of safe, non-sensitive artifacts. Claude Code feedback is advisory; it does not replace local source, privacy, citation, compliance, or delivery gates.
@@ -135,30 +138,31 @@ Domain-specific skills are included as optional examples. Rename, edit, or remov
 3. Read `RESEARCH_PROJECT_BRIEF.md` if present; otherwise use `RESEARCH_PROJECT_BRIEF_TEMPLATE.md` and mark project facts `TO CONFIRM`.
 4. Read `PROJECT_AGENT_PREFERENCES.md` and relevant task-state files.
 5. Use source-first checks before formal writing.
-6. Use `cognitive-frameworks` before major argument, gap, methodology, literature, proposal, manuscript, report, grant, or stakeholder-facing drafting.
-7. Use `academic-self-review-loop` before style polishing and document-quality review for formal prose.
-8. Use `material-passport` to package source, compliance/requirement, citation, and `TO CONFIRM` status before formal artifacts move forward.
-9. Use `academic-integrity-preflight` before major revision and again before delivery.
-10. Use the learning loop after useful reading or confirmed decisions.
-11. Use `knowledge-base/self-growing/` for controlled intake, growth queue triage, and compiled-wiki navigation.
-12. Use source-readiness checks before citation-heavy writing.
-13. Use compliance checks before ethics, privacy, funder, journal, client, or data-management claims.
-14. Use rubric or requirement evidence checks before grade-band, journal, funder, deadline, or word-count claims.
-15. Use `research-wiki/DOCUMENT_PIPELINE.md` for important Word/PDF/stakeholder-facing delivery.
-16. Use the project delivery review gate before formal document delivery.
-17. Use `formal-delivery-guard` before presenting formal artifacts as usable.
-18. Use relevant academic/professional style gates before delivering prose.
-19. Use document-quality gate before delivering formal outputs.
-20. Update `research-wiki/TASK_STATE.md` after substantial work.
-21. Record substantial Production work in `research-wiki/PRODUCTION_RUN_REGISTER.md` if that register is enabled.
-22. Use `brainstorming` for unclear, high-impact route decisions before drafting or system changes.
-23. Use `project-skill-creator-governance` and global `skill-creator` before adding or changing skills.
-24. Use `playwright-dissertation-browser` and global `playwright` for controlled browser automation.
-25. Use `markitdown` only after checking tool availability and privacy boundaries.
-26. Use `research-*` figure/writing skills only as optional quality layers after source, privacy, compliance, citation, and document gates.
-27. Use `scripts/claude_independent_review.py` for optional context-naive independent review when the artifact is safe to send to Claude Code.
-28. Use staged literature gap-watch automation only for candidate discovery unless the user confirms ingestion.
-29. Use `release-surface-verification` before saying a public GitHub release or template update is visible and ready for readers.
+6. Use `material-passport` to package source, compliance/requirement, citation, and `TO CONFIRM` status before formal artifacts move forward.
+7. Use `academic-integrity-preflight` before major revision and again before delivery.
+8. Use `cognitive-frameworks` before major argument, gap, methodology, literature, proposal, manuscript, report, grant, or stakeholder-facing drafting.
+9. Use `academic-self-review-loop` before style polishing and document-quality review for formal prose.
+10. Use `authorial-voice-integrity` when the task involves AI-style prose, humanising, de-AI, detector framing, or AI-use disclosure.
+11. Use the learning loop after useful reading or confirmed decisions.
+12. Use `knowledge-base/self-growing/` for controlled intake, growth queue triage, and compiled-wiki navigation.
+13. Use source-readiness checks before citation-heavy writing.
+14. Use compliance checks before ethics, privacy, funder, journal, client, or data-management claims.
+15. Use rubric or requirement evidence checks before grade-band, journal, funder, deadline, or word-count claims.
+16. Use `research-wiki/DOCUMENT_PIPELINE.md` for important Word/PDF/stakeholder-facing delivery.
+17. Use the project delivery review gate before formal document delivery.
+18. Use `formal-delivery-guard` before presenting formal artifacts as usable.
+19. Use relevant academic/professional style gates before delivering prose.
+20. Use document-quality gate before delivering formal outputs.
+21. Update `research-wiki/TASK_STATE.md` after substantial work.
+22. Record substantial Production work in `research-wiki/PRODUCTION_RUN_REGISTER.md` if that register is enabled.
+23. Use `brainstorming` for unclear, high-impact route decisions before drafting or system changes.
+24. Use `project-skill-creator-governance` and global `skill-creator` before adding or changing skills.
+25. Use `playwright-dissertation-browser` and global `playwright` for controlled browser automation.
+26. Use `markitdown` only after checking tool availability and privacy boundaries.
+27. Use `research-*` figure/writing skills only as optional quality layers after source, privacy, compliance, citation, and document gates.
+28. Use `scripts/claude_independent_review.py` for optional context-naive independent review when the artifact is safe to send to Claude Code.
+29. Use staged literature gap-watch automation only for candidate discovery unless the user confirms ingestion.
+30. Use `release-surface-verification` before saying a public GitHub release or template update is visible and ready for readers.
 
 ## Public Template Boundary
 

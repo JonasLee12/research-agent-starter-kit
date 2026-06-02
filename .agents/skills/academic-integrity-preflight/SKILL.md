@@ -30,7 +30,8 @@ Look for:
 - major claims without source-readiness or citation-support evidence;
 - official requirement, rubric, journal, funder, client, deadline, word-count, or submission claims without requirement evidence;
 - ethics, consent, withdrawal, recording, storage, privacy, or participant-facing claims without compliance evidence;
-- AI-use disclosure claims that imply a formal requirement without source evidence.
+- AI-use disclosure claims that imply a formal requirement without source evidence;
+- requests to hide, soften, remove, or invent AI-use disclosure statements.
 
 ## Local Tool
 
@@ -55,5 +56,6 @@ If the preflight returns `HOLD`, do not describe the artifact as usable, approve
 
 - Do not claim a document is AI-generated from prose style.
 - Do not promise lower AI-detection risk.
+- Do not hide, soften, remove, or invent AI-use disclosure statements. Route detector-framed or disclosure-risk style requests to `authorial-voice-integrity`.
 - Do not rewrite evidence, citations, participant facts, numbers, dates, or official rules for style.
 - This skill complements document-quality gates; it does not replace source-first, citation claim-support audit, ethics/IRB/compliance review, requirement evidence, delivery review, pre-delivery lock, or formal delivery guard.

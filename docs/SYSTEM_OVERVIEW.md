@@ -1,6 +1,6 @@
 # Research Agent Starter Kit System Overview
 
-Date: 2026-06-01
+Date: 2026-06-02
 
 Status: depersonalised public-template explanation
 
@@ -15,12 +15,14 @@ The operating sequence is:
 1. classify the task;
 2. choose the smallest useful skill set;
 3. check sources before formal claims;
-4. make claims, gaps, warrants, and boundaries explicit before drafting;
-5. run self-review before style polishing;
-6. package evidence status with a Material Passport before formal artifacts move forward;
-7. use quality gates and formal delivery guards before formal delivery;
-8. record important decisions in project memory;
-9. keep production work and system maintenance separate.
+4. package evidence status with a Material Passport before formal artifacts move forward;
+5. run integrity preflight before substantive formal drafting;
+6. make claims, gaps, warrants, and boundaries explicit before drafting;
+7. run self-review before style polishing;
+8. check authorial voice when prose risks becoming generic, detector-framed, or disclosure-unsafe;
+9. use quality gates and formal delivery guards before formal delivery;
+10. record important decisions in project memory;
+11. keep production work and system maintenance separate.
 
 ## 2. What The System Is For
 
@@ -59,6 +61,7 @@ Do not use it as a substitute for:
 | Quality layer | `quality-gates/PROJECT_DELIVERY_REVIEW_GATE.md`, `university-guidance/` | Stores general delivery gates and optional assessed-academic requirements |
 | Writing quality layer | `.agents/skills/cognitive-frameworks/`, `.agents/skills/academic-self-review-loop/`, `research-wiki/WRITING_QUALITY_RUBRIC.md` | Checks argument depth, paragraph quality, warrants, and revision quality before style polishing |
 | Integrity layer | `.agents/skills/academic-integrity-preflight/`, `scripts/academic_integrity_preflight.py` | Checks concrete prompt residue, placeholder, fake-reference, unsupported-claim, and disclosure-boundary risks |
+| Authorial voice layer | `.agents/skills/authorial-voice-integrity/`, `research-wiki/AI_WRITING_AUTHORIAL_VOICE_POLICY.md`, `scripts/authorial_voice_scan.py` | Improves authorial judgement and project-appropriate style while blocking detector-evasion and disclosure-hiding requests |
 | Formal delivery layer | `.agents/skills/material-passport/`, `.agents/skills/formal-delivery-guard/`, `scripts/material_passport.py`, `scripts/pre_delivery_lock.py`, `scripts/formal_delivery_guard.py` | Packages readiness evidence, creates pre-delivery locks, and blocks formal delivery when required evidence is missing |
 | Self-growing KB layer | `knowledge-base/self-growing/`, `scripts/kb_health_check.py` | Controls raw intake, growth queue triage, compiled-wiki navigation, and KB health checks |
 | Retrieval layer | `scripts/build_agent_index.py`, `scripts/local_retrieval_search.py`, `scripts/build_vector_index.py` | Provides local SQLite/FTS/hashed retrieval and optional ChromaDB neural retrieval |
@@ -120,7 +123,7 @@ Important skill groups:
 |---|---|
 | Routing and profile adaptation | `agent-orchestration`, `research-project-adapter` |
 | Source checking | `dissertation-source-first-gate`, `dissertation-citation-audit` |
-| Writing and review | `cognitive-frameworks`, `material-passport`, `academic-integrity-preflight`, `academic-self-review-loop`, `dissertation-argument-spine`, `dissertation-research-review`, `uk-academic-writing-style`, `style-memory-and-revision-gate` |
+| Writing and review | `material-passport`, `academic-integrity-preflight`, `cognitive-frameworks`, `academic-self-review-loop`, `authorial-voice-integrity`, `dissertation-argument-spine`, `dissertation-research-review`, `uk-academic-writing-style`, `style-memory-and-revision-gate` |
 | Document delivery | `formal-delivery-guard`, `dissertation-document-quality-gate`, `context-continuity` |
 | Literature and sources | `dissertation-research-search-protocol`, `dissertation-literature-review`, `dissertation-learning-loop`, `dissertation-knowledge-ops` |
 | Ethics, compliance, and risk | `responsible-ai-agent-audit`, `dissertation-shared` |
@@ -196,6 +199,7 @@ Version `v0.4.0` adds a local engineering layer.
 | `scripts/build_external_review_bundle.py` | Builds a local external-review bundle for Codex, ChatGPT, Claude, Gemini, or human review |
 | `scripts/claude_independent_review.py` | Optional privacy-gated Claude Code runner for the same advisory external-review role |
 | `scripts/academic_integrity_preflight.py` | Checks concrete integrity risks before formal drafting or delivery |
+| `scripts/authorial_voice_scan.py` | Flags detector-evasion framing, disclosure hiding, prompt residue, generic AI-style phrasing, inflated vocabulary, and possible overclaiming |
 | `scripts/material_passport.py` | Generates short or full readiness passports for formal research artifacts |
 | `scripts/pre_delivery_lock.py` | Creates/checks local pre-delivery lock receipts |
 | `scripts/formal_delivery_guard.py` | Blocks formal delivery when required lock or final checks are missing, with an auditable override path |

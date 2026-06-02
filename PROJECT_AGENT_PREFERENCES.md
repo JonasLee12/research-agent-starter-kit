@@ -152,6 +152,27 @@ This check looks for concrete risks:
 
 It is not an AI detector and must not be used to promise detection outcomes.
 
+## Authorial Voice And AI-Writing Integrity Rule
+
+Requests such as "make this less AI-like", "humanise this", "lower AI rate", "de-AI", AIGC, AI detector, or AI-use disclosure changes must be routed to `.agents/skills/authorial-voice-integrity/SKILL.md`.
+
+Allowed work:
+
+- remove prompt residue and chatbot framing;
+- replace generic phrasing with project-specific reasoning;
+- improve mini-claims, warrants, transitions, and evidence boundaries;
+- strengthen the user's or project's authorial judgement.
+
+Not allowed:
+
+- promise detector scores;
+- bypass or game AI detection;
+- add random stylistic noise;
+- hide, weaken, or invent AI-use disclosure;
+- make unsupported claims sound more confident.
+
+Use `scripts/authorial_voice_scan.py` when available. It is not an AI detector.
+
 ## Three-Stage Document Pipeline Rule
 
 For important Word, PDF, or stakeholder-facing outputs, use `research-wiki/DOCUMENT_PIPELINE.md`.
