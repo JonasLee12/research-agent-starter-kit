@@ -100,6 +100,7 @@ Domain-specific skills are included as optional examples. Rename, edit, or remov
 - Use `compliance/PROJECT_COMPLIANCE_TRACKER.md` before handling ethics, IRB, privacy, funder, journal, client, IP, AI-use, or data-management requirements.
 - When editing official templates, preserve fixed template text unless clearly editable.
 - Before GitHub sharing, run `scripts/privacy_check.sh` and complete `PRIVACY_CHECKLIST.md`.
+- Before syncing private-workspace improvements into this public starter kit, read `PUBLIC_SYNC_POLICY.md` and separate shared-core improvements from private-only project material.
 - Before claiming a GitHub release, public template update, version bump, About/sidebar change, topic update, README badge change, or public documentation update is complete, use `release-surface-verification`. Check the user-visible GitHub surface, not only local files, commits, branches, or tags.
 - Use `brainstorming` before high-impact or unclear research route, method, concept-card, skill, or system design decisions when the next action is not obvious.
 - Use `project-skill-creator-governance` before adding, copying, adapting, or updating project skills; use global `skill-creator` for SKILL.md authoring.

@@ -1,16 +1,24 @@
 # Changelog
 
-## Unreleased
+## v1.3.1 - Release Surface Verification And Public Sync Policy - 2026-06-02
+
+Status: release hygiene and private/public sync boundary update.
 
 ### Added
 
 - `.agents/skills/release-surface-verification/` to verify GitHub Releases, sidebar latest release, About/topics, rendered README/docs, and public links before claiming a public release or template update is complete.
+- `PUBLIC_SYNC_POLICY.md` to define shared core files, private-only content, public-only onboarding files, sync checks, and release-boundary rules.
 
 ### Changed
 
 - `dissertation-agent-self-debug` now distinguishes source-layer state from user-visible rendered surfaces when investigating false completion.
 - `project-skill-creator-governance` now includes clearer examples for when to create a skill and when to use docs, templates, scripts, or preferences instead.
 - Skill eval registry and README badges now include the release-surface verification case.
+
+### Boundary
+
+- This release does not add private dissertation content, supervisor details, institution-specific files, participant material, or local runtime state.
+- A release is not treated as complete until both the source layer and GitHub-visible release surface are checked.
 
 ## v1.3.0 - Knowledge Base Setup And External Review Fallback - 2026-06-01
 

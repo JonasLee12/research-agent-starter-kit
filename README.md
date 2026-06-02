@@ -45,9 +45,11 @@ The workflow is strict where it matters:
 
 ## What's New
 
-**v1.3.0** adds safer Obsidian onboarding and an external-review fallback for users who do not have Claude Code.
+**v1.3.1** adds release-surface verification and a public sync policy.
 
-That means the starter kit now covers controlled knowledge-base navigation and optional second-opinion review through Claude Code, another Codex window, ChatGPT, Gemini, or a human reviewer. External review remains advisory only.
+That means the starter kit now checks GitHub-visible release surfaces before claiming a public update is complete, and it defines what can be synced from a private project workspace into the public template without leaking private research content.
+
+**v1.3.0** added safer Obsidian onboarding and an external-review fallback for users who do not have Claude Code. External review remains advisory only.
 
 ## Quick Start
 
@@ -106,6 +108,7 @@ bash scripts/run_vector_index.sh
 | Integrity preflight | `.agents/skills/academic-integrity-preflight/`, `scripts/academic_integrity_preflight.py` | Checks prompt residue, placeholders, fake references, unsupported claims, and disclosure-boundary risks |
 | External review fallback | `scripts/build_external_review_bundle.py`, `templates/prompts/EXTERNAL_REVIEWER_PROMPT.md` | Builds a local review bundle for Codex, ChatGPT, Claude, Gemini, or human review without uploading anything |
 | Release surface verification | `.agents/skills/release-surface-verification/` | Checks GitHub release pages, About/sidebar, topics, rendered README/docs, and public links before claiming a release is complete |
+| Public sync policy | `PUBLIC_SYNC_POLICY.md` | Defines shared core files, private-only content, public-only onboarding files, sync checks, and release-boundary rules |
 | Delivery pipeline | `research-wiki/DOCUMENT_PIPELINE.md` | Splits formal work into THINKING, WRITING, and DELIVERY checkpoints |
 
 ## Scope And Limits
@@ -152,6 +155,16 @@ Place marking criteria, client requirements, ethics/compliance notes, or formal 
 ### Add your own skills
 
 Create a new directory in `.agents/skills/your-skill-name/` with a `SKILL.md` file. Register eval test cases in `research-wiki/SKILL_EVAL_REGISTRY.md`. See [CONTRIBUTING.md](CONTRIBUTING.md) for requirements.
+
+### Keep a private project and public template aligned
+
+Use [Public Sync Policy](PUBLIC_SYNC_POLICY.md) before moving improvements from a private research workspace into this public starter kit. It separates reusable shared-core improvements from private project material that must not be published.
+
+The policy defines:
+
+- shared core files that may be generalised and synced;
+- private-only files that must never be published;
+- release-surface checks needed before calling an update complete.
 
 ### Configure Zotero
 

@@ -45,9 +45,11 @@ flowchart LR
 
 ## 最新更新
 
-**v1.3.0** 加入了更清晰的 Obsidian 入口说明，以及给没有 Claude Code 用户使用的 external-review fallback。
+**v1.3.1** 加入了 release-surface verification 和 public sync policy。
 
-这意味着系统现在既能管理知识库导航，也能让用户通过 Claude Code、另一个 Codex 窗口、ChatGPT、Gemini 或人工 reviewer 获取第二意见。External review 仍然只是建议层。
+这意味着系统现在会在声称公开发布完成前，检查 GitHub 页面上真实可见的 release、README、About/sidebar、topics 和链接；同时明确哪些内容可以从私人项目同步到公开模板，哪些内容必须留在本地。
+
+**v1.3.0** 加入了更清晰的 Obsidian 入口说明，以及给没有 Claude Code 用户使用的 external-review fallback。External review 仍然只是建议层。
 
 ## 快速开始
 
@@ -106,6 +108,7 @@ bash scripts/run_vector_index.sh
 | Integrity preflight | `.agents/skills/academic-integrity-preflight/`, `scripts/academic_integrity_preflight.py` | 检查 prompt residue、placeholder、假引用、unsupported claims 和 disclosure-boundary 风险 |
 | External review fallback | `scripts/build_external_review_bundle.py`, `templates/prompts/EXTERNAL_REVIEWER_PROMPT.md` | 在不上传文件的情况下生成本地质审包，供 Codex、ChatGPT、Claude、Gemini 或人工 reviewer 使用 |
 | Release surface verification | `.agents/skills/release-surface-verification/` | 在声称发布完成前，检查 GitHub release 页面、About/sidebar、topics、渲染后的 README/docs 和公开链接 |
+| Public sync policy | `PUBLIC_SYNC_POLICY.md` | 说明 shared core、private-only、public-only、同步检查和 release 边界 |
 | Delivery pipeline | `research-wiki/DOCUMENT_PIPELINE.md` | 把正式工作拆成 THINKING、WRITING、DELIVERY 三个 checkpoint |
 
 ## 范围和限制
@@ -152,6 +155,16 @@ bash scripts/run_vector_index.sh
 ### 添加你自己的 skill
 
 在 `.agents/skills/your-skill-name/` 下创建 `SKILL.md`，并在 `research-wiki/SKILL_EVAL_REGISTRY.md` 注册 eval test cases。具体要求见 [CONTRIBUTING.md](CONTRIBUTING.md)。
+
+### 让私人项目和公开模板保持同步
+
+同步前先读 [Public Sync Policy](PUBLIC_SYNC_POLICY.md)。它会区分哪些是可复用的 shared-core 改进，哪些是私人项目材料，不能发布到公开模板。
+
+这个 policy 会说明：
+
+- 哪些 shared core 文件可以通用化后同步；
+- 哪些 private-only 文件绝不能公开；
+- 什么 release-surface 检查完成后，才能说更新已经完成。
 
 ### 配置 Zotero
 
