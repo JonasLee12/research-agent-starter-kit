@@ -61,6 +61,15 @@ The authorial-voice helper is also a standard-library Python script:
 
 It is not an AI detector. It flags risky task framing, prompt residue, generic AI-style prose, disclosure-hiding requests, and possible overclaiming so the agent can revise towards clearer authorial judgement and evidence-led style.
 
+The style and execution-evidence helpers are also standard-library Python scripts:
+
+- `scripts/style_fingerprint_scan.py`
+- `scripts/skill_execution_receipt.py`
+- `scripts/document_quality_check.py`
+- `scripts/self_review_loop_check.py`
+
+They do not require an external model. They make repeated style templates, missing skill evidence, shallow document-quality reviews, and shallow self-review loops visible before delivery.
+
 Install extra tools only when your project workflow clearly needs them.
 
 ## Beginner Setup Checklist
@@ -121,3 +130,14 @@ Install extra tools only when your project workflow clearly needs them.
 
 - The kit can help remove prompt residue, generic phrasing, vague claims, and inflated style.
 - It must not promise lower detector scores, bypass AI detection, hide AI-use disclosure, or add random stylistic noise.
+
+`Style fingerprint scan` and `AI detection` are different.
+
+- The scan flags repeated surface templates such as `rather than`, `not...but`, `不是...而是`, and `而不是`.
+- It does not decide whether text was written by AI.
+- It should protect clarity and authorial judgement, not remove legitimate academic scope distinctions.
+
+`Skill execution receipts` and `quality approval` are different.
+
+- Receipts show that a required skill produced an evidence artifact.
+- They do not prove that the evidence is academically sufficient, truthful, non-fabricated, or fully acted on.

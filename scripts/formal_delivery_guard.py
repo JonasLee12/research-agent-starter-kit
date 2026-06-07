@@ -15,6 +15,19 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT_DIR = ROOT / "audit-reports" / "formal-delivery-guard"
 OVERRIDE_DIR = ROOT / "audit-reports" / "delivery-overrides"
 
+DEFAULT_FORMAL_RECEIPTS = [
+    "dissertation-source-first-gate@thinking",
+    "material-passport@thinking",
+    "academic-integrity-preflight@thinking",
+    "cognitive-frameworks@thinking",
+    "academic-self-review-loop@writing",
+    "authorial-voice-integrity@writing",
+    "style-fingerprint-gate@writing",
+    "uk-academic-writing-style@writing",
+    "style-memory-and-revision-gate@writing",
+    "dissertation-document-quality-gate@writing",
+]
+
 
 @dataclass
 class GuardResult:
@@ -91,6 +104,37 @@ def guard_citations(source: Path, fail_on_attention: bool) -> GuardResult:
         command.append("--fail-on-attention")
     code, output = run_command(command)
     return GuardResult("citation_claim_support_queue", "PASS" if code == 0 else "BLOCK", output)
+
+
+def guard_style_fingerprint(source: Path) -> GuardResult:
+    command = [sys.executable, "scripts/style_fingerprint_scan.py", str(source), "--strict"]
+    code, output = run_command(command)
+    return GuardResult("style_fingerprint_scan", "PASS" if code == 0 else "BLOCK", output)
+
+
+def guard_authorial_voice(source: Path, strict: bool) -> GuardResult:
+    command = [sys.executable, "scripts/authorial_voice_scan.py", "--target", str(source)]
+    if strict:
+        command.append("--strict")
+    code, output = run_command(command)
+    return GuardResult("authorial_voice_scan", "PASS" if code == 0 else "BLOCK", output)
+
+
+def guard_skill_receipts(args: argparse.Namespace, artifact: Path) -> GuardResult:
+    if not args.task_id:
+        return GuardResult(
+            "skill_execution_receipts",
+            "BLOCK",
+            "--task-id is required when --require-skill-receipts is used.",
+        )
+    required = args.required_receipt or DEFAULT_FORMAL_RECEIPTS
+    command = [sys.executable, "scripts/skill_execution_receipt.py", "check", "--task-id", args.task_id]
+    for item in required:
+        command.extend(["--required-receipt", item])
+    if args.receipt_artifact_match:
+        command.extend(["--artifact", str(artifact)])
+    code, output = run_command(command)
+    return GuardResult("skill_execution_receipts", "PASS" if code == 0 else "BLOCK", output)
 
 
 def render_report(artifact: Path, source: Path | None, results: list[GuardResult], override_path: Path | None) -> str:
@@ -173,10 +217,18 @@ def main() -> int:
     parser.add_argument("--artifact", required=True, help="Formal artifact path, such as a .docx, .pdf, or final Markdown file.")
     parser.add_argument("--source", help="Markdown/text source path for final integrity and citation checks.")
     parser.add_argument("--require-project-delivery-review", action="store_true")
+    parser.add_argument("--require-material-passport", action="store_true", help="Compatibility flag; material passport is checked through the pre-delivery lock.")
+    parser.add_argument("--require-integrity-preflight", action="store_true", help="Compatibility flag; final integrity preflight runs unless explicitly skipped.")
     parser.add_argument("--require-citation", action="store_true")
     parser.add_argument("--require-compliance", action="store_true")
     parser.add_argument("--require-requirements", action="store_true")
     parser.add_argument("--require-render-check", action="store_true")
+    parser.add_argument("--require-style-fingerprint", action="store_true")
+    parser.add_argument("--require-authorial-voice", action="store_true")
+    parser.add_argument("--require-skill-receipts", action="store_true")
+    parser.add_argument("--task-id")
+    parser.add_argument("--required-receipt", action="append", help="Required skill receipt as skill@stage. Defaults to formal-writing upstream receipts.")
+    parser.add_argument("--receipt-artifact-match", action="store_true", help="Require skill receipts to match the final artifact path.")
     parser.add_argument("--fail-on-claim-attention", action="store_true")
     parser.add_argument("--skip-integrity-preflight", action="store_true")
     parser.add_argument("--acknowledge-override", action="store_true")
@@ -197,6 +249,12 @@ def main() -> int:
         results.append(guard_integrity(source, args))
     if source is not None:
         results.append(guard_citations(source, args.fail_on_claim_attention))
+    if source is not None and args.require_style_fingerprint:
+        results.append(guard_style_fingerprint(source))
+    if source is not None and (args.require_authorial_voice or args.require_style_fingerprint):
+        results.append(guard_authorial_voice(source, strict=args.require_authorial_voice))
+    if args.require_skill_receipts:
+        results.append(guard_skill_receipts(args, artifact))
 
     blocked = not all(item.status == "PASS" for item in results)
     override_path = None

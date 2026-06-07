@@ -6,9 +6,9 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-green.svg)](https://www.python.org/)
-[![Evals](https://img.shields.io/badge/Skill_Evals-28%2F28_passing-brightgreen.svg)](#validation)
+[![Evals](https://img.shields.io/badge/Skill_Evals-33%2F33_passing-brightgreen.svg)](#validation)
 
-它可以配合 Codex、Claude Code、Cursor，或任何能读取本地文件并遵守 `SKILL.md` 指令的 coding agent 使用。这个 starter kit 本身是本地文件驱动；你选择的 agent 工具可能仍然有自己的登录、订阅或 API-key 要求。
+它可以配合 Codex、Claude Code、Cursor，或任何能读取本地文件并遵守 `SKILL.md` 指令的 coding agent 使用。这个 starter kit 本身是本地文件驱动；你选择的 agent 工具可能仍然有自己的登录、订阅、API-key 要求，或不同的 skill-discovery 行为。即使某个 agent 不能自动发现 skill，本地 Python 检查脚本仍然可以使用。
 
 这套 starter kit 适合 dissertation、thesis、article、report、proposal 和其他结构化研究项目。目标很明确：让 AI 帮你研究和写作，但不能随便编造事实、跳过证据、忽略引用和交付风险。
 
@@ -26,14 +26,16 @@ flowchart LR
     F --> G["Draft or revise"]
     G --> H["Two-pass self-review"]
     H --> I["Authorial voice check"]
-    I --> J["Delivery gate"]
-    J --> K["Knowledge update"]
+    I --> J["Style fingerprint scan"]
+    J --> L["Skill execution receipts"]
+    L --> M["Delivery gate"]
+    M --> K["Knowledge update"]
 
     C -. blocks unsupported facts .-> X["Revise evidence"]
     X -. back to source check .-> C
     E -. catches placeholders / fake refs .-> Y["Fix artifact"]
     Y -. back to source package .-> D
-    J -. blocks weak formal output .-> Z["Complete required gates"]
+    M -. blocks weak formal output .-> Z["Complete required gates"]
     Z -. back to review .-> H
 ```
 
@@ -41,11 +43,19 @@ flowchart LR
 
 这套流程在关键位置会变严格：
 
-1. **写作前先查证据** — 正式 claim 要么有本地证据，要么明确标记 `NEEDS VERIFICATION`。
+1. **写作前先查证据** — 正式 claim 需要已读过的 source section 或 source note 支持；metadata、保存的 PDF 或搜索结果本身不够。不足时必须明确标记 `NEEDS VERIFICATION`。
 2. **起草前先规划论证** — 先明确 claim、gap、evidence status、warrant 和 section role。
-3. **交付前先审查** — 草稿必须经过 source packaging、integrity preflight、cognitive planning、self-review、authorial voice check 和 delivery gate，才能被当作可用的正式输出。
+3. **交付前先审查** — 草稿必须经过 source packaging、integrity preflight、cognitive planning、self-review、authorial voice check、style fingerprint scan、skill execution receipts 和 delivery gate，才能被当作可用的正式输出。
+4. **审查必须具体** — two-pass self-review 要记录具体弱点、修改动作和新的二轮判断。
+5. **知识库更新要有边界** — 有用决定和已审 source 可以进入知识库，但 retrieval 和 notes 只是导航层，不能替代 source readiness。
 
 ## 最新更新
+
+**v1.5.1** 加入了 Style Fingerprint Gate 和 Skill Execution Receipts。
+
+这意味着正式写作现在可以要求关键检查留下本地证据回执。runtime 会按任务类型列出必做回执；扫描类 gate 会生成可核对报告；delivery guard 可以因为缺少回执而拦截交付，而不是接受一句“已检查”。回执只能说明证据文件存在，不证明分析已经足够，也不证明证据本身为真。
+
+这次也加入了确定性的固定词组清单扫描，用来检查反复出现的二元否定对比句式，例如 `rather than`、`not...but`、`不是...而是`、`而不是`。它是写作质量保护，不是通用 stylometric scan，也不是 AI detector。
 
 **v1.5.0** 加入了 Authorial Voice Integrity 和 Real Project Operating Guide。
 
@@ -102,7 +112,9 @@ bash scripts/run_vector_index.sh
 |---|---|---|
 | Agent 容易编造事实或要求 | Source-first gate | 正式写作先查本地证据，不靠记忆发挥 |
 | 文稿看起来流畅，但论证很薄 | Cognitive frameworks + self-review loop | 交付前检查 claim、warrant 和段落推进 |
-| 用户想“去 AI 味”或降低 AI 率 | Authorial voice integrity | 把任务改为 evidence-led authorial voice，而不是检测规避 |
+| 用户想“去 AI 味”或降低 AI 率 | Authorial voice integrity | 拒绝检测规避框架，改为 evidence-led authorial voice 工作 |
+| Skill 被提到但没有真正执行 | Skill execution receipts | 必做检查必须留下本地证据回执；回执不是质量证明 |
+| 正式文本反复使用机械式对比句 | Style fingerprint gate | 用固定词组清单扫描 `rather than` / `not...but` 等重复模板 |
 | 引用格式看似正确，但不一定支持正文 | Citation audit and source-readiness matrix | 区分 citation consistency 和 claim support |
 | 知识散落在聊天、文件和笔记里 | Self-growing KB workflow | 新材料经过 raw inbox、growth queue、compiled wiki，保留边界 |
 | Retrieval 结果容易被误当证据 | Retrieval protocol | 检索结果只作为候选，必须回到 source section review |
@@ -122,10 +134,12 @@ bash scripts/run_vector_index.sh
 | Optional vector search | `scripts/build_vector_index.py` | 安装 ChromaDB + sentence-transformers 后可用 |
 | Integrity preflight | `.agents/skills/academic-integrity-preflight/`, `scripts/academic_integrity_preflight.py` | 检查 prompt residue、placeholder、假引用、unsupported claims 和 disclosure-boundary 风险 |
 | Authorial voice integrity | `.agents/skills/authorial-voice-integrity/`, `scripts/authorial_voice_scan.py`, `research-wiki/AI_WRITING_AUTHORIAL_VOICE_POLICY.md` | 提升作者判断和学术/专业表达，但不承诺 AI detector 结果 |
-| Material Passport | `.agents/skills/material-passport/`, `scripts/material_passport.py` | 在正式文档推进前打包 source readiness、compliance/requirement status、citation boundary 和 `TO CONFIRM` |
+| Style fingerprint gate | `.agents/skills/style-fingerprint-gate/`, `scripts/style_fingerprint_scan.py` | 在正式交付前扫描重复的二元否定对比句式 |
+| Skill execution receipts | `scripts/skill_execution_receipt.py`, `research-wiki/SKILL_EXECUTION_RECEIPT_PROTOCOL.md` | 记录 task ID、skill、stage、status、evidence path 和 evidence hash |
+| Material Passport | `.agents/skills/material-passport/`, `scripts/material_passport.py` | 在正式文档推进前打包已记录的 source readiness、用户提供的 compliance/requirement status、citation boundary 和 `TO CONFIRM` |
 | Formal delivery guard | `.agents/skills/formal-delivery-guard/`, `scripts/pre_delivery_lock.py`, `scripts/formal_delivery_guard.py` | 创建/检查 pre-delivery lock，并在缺少必要证据时阻止正式交付 |
-| External review fallback | `scripts/build_external_review_bundle.py`, `templates/prompts/EXTERNAL_REVIEWER_PROMPT.md` | 在不上传文件的情况下生成本地质审包，供 Codex、ChatGPT、Claude、Gemini 或人工 reviewer 使用 |
-| Release surface verification | `.agents/skills/release-surface-verification/` | 在声称发布完成前，检查 GitHub release 页面、About/sidebar、topics、渲染后的 README/docs 和公开链接 |
+| External review fallback | `scripts/build_external_review_bundle.py`, `templates/prompts/EXTERNAL_REVIEWER_PROMPT.md` | 生成本地质审包且不会自动上传；是否复制给 Codex、ChatGPT、Claude、Gemini 或人工 reviewer 由用户决定 |
+| Release surface verification | `.agents/skills/release-surface-verification/` | 在声称发布完成前，检查用户可见的 GitHub release 页面、About/sidebar、topics、渲染后的 README/docs 和公开链接 |
 | Public sync policy | `PUBLIC_SYNC_POLICY.md` | 说明 shared core、private-only、public-only、同步检查和 release 边界 |
 | Delivery pipeline | `research-wiki/DOCUMENT_PIPELINE.md` | 把正式工作拆成 THINKING、WRITING、DELIVERY 三个 checkpoint |
 
@@ -139,13 +153,15 @@ bash scripts/run_vector_index.sh
 - 它不能替代 ethics approval、compliance approval、peer review 或 supervisor approval。
 - 它不能保证分数、发表、资助、录用或正式批准。
 - 它不能阻止用户绕过 agent pipeline 手动复制文件。
+- Skill receipts 只能证明有执行证据，不证明底层分析已经足够、真实或已被认真采纳。
+- Style 和 authorial voice scan 是写作质量顾问检查，不是 AI detector。
 
 这些限制不是缺陷。它们的作用是让证据不足、引用不足、交付风险变得可见。
 
 ## 验证
 
-当前公开模板显示 **28/28 skill evaluations passing**。
-这个 badge 反映的是已发布模板状态；你自定义系统后应重新运行下面的检查。
+当前公开模板显示 **33/33 skill evaluations passing**。
+这些是轻量级 static/routing checks，用来检查高风险流程是否指向真实文件和工具，不证明 agent 行为质量。这个 badge 反映的是已发布模板状态；你自定义系统后应重新运行下面的检查。
 
 ```bash
 python scripts/run_skill_evals.py
@@ -160,8 +176,10 @@ bash scripts/privacy_check.sh
 ```bash
 python scripts/material_passport.py --artifact path/to/draft.md --scope short
 python scripts/authorial_voice_scan.py --target path/to/draft.md
+python scripts/style_fingerprint_scan.py path/to/draft.md --strict
+python scripts/skill_execution_receipt.py create --task-id my-task --skill style-fingerprint-gate --stage writing --artifact path/to/draft.md --status PASS --evidence audit-reports/style-fingerprint/my-report.md
 python scripts/pre_delivery_lock.py create --target path/to/final.docx --runtime-receipt path/to/receipt.md --material-passport path/to/passport.md --source-map path/to/source-map.md --integrity-preflight path/to/integrity.md --quality-gate path/to/quality.md
-python scripts/formal_delivery_guard.py --artifact path/to/final.docx --source path/to/source.md
+python scripts/formal_delivery_guard.py --artifact path/to/final.docx --source path/to/source.md --require-style-fingerprint --require-skill-receipts --task-id my-task
 ```
 
 可选 vector smoke test：
@@ -247,6 +265,8 @@ python scripts/build_external_review_bundle.py path/to/draft.md
 - [Self-Growing Knowledge Base](knowledge-base/self-growing/README.md) — 可控知识库增长工作流
 - [Retrieval Protocol](research-wiki/RETRIEVAL_PROTOCOL.md) — 本地 retrieval 各层如何协同
 - [Document Pipeline](research-wiki/DOCUMENT_PIPELINE.md) — staged checkpoint delivery process
+- [AI Writing Authorial Voice Policy](research-wiki/AI_WRITING_AUTHORIAL_VOICE_POLICY.md) — 合规的作者声音边界
+- [Skill Execution Receipt Protocol](research-wiki/SKILL_EXECUTION_RECEIPT_PROTOCOL.md) — 必做 skill 的执行证据回执
 - [Software and Plugin Requirements](docs/SOFTWARE_AND_PLUGIN_REQUIREMENTS.md) — 必需和可选工具
 
 </details>

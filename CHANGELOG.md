@@ -1,5 +1,34 @@
 # Changelog
 
+## v1.5.1 - Style Fingerprint And Skill Execution Receipts - 2026-06-07
+
+Status: public writing-quality reliability and skill-execution evidence update.
+
+### Added
+
+- `.agents/skills/style-fingerprint-gate/` to scan repeated binary negative-contrast templates before formal delivery.
+- `scripts/style_fingerprint_scan.py` to report density, total hits, repeated pattern categories, and example locations for constructions such as `rather than`, `not...but`, `不是...而是`, and `而不是`.
+- `scripts/skill_execution_receipt.py` to create and check auditable skill execution receipts with task ID, skill, stage, status, evidence path, and evidence hash.
+- `research-wiki/SKILL_EXECUTION_RECEIPT_PROTOCOL.md` to explain the difference between skill routing, skill execution evidence, and academic sufficiency.
+- `scripts/document_quality_check.py` and `scripts/self_review_loop_check.py` to make document-quality and self-review checks more concrete.
+- Unit tests for style/receipt-enabled delivery guard behaviour and authorial voice scan boundaries.
+
+### Changed
+
+- Runtime routing now emits task-specific `receipt_requirements` instead of relying on the agent to remember which skills should leave evidence.
+- Formal writing routes now include `style-fingerprint-gate`, `style_fingerprint_scan`, and skill execution receipts.
+- `scripts/formal_delivery_guard.py` can block missing required skill receipts and optional style/authorial-voice scans, with the existing auditable override path preserved.
+- README, Chinese README, system overview, app/tool documentation, software requirements, AGENTS template, document pipeline, dependency graph, production receipt validation, and skill eval registry now document the receipt-based execution layer.
+- Skill eval registry expanded from 28 to 33 public checks.
+
+### Boundary
+
+- Style fingerprint scanning is a writing-quality safeguard, not an AI detector.
+- Authorial voice checks and style scans do not promise detector scores or authorship judgement.
+- Skill receipts prove execution evidence exists. They do not prove the underlying evidence is academically sufficient, truthful, non-fabricated, or acted on.
+- Delivery overrides remain traceability records only; they are not quality passes.
+- No private research project content, institution details, participant material, screenshots, personal files, local paths, or credentials were added.
+
 ## v1.5.0 - Authorial Voice Integrity And Real Project Operating Guide - 2026-06-02
 
 Status: public research-agent writing integrity and operating-practice update.

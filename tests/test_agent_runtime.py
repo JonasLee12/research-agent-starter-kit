@@ -72,6 +72,22 @@ class AgentRuntimeRoutingTests(unittest.TestCase):
         self.assertLess(ordered.index("cognitive-frameworks"), ordered.index("academic-self-review-loop"))
         self.assertLess(ordered.index("academic-self-review-loop"), ordered.index("authorial-voice-integrity"))
 
+    def test_formal_output_includes_style_and_receipt_gates(self) -> None:
+        route = classify("Draft and deliver a formal research report", "Production")
+
+        self.assertIn("style-fingerprint-gate", route.skills)
+        self.assertIn("style_fingerprint_scan", route.gates)
+        self.assertIn("skill_execution_receipts_for_required_gates", route.gates)
+        self.assertIn("style-fingerprint-gate@writing", route.receipt_requirements)
+        self.assertIn("dissertation-document-quality-gate@writing", route.receipt_requirements)
+
+    def test_literature_search_uses_lighter_receipt_requirements(self) -> None:
+        route = classify("search for recent literature on a research topic", "Production")
+
+        self.assertIn("literature_search", route.task_types)
+        self.assertIn("dissertation-research-search-protocol@research", route.receipt_requirements)
+        self.assertNotIn("style-fingerprint-gate@writing", route.receipt_requirements)
+
     def test_knowledge_base_setup_routes_to_kb_operations(self) -> None:
         route = classify("Set up a self-growing knowledge base with local retrieval", "Production")
 

@@ -62,6 +62,7 @@ TASK_RULES: list[dict] = [
             "dissertation-research-review",
             "academic-self-review-loop",
             "authorial-voice-integrity",
+            "style-fingerprint-gate",
             "uk-academic-writing-style",
             "style-memory-and-revision-gate",
             "dissertation-document-quality-gate",
@@ -76,6 +77,8 @@ TASK_RULES: list[dict] = [
             "cognitive_protocol_check",
             "academic_self_review_loop",
             "authorial_voice_check_when_style_or_disclosure_risk",
+            "style_fingerprint_scan",
+            "skill_execution_receipts_for_required_gates",
             "writing_quality_rubric",
             "thinking_checkpoint",
             "writing_checkpoint",
@@ -94,19 +97,36 @@ TASK_RULES: list[dict] = [
             "quality-gates/PROJECT_DELIVERY_REVIEW_GATE.md",
             "research-wiki/DOCUMENT_PIPELINE.md",
             "research-wiki/WRITING_QUALITY_RUBRIC.md",
+            "research-wiki/SKILL_EXECUTION_RECEIPT_PROTOCOL.md",
             ".agents/skills/cognitive-frameworks/SKILL.md",
             ".agents/skills/material-passport/SKILL.md",
             ".agents/skills/academic-integrity-preflight/SKILL.md",
             ".agents/skills/academic-self-review-loop/SKILL.md",
             ".agents/skills/authorial-voice-integrity/SKILL.md",
+            ".agents/skills/style-fingerprint-gate/SKILL.md",
             ".agents/skills/formal-delivery-guard/SKILL.md",
             "research-wiki/AI_WRITING_AUTHORIAL_VOICE_POLICY.md",
             "scripts/cognitive_protocol_check.py",
             "scripts/material_passport.py",
             "scripts/academic_integrity_preflight.py",
             "scripts/authorial_voice_scan.py",
+            "scripts/style_fingerprint_scan.py",
+            "scripts/skill_execution_receipt.py",
             "scripts/pre_delivery_lock.py",
             "scripts/formal_delivery_guard.py",
+        ],
+        "receipt_requirements": [
+            "dissertation-source-first-gate@thinking",
+            "material-passport@thinking",
+            "academic-integrity-preflight@thinking",
+            "cognitive-frameworks@thinking",
+            "academic-self-review-loop@writing",
+            "authorial-voice-integrity@writing",
+            "style-fingerprint-gate@writing",
+            "uk-academic-writing-style@writing",
+            "style-memory-and-revision-gate@writing",
+            "dissertation-document-quality-gate@writing",
+            "formal-delivery-guard@delivery",
         ],
     },
     {
@@ -146,6 +166,7 @@ TASK_RULES: list[dict] = [
             "authorial-voice-integrity",
             "academic-integrity-preflight",
             "academic-self-review-loop",
+            "style-fingerprint-gate",
             "uk-academic-writing-style",
             "style-memory-and-revision-gate",
             "dissertation-document-quality-gate",
@@ -156,6 +177,7 @@ TASK_RULES: list[dict] = [
             "no_detector_evasion_or_score_promise",
             "ai_use_disclosure_boundary",
             "authorial_voice_scan",
+            "style_fingerprint_scan",
             "academic_integrity_preflight_when_disclosure_or_prompt_residue_risk",
             "writing_quality_review",
         ],
@@ -165,8 +187,15 @@ TASK_RULES: list[dict] = [
             ".agents/skills/academic-self-review-loop/SKILL.md",
             "research-wiki/AI_WRITING_AUTHORIAL_VOICE_POLICY.md",
             "research-wiki/WRITING_QUALITY_RUBRIC.md",
+            ".agents/skills/style-fingerprint-gate/SKILL.md",
             "scripts/authorial_voice_scan.py",
+            "scripts/style_fingerprint_scan.py",
             "scripts/academic_integrity_preflight.py",
+        ],
+        "receipt_requirements": [
+            "authorial-voice-integrity@writing",
+            "style-fingerprint-gate@writing",
+            "academic-integrity-preflight@writing",
         ],
     },
     {
@@ -195,6 +224,10 @@ TASK_RULES: list[dict] = [
             "knowledge-base/SOURCE_REGISTER.md",
             "knowledge-base/SOURCE_READINESS_MATRIX.md",
         ],
+        "receipt_requirements": [
+            "dissertation-research-search-protocol@research",
+            "dissertation-learning-loop@integration",
+        ],
     },
     {
         "name": "citation_claim_support",
@@ -215,6 +248,9 @@ TASK_RULES: list[dict] = [
             "knowledge-base/SOURCE_READINESS_MATRIX.md",
             "knowledge-base/SOURCE_REGISTER.md",
             "research-wiki/ZOTERO_AND_CITATION_WORKFLOW_SPEC.md",
+        ],
+        "receipt_requirements": [
+            "dissertation-citation-audit@review",
         ],
     },
     {
@@ -255,6 +291,10 @@ TASK_RULES: list[dict] = [
             "university-guidance/RUBRIC_EVIDENCE_GATE.md",
             "university-guidance/RUBRIC_OR_MARKING_CRITERIA_TEMPLATE.md",
             "university-guidance/MODULE_REQUIREMENTS_TEMPLATE.md",
+        ],
+        "receipt_requirements": [
+            "dissertation-source-first-gate@review",
+            "dissertation-document-quality-gate@review",
         ],
     },
     {
@@ -301,6 +341,9 @@ TASK_RULES: list[dict] = [
             "scripts/build_vector_index.py",
             "scripts/vector_retrieval_smoke_test.py",
             "requirements-vector.txt",
+        ],
+        "receipt_requirements": [
+            "dissertation-knowledge-ops@integration",
         ],
     },
     {
@@ -349,6 +392,9 @@ TASK_RULES: list[dict] = [
             "research-wiki/PRODUCTION_RUN_REGISTER.md",
             "research-wiki/PRODUCTION_RECEIPT_VALIDATION.md",
             "research-wiki/SESSION_EVENT_LOG.jsonl",
+        ],
+        "receipt_requirements": [
+            "dissertation-agent-self-debug@maintenance",
         ],
     },
 ]
@@ -406,6 +452,7 @@ class RuntimeRoute:
     task_types: list[str]
     skills: list[str]
     gates: list[str]
+    receipt_requirements: list[str]
     required_files: list[str]
     missing_files: list[str]
     warnings: list[str]
@@ -457,6 +504,7 @@ def classify(task: str, window: str) -> RuntimeRoute:
     task_types = [rule["name"] for rule in matched]
     skills = unique([skill for rule in matched for skill in rule["skills"]])
     gates = unique([gate for rule in matched for gate in rule["gates"]])
+    receipt_requirements = unique([item for rule in matched for item in rule.get("receipt_requirements", [])])
     required_files = unique(BASE_FILES + [path for rule in matched for path in rule["required_files"]])
     missing_files = [path for path in required_files if not (ROOT / path).exists()]
     warnings = []
@@ -471,6 +519,10 @@ def classify(task: str, window: str) -> RuntimeRoute:
         warnings.append("Formal output lacks project delivery review gate.")
     if "formal_research_output" in task_types and "academic-self-review-loop" not in skills:
         warnings.append("Formal output lacks academic self-review loop.")
+    if "formal_research_output" in task_types and "style-fingerprint-gate" not in skills:
+        warnings.append("Formal output lacks style fingerprint gate.")
+    if "formal_research_output" in task_types and "skill_execution_receipts_for_required_gates" not in gates:
+        warnings.append("Formal output lacks skill execution receipt gate.")
     if "authorial_voice_integrity" in task_types and "authorial-voice-integrity" not in skills:
         warnings.append("Authorial voice task lacks authorial voice integrity skill.")
     if "authorial_voice_integrity" in task_types and "authorial_voice_scan" not in gates:
@@ -498,6 +550,7 @@ def classify(task: str, window: str) -> RuntimeRoute:
         task_types=task_types,
         skills=skills,
         gates=gates,
+        receipt_requirements=receipt_requirements,
         required_files=required_files,
         missing_files=missing_files,
         warnings=warnings,
@@ -542,9 +595,17 @@ def markdown(route: RuntimeRoute) -> str:
         f"- Skills: {', '.join(route.skills)}",
         f"- Gates: {', '.join(route.gates)}",
         "",
-        "## Required Files",
+        "## Required Skill Execution Receipts",
         "",
     ]
+    lines.extend(f"- `{item}`" for item in route.receipt_requirements) if route.receipt_requirements else lines.append("- None")
+    lines.extend(
+        [
+            "",
+            "## Required Files",
+            "",
+        ]
+    )
     lines.extend(f"- `{path}`" for path in route.required_files)
     lines.extend(["", "## Missing Files", ""])
     lines.extend(f"- `{path}`" for path in route.missing_files) if route.missing_files else lines.append("- None")

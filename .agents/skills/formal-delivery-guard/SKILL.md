@@ -40,10 +40,15 @@ python3 scripts/pre_delivery_lock.py create --target <artifact> \
 ```bash
 python3 scripts/formal_delivery_guard.py --artifact <artifact> --source <markdown-source> \
   --require-material-passport \
-  --require-integrity-preflight
+  --require-integrity-preflight \
+  --require-style-fingerprint \
+  --require-skill-receipts \
+  --task-id <task-id>
 ```
 
 Add `--require-citation`, `--require-compliance`, or `--fail-on-claim-attention` when the output needs those checks.
+
+Use `--required-receipt <skill@stage>` to provide a custom task-specific receipt list. Without custom receipt flags, the guard checks the default upstream formal-writing receipts.
 
 ## Override Rule
 
@@ -61,7 +66,7 @@ An override creates an audit record. It does not convert unresolved evidence int
 
 - `PASS`: required lock and final checks are present.
 - `WARN`: non-blocking issue remains visible.
-- `BLOCK`: required lock/evidence is missing, integrity preflight fails, or citation claim-support attention is configured as blocking.
+- `BLOCK`: required lock/evidence is missing, integrity preflight fails, style-fingerprint scan fails, required skill receipts are missing/stale/non-passing, or citation claim-support attention is configured as blocking.
 - `OVERRIDE_ACKNOWLEDGED`: blocked checks exist, but the user explicitly recorded a delivery-risk exception.
 
 ## Boundaries

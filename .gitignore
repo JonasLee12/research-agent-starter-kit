@@ -23,6 +23,8 @@ research-wiki/material-passports/*
 !research-wiki/material-passports/.gitkeep
 research-wiki/pre-delivery-locks/*
 !research-wiki/pre-delivery-locks/.gitkeep
+research-wiki/skill-receipts/*
+!research-wiki/skill-receipts/.gitkeep
 knowledge-base/self-growing/health-checks/*
 !knowledge-base/self-growing/health-checks/README.md
 audit-reports/*.md

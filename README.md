@@ -6,9 +6,9 @@ Build a local research agent that thinks before writing, checks sources before c
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-green.svg)](https://www.python.org/)
-[![Evals](https://img.shields.io/badge/Skill_Evals-28%2F28_passing-brightgreen.svg)](#validation)
+[![Evals](https://img.shields.io/badge/Skill_Evals-33%2F33_passing-brightgreen.svg)](#validation)
 
-Use it with Codex, Claude Code, Cursor, or any coding agent that can read local files and follow `SKILL.md` instructions. The kit itself is file-based and local-first; the agent tool you choose may have its own login, subscription, or API-key requirements.
+Use it with Codex, Claude Code, Cursor, or any coding agent that can read local files and follow `SKILL.md` instructions. The kit itself is file-based and local-first; the agent tool you choose may have its own login, subscription, API-key requirements, or different skill-discovery behaviour. The Python checks remain usable even when an agent does not auto-discover skills.
 
 This starter kit is for dissertations, theses, articles, reports, proposals, and structured research projects where AI assistance must stay evidence-aware, auditable, and honest about its limits.
 
@@ -26,14 +26,16 @@ flowchart LR
     F --> G["Draft or revise"]
     G --> H["Two-pass self-review"]
     H --> I["Authorial voice check"]
-    I --> J["Delivery gate"]
-    J --> K["Knowledge update"]
+    I --> J["Style fingerprint scan"]
+    J --> L["Skill execution receipts"]
+    L --> M["Delivery gate"]
+    M --> K["Knowledge update"]
 
     C -. blocks unsupported facts .-> X["Revise evidence"]
     X -. back to source check .-> C
     E -. catches placeholders / fake refs .-> Y["Fix artifact"]
     Y -. back to source package .-> D
-    J -. blocks weak formal output .-> Z["Complete required gates"]
+    M -. blocks weak formal output .-> Z["Complete required gates"]
     Z -. back to review .-> H
 ```
 
@@ -41,11 +43,19 @@ The dashed paths are revision loops. They show where the agent should stop, fix 
 
 The workflow is strict where it matters:
 
-1. **Check evidence before writing** — formal claims require local source evidence or a visible `NEEDS VERIFICATION` boundary.
+1. **Check evidence before writing** — formal claims require reviewed source-section evidence or a visible `NEEDS VERIFICATION` boundary. Metadata, a saved PDF, or a search result is not enough by itself.
 2. **Plan the argument before drafting** — the agent maps the claim, gap, evidence status, warrant, and section role.
-3. **Review before delivery** — drafts go through source packaging, integrity preflight, cognitive planning, self-review, authorial voice checks, and delivery gates before they are treated as usable formal outputs.
+3. **Review before delivery** — drafts go through source packaging, integrity preflight, cognitive planning, self-review, authorial voice checks, style fingerprint scans, skill execution receipts, and delivery gates before they are treated as usable formal outputs.
+4. **Keep review concrete** — two-pass self-review records concrete weaknesses, revision actions, and a fresh second judgement.
+5. **Update knowledge deliberately** — useful decisions and reviewed sources can be added to the knowledge base, but retrieval and notes remain navigation aids until source readiness is confirmed.
 
 ## What's New
+
+**v1.5.1** adds Style Fingerprint Gate and Skill Execution Receipts.
+
+That means formal writing can now require local evidence receipts for key checks. The runtime lists task-specific receipt requirements, scanner-style gates create checkable reports, and the delivery guard can block missing receipts instead of accepting a chat claim that a skill was used. Receipts show that evidence artifacts exist; they do not prove the analysis is sufficient or that the evidence is true.
+
+This release also adds a deterministic fixed phrase-list scan for repeated binary contrast templates such as "rather than", "not...but", "不是...而是", and "而不是". It is a writing-quality safeguard, not a general stylometric scan or AI detector.
 
 **v1.5.0** adds Authorial Voice Integrity and a Real Project Operating Guide.
 
@@ -102,7 +112,9 @@ bash scripts/run_vector_index.sh
 |---|---|---|
 | The agent invents facts or requirements | Source-first gate | Formal writing starts from local evidence, not memory |
 | The draft sounds polished but the argument is thin | Cognitive frameworks + self-review loop | Claims, warrants, and paragraph logic are checked before delivery |
-| The user asks to reduce AI rate or humanise prose | Authorial voice integrity | The task is reframed as evidence-led authorial voice, not detector evasion |
+| The user asks to reduce AI rate or humanise prose | Authorial voice integrity | The detector-evasion framing is refused and converted into evidence-led authorial voice work |
+| A skill is mentioned but not actually executed | Skill execution receipts | Required checks must leave local evidence receipts; receipts are not proof of analytical quality |
+| Formal prose repeats mechanical contrast templates | Style fingerprint gate | A fixed phrase list, including `rather than` / `not...but`, is scanned before delivery |
 | Citations look correct but may not support the claim | Citation audit and source-readiness matrix | The system separates citation consistency from claim support |
 | Knowledge grows chaotically across chats and files | Self-growing KB workflow | New notes move through raw inbox, growth queue, and compiled wiki with boundaries |
 | Retrieval results get mistaken for evidence | Retrieval protocol | Search results stay candidate-only until source sections are reviewed |
@@ -122,10 +134,12 @@ bash scripts/run_vector_index.sh
 | Optional vector search | `scripts/build_vector_index.py` | Adds ChromaDB + sentence-transformers retrieval when installed |
 | Integrity preflight | `.agents/skills/academic-integrity-preflight/`, `scripts/academic_integrity_preflight.py` | Checks prompt residue, placeholders, fake references, unsupported claims, and disclosure-boundary risks |
 | Authorial voice integrity | `.agents/skills/authorial-voice-integrity/`, `scripts/authorial_voice_scan.py`, `research-wiki/AI_WRITING_AUTHORIAL_VOICE_POLICY.md` | Improves authorial judgement and academic/professional voice without detector-evasion claims |
-| Material Passport | `.agents/skills/material-passport/`, `scripts/material_passport.py` | Packages source readiness, compliance/requirement status, citation boundaries, and `TO CONFIRM` items before formal artifacts move forward |
+| Style fingerprint gate | `.agents/skills/style-fingerprint-gate/`, `scripts/style_fingerprint_scan.py` | Scans repeated binary negative-contrast templates before formal delivery |
+| Skill execution receipts | `scripts/skill_execution_receipt.py`, `research-wiki/SKILL_EXECUTION_RECEIPT_PROTOCOL.md` | Records task ID, skill, stage, status, evidence path, and evidence hash for required gates |
+| Material Passport | `.agents/skills/material-passport/`, `scripts/material_passport.py` | Packages recorded source readiness, user-supplied compliance/requirement status, citation boundaries, and `TO CONFIRM` items before formal artifacts move forward |
 | Formal delivery guard | `.agents/skills/formal-delivery-guard/`, `scripts/pre_delivery_lock.py`, `scripts/formal_delivery_guard.py` | Creates/checks pre-delivery locks and blocks formal delivery when required evidence is missing |
-| External review fallback | `scripts/build_external_review_bundle.py`, `templates/prompts/EXTERNAL_REVIEWER_PROMPT.md` | Builds a local review bundle for Codex, ChatGPT, Claude, Gemini, or human review without uploading anything |
-| Release surface verification | `.agents/skills/release-surface-verification/` | Checks GitHub release pages, About/sidebar, topics, rendered README/docs, and public links before claiming a release is complete |
+| External review fallback | `scripts/build_external_review_bundle.py`, `templates/prompts/EXTERNAL_REVIEWER_PROMPT.md` | Builds a local review bundle with no automatic upload; the user decides what to share with Codex, ChatGPT, Claude, Gemini, or a human reviewer |
+| Release surface verification | `.agents/skills/release-surface-verification/` | Checks the user-visible GitHub release page, About/sidebar, topics, rendered README/docs, and public links before claiming a release is complete |
 | Public sync policy | `PUBLIC_SYNC_POLICY.md` | Defines shared core files, private-only content, public-only onboarding files, sync checks, and release-boundary rules |
 | Delivery pipeline | `research-wiki/DOCUMENT_PIPELINE.md` | Splits formal work into THINKING, WRITING, and DELIVERY checkpoints |
 
@@ -139,13 +153,15 @@ This kit is deliberately strict about what it cannot prove.
 - It cannot complete ethics approval, compliance approval, peer review, or supervisor approval.
 - It cannot guarantee marks, publication, funding, acceptance, or official approval.
 - It cannot stop someone from manually bypassing the workflow outside the agent pipeline.
+- Skill receipts prove execution evidence exists. They do not prove the underlying analysis is academically sufficient, truthful, or acted on.
+- Style and authorial voice scans are advisory writing-quality checks. They are not AI detectors.
 
 These limits are part of the design. The system should make weak evidence visible instead of hiding it behind fluent prose.
 
 ## Validation
 
-The public template currently reports **28/28 skill evaluations passing**.
-The badge reflects the published template state; rerun the checks after customising the kit.
+The public template currently reports **33/33 skill evaluations passing**.
+These are lightweight static/routing checks for high-risk cases, not proof of behavioural quality. The badge reflects the published template state; rerun the checks after customising the kit.
 
 ```bash
 python scripts/run_skill_evals.py
@@ -160,8 +176,10 @@ Formal delivery helpers:
 ```bash
 python scripts/material_passport.py --artifact path/to/draft.md --scope short
 python scripts/authorial_voice_scan.py --target path/to/draft.md
+python scripts/style_fingerprint_scan.py path/to/draft.md --strict
+python scripts/skill_execution_receipt.py create --task-id my-task --skill style-fingerprint-gate --stage writing --artifact path/to/draft.md --status PASS --evidence audit-reports/style-fingerprint/my-report.md
 python scripts/pre_delivery_lock.py create --target path/to/final.docx --runtime-receipt path/to/receipt.md --material-passport path/to/passport.md --source-map path/to/source-map.md --integrity-preflight path/to/integrity.md --quality-gate path/to/quality.md
-python scripts/formal_delivery_guard.py --artifact path/to/final.docx --source path/to/source.md
+python scripts/formal_delivery_guard.py --artifact path/to/final.docx --source path/to/source.md --require-style-fingerprint --require-skill-receipts --task-id my-task
 ```
 
 Optional vector smoke test:
@@ -247,6 +265,8 @@ Edit `.agents/skills/cognitive-frameworks/SKILL.md` to adjust gap classification
 - [Self-Growing Knowledge Base](knowledge-base/self-growing/README.md) — Controlled knowledge-base growth workflow
 - [Retrieval Protocol](research-wiki/RETRIEVAL_PROTOCOL.md) — How the local retrieval layers work together
 - [Document Pipeline](research-wiki/DOCUMENT_PIPELINE.md) — Staged checkpoint delivery process
+- [AI Writing Authorial Voice Policy](research-wiki/AI_WRITING_AUTHORIAL_VOICE_POLICY.md) — Integrity-safe authorial voice boundary
+- [Skill Execution Receipt Protocol](research-wiki/SKILL_EXECUTION_RECEIPT_PROTOCOL.md) — Evidence receipts for required skill execution
 - [Software and Plugin Requirements](docs/SOFTWARE_AND_PLUGIN_REQUIREMENTS.md) — Required and optional tools
 
 </details>

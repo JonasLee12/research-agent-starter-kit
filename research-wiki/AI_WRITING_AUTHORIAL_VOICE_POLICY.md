@@ -1,75 +1,68 @@
-# AI Writing And Authorial Voice Policy
+# AI Writing, Academic Integrity, And Authorial Voice Policy
 
-Last updated: 2026-06-02
+Purpose: route requests about "AI-looking writing", "humanising", "de-AI", AIGC detection, or similar phrasing into legitimate authorial-voice, academic-integrity, and research-writing quality work.
 
-## Purpose
-
-Define how this starter kit handles requests framed as AI writing, AI-looking prose, de-AI, humanising, AIGC, AI detector scores, or AI-use disclosure.
-
-The system does not optimise for detector scores. It improves authorial voice, argument quality, academic or professional integrity, and evidence-led prose.
-
-## Core Position
+## Core Rule
 
 Allowed:
 
-- remove prompt residue, chatbot meta-text, placeholders, and generic AI-style phrasing;
-- strengthen paragraph-level judgement through clearer mini-claims, warrants, and evidence boundaries;
-- improve project-appropriate register, including UK academic style when the project context requires it;
-- preserve meaning, citations, dates, names, participant facts, official requirements, and source boundaries;
-- explain what changed and why.
+- improve clarity, paragraph movement, academic register, and discipline-appropriate voice;
+- remove prompt residue, generic filler, repeated templates, unsupported certainty, and mechanical transitions;
+- help the author state their own judgement, evidence boundary, and source-based reasoning more clearly;
+- check whether required AI-use disclosure or coversheet statements need attention, based only on user-provided or project guidance.
 
 Not allowed:
 
-- promise lower AI-detection, AIGC-detection, Turnitin, GPTZero, or platform-detection scores;
-- use detector evasion, randomness injection, synonym-swap evasion, stylistic-noise insertion, or deliberate imperfection as a workflow goal;
-- promise how detectors, assessors, reviewers, readers, or platforms will perceive authorship;
-- hide unsupported claims through smoother wording;
-- rewrite references, evidence, ethics/compliance statements, official requirements, or personal/admin facts for style;
-- hide, soften, remove, or invent AI-use disclosure statements;
-- make claims about institutional AI-use disclosure rules without checking local evidence first.
+- promise to lower an AI detector score or detection rate;
+- rewrite text to bypass Turnitin, GPTZero, AIGC tools, or any authorship detector;
+- insert deliberate mistakes, random wording, synonym-swap noise, or artificial imperfection;
+- hide, soften, or fabricate AI-use disclosure;
+- claim that prose is or is not AI-generated.
 
-## Default Workflow
+## Trigger Phrases
 
-For formal academic or professional prose:
+Treat these as authorial-voice / integrity tasks, not detector-evasion tasks:
 
-1. Source-first check and Material Passport when formal claims are involved.
-2. `academic-integrity-preflight`.
-3. `cognitive-frameworks`.
-4. `academic-self-review-loop`.
-5. `authorial-voice-integrity` and `scripts/authorial_voice_scan.py` when style/integrity risk matters.
-6. Project style gate, such as `uk-academic-writing-style` for UK academic work.
-7. `style-memory-and-revision-gate`.
-8. Document-quality and formal delivery gates when delivering artifacts.
+- "lower AI rate", "reduce AI score", "pass AI detector", "avoid AI detection";
+- "humanise", "de-AI", "AI fingerprints", "sounds like AI";
+- "降 AI", "降 AIGC", "去 AI 味", "AI 痕迹", "AI 检测率", "绕过检测".
 
-For quick chat answers, do not run the full pipeline. Apply the same boundary in concise form: improve clarity and authorial voice, do not promise detector outcomes.
+## Required Response Shape
 
-## Ownership
+When triggered, say the work will be handled as:
 
-Canonical skill:
+1. academic integrity check;
+2. authorial voice and register scan;
+3. style-fingerprint scan for repeated templates;
+4. targeted revision that preserves claims, citations, uncertainty level, and source boundaries.
 
-- `authorial-voice-integrity` owns AI-writing, de-AI, humanising, detector-framed, and disclosure-risk writing requests.
+Do not use detector-score language in the deliverable.
 
-Supporting gates:
+## Workflow For Formal Research Prose
 
-- `academic-integrity-preflight` owns prompt residue, placeholders, fake references, unsupported claims, and misleading disclosure.
-- `academic-self-review-loop` owns paragraph quality, warrants, and argument progression.
-- `uk-academic-writing-style` or the confirmed project style skill owns academic register.
-- `style-memory-and-revision-gate` owns user-facing answer shape and revision accountability.
+1. Run or apply `academic-integrity-preflight` first if the request mentions disclosure, AI-use statements, prompt residue, placeholders, fake references, or unsupported claims.
+2. Use source-first and Material Passport gates when the text is formal, citation-heavy, or stakeholder-facing.
+3. Use `academic-self-review-loop` for argument quality.
+4. Run:
 
-## Authorial Voice Checks
+```bash
+python3 scripts/authorial_voice_scan.py --target <draft> --strict
+python3 scripts/style_fingerprint_scan.py <draft> --strict
+```
 
-Check whether the text:
+5. Revise only the flagged language issues that weaken readability, register, argument movement, or source-boundary clarity.
+6. Re-run the relevant scanners if the revision materially changes the prose.
+7. For formal delivery, create skill execution receipts and run the final delivery guard when enabled.
 
-- opens paragraphs with a specific mini-claim rather than broad setup;
-- uses evidence as part of the sentence logic, not as decoration after a generic claim;
-- contains a visible warrant when moving from literature, data, or requirements to interpretation;
-- avoids generic AI-style transitions and inflated academic vocabulary;
-- keeps uncertainty visible when source support is incomplete;
-- removes repeated meta-commentary, symmetrical paragraph patterns, and empty connector sentences;
-- preserves the user's substantive judgement rather than replacing it with polished generalities.
+## Authorial Voice Signals To Improve
 
-## Integrity Boundary
+- repeated stock transitions, such as "This matters because", "Taken together", or "These sources show";
+- repeated paragraph-final codas that make different paragraphs end in the same way;
+- overused abstract nouns carrying too much of the argument;
+- paragraphs that cite sources but do not state the author's judgement;
+- long runs of similarly structured claim-because-implication sentences;
+- binary negative-contrast templates overused beyond genuine scope distinctions.
 
-Prompt residue, fake references, placeholders, unsupported claims, misleading AI-use disclosure, and unresolved source markers are not style problems. Route them to `academic-integrity-preflight` before rewriting.
+## Boundaries
 
-This policy is not a plagiarism detector, AI detector, or official institutional policy. It is a writing-quality and integrity policy.
+This policy is not an AI detector, plagiarism detector, authorship detector, institutional policy, or official assessment rule. It supports clearer research prose and honest disclosure boundaries only.

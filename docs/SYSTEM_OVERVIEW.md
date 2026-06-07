@@ -20,9 +20,11 @@ The operating sequence is:
 6. make claims, gaps, warrants, and boundaries explicit before drafting;
 7. run self-review before style polishing;
 8. check authorial voice when prose risks becoming generic, detector-framed, or disclosure-unsafe;
-9. use quality gates and formal delivery guards before formal delivery;
-10. record important decisions in project memory;
-11. keep production work and system maintenance separate.
+9. scan repeated style fingerprints before formal delivery;
+10. require execution receipts for selected formal-writing gates;
+11. use quality gates and formal delivery guards before formal delivery;
+12. record important decisions in project memory;
+13. keep production work and system maintenance separate.
 
 ## 2. What The System Is For
 
@@ -62,6 +64,8 @@ Do not use it as a substitute for:
 | Writing quality layer | `.agents/skills/cognitive-frameworks/`, `.agents/skills/academic-self-review-loop/`, `research-wiki/WRITING_QUALITY_RUBRIC.md` | Checks argument depth, paragraph quality, warrants, and revision quality before style polishing |
 | Integrity layer | `.agents/skills/academic-integrity-preflight/`, `scripts/academic_integrity_preflight.py` | Checks concrete prompt residue, placeholder, fake-reference, unsupported-claim, and disclosure-boundary risks |
 | Authorial voice layer | `.agents/skills/authorial-voice-integrity/`, `research-wiki/AI_WRITING_AUTHORIAL_VOICE_POLICY.md`, `scripts/authorial_voice_scan.py` | Improves authorial judgement and project-appropriate style while blocking detector-evasion and disclosure-hiding requests |
+| Style fingerprint layer | `.agents/skills/style-fingerprint-gate/`, `scripts/style_fingerprint_scan.py` | Scans repeated binary negative-contrast templates before formal delivery |
+| Skill execution evidence layer | `scripts/skill_execution_receipt.py`, `research-wiki/SKILL_EXECUTION_RECEIPT_PROTOCOL.md` | Requires selected skills to produce evidence receipts rather than only being mentioned in chat |
 | Formal delivery layer | `.agents/skills/material-passport/`, `.agents/skills/formal-delivery-guard/`, `scripts/material_passport.py`, `scripts/pre_delivery_lock.py`, `scripts/formal_delivery_guard.py` | Packages readiness evidence, creates pre-delivery locks, and blocks formal delivery when required evidence is missing |
 | Self-growing KB layer | `knowledge-base/self-growing/`, `scripts/kb_health_check.py` | Controls raw intake, growth queue triage, compiled-wiki navigation, and KB health checks |
 | Retrieval layer | `scripts/build_agent_index.py`, `scripts/local_retrieval_search.py`, `scripts/build_vector_index.py` | Provides local SQLite/FTS/hashed retrieval and optional ChromaDB neural retrieval |
@@ -200,6 +204,10 @@ Version `v0.4.0` adds a local engineering layer.
 | `scripts/claude_independent_review.py` | Optional privacy-gated Claude Code runner for the same advisory external-review role |
 | `scripts/academic_integrity_preflight.py` | Checks concrete integrity risks before formal drafting or delivery |
 | `scripts/authorial_voice_scan.py` | Flags detector-evasion framing, disclosure hiding, prompt residue, generic AI-style phrasing, inflated vocabulary, and possible overclaiming |
+| `scripts/style_fingerprint_scan.py` | Scans repeated binary negative-contrast templates such as `rather than`, `not...but`, `不是...而是`, and `而不是` |
+| `scripts/skill_execution_receipt.py` | Creates/checks skill execution receipts with evidence hashes |
+| `scripts/document_quality_check.py` | Checks whether document-quality review evidence is concrete |
+| `scripts/self_review_loop_check.py` | Checks whether self-review records concrete findings, revision actions, and a fresh second-pass judgement |
 | `scripts/material_passport.py` | Generates short or full readiness passports for formal research artifacts |
 | `scripts/pre_delivery_lock.py` | Creates/checks local pre-delivery lock receipts |
 | `scripts/formal_delivery_guard.py` | Blocks formal delivery when required lock or final checks are missing, with an auditable override path |
@@ -223,6 +231,8 @@ Boundary:
 - claim-support audit still needs source-section reading before verification.
 - External reviewer feedback from Codex, ChatGPT, Claude, Gemini, or a human reviewer is advisory only and cannot replace source, privacy, citation, compliance, or delivery gates.
 - Python 3 is needed for these local scripts; extra Python packages are not needed by default.
+- Style fingerprint scans and authorial voice scans are writing-quality checks, not AI detectors.
+- Skill execution receipts prove an evidence artifact exists. They do not prove academic sufficiency, source support, or that a revision was deep enough.
 
 ## 7B. Weekly Literature Gap-Watch Automation
 
@@ -249,8 +259,10 @@ Formal outputs should pass the relevant gates before delivery.
 | Rubric or requirement evidence gate | Before marking criteria, journal/funder/client requirements, grade band, deadline, or word-count claims |
 | Distinction delivery gate | Optional; only for assessed academic documents when a high-band target is relevant |
 | Style gate | Before user-facing academic prose |
+| Style fingerprint gate | Before formal delivery when repeated binary contrast templates may be present |
 | Writing quality rubric | Before formal prose moves to style polishing |
 | Academic self-review loop | Before formal prose moves to document-quality or delivery checks |
+| Skill execution receipt gate | Before final delivery when the runtime lists required receipts |
 | Material Passport | Before a formal artifact moves from planning to drafting, drafting to review, or review to delivery |
 | Pre-delivery lock | Before presenting a formal Word/PDF/stakeholder-facing artifact as usable |
 | Formal delivery guard | Final check before formal delivery or explicit override |
@@ -333,6 +345,16 @@ This rubric checks six intrinsic writing qualities:
 
 It does not predict marks, publication, funding, approval, or client acceptance.
 
+### `style-fingerprint-gate`
+
+Use after self-review/authorial voice work and before final delivery. It scans repeated negative-contrast templates that can make formal prose sound mechanical, while preserving legitimate academic scope distinctions.
+
+### Skill execution receipts
+
+For substantial formal tasks, `scripts/agent_runtime.py` lists required receipts by task type. The agent should create receipts after required gates produce evidence. Missing receipts can block delivery through `scripts/formal_delivery_guard.py`.
+
+Receipts make execution visible. They do not prove that the underlying evidence is sufficient or that the writing revision is deep enough.
+
 ## 11. Document Workflow
 
 For important Word, PDF, or stakeholder-facing outputs, use a three-stage checkpoint workflow.
@@ -340,8 +362,8 @@ For important Word, PDF, or stakeholder-facing outputs, use a three-stage checkp
 | Stage | Main Work | Output |
 |---|---|---|
 | Thinking | route task, check sources, build cognitive protocol and argument logic | `*_THINKING_CHECKPOINT.md` |
-| Writing | draft/revise, run self-review loop, apply writing-quality and style checks | `*_WRITING_CHECKPOINT.md` |
-| Delivery | run full Material Passport, project delivery gate, pre-delivery lock, formal delivery guard, citation checks, Word/PDF/render checks | `*_DELIVERY_CHECKPOINT.md` |
+| Writing | draft/revise, run self-review loop, apply writing-quality, authorial voice, style fingerprint, and document-quality checks | `*_WRITING_CHECKPOINT.md` |
+| Delivery | run full Material Passport, project delivery gate, pre-delivery lock, skill-receipt checks, formal delivery guard, citation checks, Word/PDF/render checks | `*_DELIVERY_CHECKPOINT.md` |
 
 If no formal artifact is generated, the delivery checkpoint should be marked not applicable.
 

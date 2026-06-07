@@ -13,6 +13,9 @@ Purpose: check whether a substantial Production run used the system carefully.
 | Cognitive protocol | Section type, claim, gap/problem type, evidence, warrant, boundary and rhetorical plan recorded for formal writing |
 | Academic-integrity preflight | Concrete prompt-residue, placeholder, fake-reference, unsupported-claim, and disclosure-boundary risks checked for formal writing |
 | Self-review loop | Two-pass review completed before style/document-quality gates for formal prose |
+| Style-fingerprint scan | Repeated binary negative-contrast patterns checked before formal prose delivery through the Document Pipeline or explicit language-risk requests |
+| Authorial voice scan | AI-looking prose concerns routed to authorial voice, academic integrity, and register quality; no detector-evasion claims |
+| Skill execution receipts | Required skills produced auditable receipt evidence for the task type when receipt enforcement is enabled |
 | Writing-quality rubric | Intrinsic writing-quality criteria used without treating them as grade, publication, funding, or client approval prediction |
 | Thinking checkpoint | `*_THINKING_CHECKPOINT.md` created or equivalent section recorded |
 | Writing checkpoint | `*_WRITING_CHECKPOINT.md` created or equivalent section recorded |

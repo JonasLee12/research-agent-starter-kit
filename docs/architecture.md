@@ -24,6 +24,7 @@ graph TD
     F --> F3["UK academic style"]
     F --> F4["Optional research-* layers<br/>figures and article-style prose"]
     F --> F6["Authorial voice integrity<br/>no detector-evasion or disclosure hiding"]
+    F --> F7["Style fingerprint scan<br/>repeated contrast templates"]
 
     F --> G["🚦 Delivery Gates"]
     G --> G1["Full Material Passport if needed"]
@@ -31,6 +32,7 @@ graph TD
     G --> G3["Formal delivery guard"]
     G --> G4["Project delivery review"]
     G --> G5["Render / format checks"]
+    G --> G6["Skill execution receipts<br/>evidence hashes"]
 
     G --> H["📄 Output"]
     H --> H1[".docx / .pdf"]

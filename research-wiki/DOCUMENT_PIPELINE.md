@@ -74,9 +74,11 @@ Use:
 - `academic-self-review-loop`;
 - `research-wiki/WRITING_QUALITY_RUBRIC.md`;
 - `authorial-voice-integrity` and `scripts/authorial_voice_scan.py` when prose risks generic AI-style phrasing, detector framing, disclosure hiding, or inflated style;
+- `style-fingerprint-gate` and `scripts/style_fingerprint_scan.py` when formal prose may contain repeated binary contrast templates;
 - `uk-academic-writing-style` when academic/professional prose quality matters;
 - `style-memory-and-revision-gate`;
 - `dissertation-document-quality-gate` at draft level.
+- `scripts/skill_execution_receipt.py` to record required writing-stage receipts after evidence files exist.
 
 Record:
 
@@ -90,6 +92,8 @@ Writing checkpoint:
 - Self-review pass 2 judgement:
 - Writing-quality criteria improved:
 - Authorial voice scan:
+- Style fingerprint scan:
+- Writing-stage skill receipts:
 - Remaining weaknesses:
 - Source/citation risks:
 - Ready for delivery stage: yes / no / yes with TO CONFIRM
@@ -116,6 +120,7 @@ Use:
 - relevant official requirement source or compliance tracker;
 - citation/style checks when relevant;
 - final `academic-integrity-preflight` when delivering formal prose;
+- skill execution receipt check when the runtime lists required receipts;
 - pre-delivery lock with `scripts/pre_delivery_lock.py`;
 - final guard with `scripts/formal_delivery_guard.py`;
 - Word/PDF/render checks when relevant.
@@ -130,6 +135,7 @@ Delivery checkpoint:
 - Source-first gate:
 - Citation or claim-support gate:
 - Academic-integrity preflight:
+- Skill execution receipts:
 - Project delivery review:
 - Pre-delivery lock:
 - Formal delivery guard:
