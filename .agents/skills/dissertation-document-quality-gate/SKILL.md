@@ -88,8 +88,11 @@ For important `.docx` outputs:
 - follow current official project, journal, funder, client, university, or institutional requirements over generic public formatting guidance when they conflict
 - preserve original file unless overwrite is requested
 - generate a clearly named revised file
+- when a Markdown source is rendered to Word, run `scripts/markdown_docx_structure_check.py` or rely on `scripts/formal_delivery_guard.py` with the Markdown source so tables and structural features are not silently flattened
+- run `scripts/docx_layout_review_check.py` for important Word outputs, and pass `--previous-docx` when revising a previously accepted Word document
 - render to PDF/PNG when possible
 - inspect key pages for broken numbering, clipped text, awkward page breaks, and formatting errors
+- record a layout self-review verdict; unresolved table loss, heading flattening, or unexplained regression is delivery-blocking unless the user explicitly accepts an override risk
 - use `TMPDIR=/private/tmp` for document rendering on macOS
 
 ### Artifact Completeness

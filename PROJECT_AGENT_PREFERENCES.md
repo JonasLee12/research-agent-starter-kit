@@ -181,9 +181,11 @@ Required checkpoints:
 
 - `*_THINKING_CHECKPOINT.md`: source map, cognitive protocol, argument logic;
 - `*_WRITING_CHECKPOINT.md`: self-review loop, revision actions, writing-quality review;
-- `*_DELIVERY_CHECKPOINT.md`: delivery gates, requirement/compliance checks, render status.
+- `*_DELIVERY_CHECKPOINT.md`: delivery gates, requirement/compliance checks, structural parity, layout self-review, render status.
 
 If no formal document is generated, mark delivery checkpoint as not applicable.
+
+For generated `.docx` files, preserve visible structure. A Word output should not silently flatten Markdown tables into pipe-delimited paragraphs, remove tables that existed in a previous accepted version, or weaken heading hierarchy. Use `scripts/markdown_docx_structure_check.py` and `scripts/docx_layout_review_check.py` directly or through `scripts/formal_delivery_guard.py`; record any deliberate layout change as an explicit risk/decision rather than a quality pass.
 
 ## Two-Track Research Output
 

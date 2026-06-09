@@ -1,5 +1,30 @@
 # Changelog
 
+## v1.5.2 - DOCX Structure And Layout Guards - 2026-06-09
+
+Status: formal Word delivery reliability update.
+
+### Added
+
+- `scripts/markdown_docx_structure_check.py` to verify that Markdown tables survive DOCX rendering as real Word tables instead of pipe-delimited paragraphs.
+- `scripts/docx_layout_review_check.py` to catch deterministic DOCX layout regressions such as heading flattening, table loss, and count regressions against a previous accepted Word baseline.
+- Internal helper `scripts/_docx_runtime.py` to route DOCX scripts to a Python runtime with `python-docx` when needed.
+- Skill eval cases `DOC-004` and `DOC-005` for Markdown-DOCX structural parity and DOCX layout regression behaviour.
+- Unit tests covering table-render failures, real Word table passes, heading bold override regressions, and formal delivery guard integration.
+
+### Changed
+
+- `scripts/formal_delivery_guard.py` now runs DOCX structural parity and layout review by default for `.docx` artifacts when applicable.
+- DOCX skip/allow exception flags now require `--layout-decision-reason`, which is recorded in the formal delivery guard report.
+- Runtime preflight now lists Markdown-DOCX structural parity, DOCX layout review, and layout self-review as required gates for formal delivery tasks.
+- `AGENTS.md`, `PROJECT_AGENT_PREFERENCES.md`, `research-wiki/DOCUMENT_PIPELINE.md`, `research-wiki/PRODUCTION_RECEIPT_VALIDATION.md`, and delivery/document-quality skills now document structure/layout guards for important Word outputs.
+
+### Boundary
+
+- These checks do not replace human visual inspection of rendered pages or project-specific formatting requirements.
+- `--allow-table-loss`, `--allow-layout-regression`, `--skip-structure-parity`, and `--skip-layout-review` require an explicit recorded delivery decision through `--layout-decision-reason`.
+- This release does not include private dissertation content, participant data, institution-specific requirements, local runtime state, or generated project reports.
+
 ## v1.5.1 - Style Fingerprint And Skill Execution Receipts - 2026-06-07
 
 Status: public writing-quality reliability and skill-execution evidence update.

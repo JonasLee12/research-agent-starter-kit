@@ -137,7 +137,53 @@ def guard_skill_receipts(args: argparse.Namespace, artifact: Path) -> GuardResul
     return GuardResult("skill_execution_receipts", "PASS" if code == 0 else "BLOCK", output)
 
 
-def render_report(artifact: Path, source: Path | None, results: list[GuardResult], override_path: Path | None) -> str:
+def guard_structure_parity(args: argparse.Namespace, artifact: Path, source: Path | None) -> GuardResult:
+    if source is None:
+        return GuardResult(
+            "markdown_docx_structure_parity",
+            "PASS",
+            "Skipped because no Markdown/text source was provided.",
+        )
+    command = [
+        sys.executable,
+        "scripts/markdown_docx_structure_check.py",
+        "--markdown",
+        str(source),
+        "--docx",
+        str(artifact),
+    ]
+    if args.previous_docx:
+        command.extend(["--previous-docx", str(resolve(args.previous_docx))])
+    if args.allow_table_loss:
+        command.append("--allow-table-loss")
+    code, output = run_command(command)
+    return GuardResult("markdown_docx_structure_parity", "PASS" if code == 0 else "BLOCK", output)
+
+
+def guard_docx_layout(args: argparse.Namespace, artifact: Path, source: Path | None) -> GuardResult:
+    command = [
+        sys.executable,
+        "scripts/docx_layout_review_check.py",
+        "--docx",
+        str(artifact),
+    ]
+    if source is not None:
+        command.extend(["--markdown", str(source)])
+    if args.previous_docx:
+        command.extend(["--previous-docx", str(resolve(args.previous_docx))])
+    if args.allow_layout_regression:
+        command.append("--allow-layout-regression")
+    code, output = run_command(command)
+    return GuardResult("docx_layout_review", "PASS" if code == 0 else "BLOCK", output)
+
+
+def render_report(
+    artifact: Path,
+    source: Path | None,
+    results: list[GuardResult],
+    override_path: Path | None,
+    layout_decision_reason: str | None,
+) -> str:
     base_status = "PASS" if all(item.status == "PASS" for item in results) else "BLOCKED"
     status = "OVERRIDE_ACKNOWLEDGED" if override_path else base_status
     lines = [
@@ -148,6 +194,7 @@ def render_report(artifact: Path, source: Path | None, results: list[GuardResult
         f"Artifact: `{rel(artifact)}`",
         f"Source: `{rel(source) if source else '-'}`",
         f"Override record: `{rel(override_path) if override_path else '-'}`",
+        f"Layout decision reason: `{layout_decision_reason.strip() if layout_decision_reason else '-'}`",
         "",
         "## Results",
         "",
@@ -162,7 +209,7 @@ def render_report(artifact: Path, source: Path | None, results: list[GuardResult
             "",
             "## Boundary",
             "",
-            "This guard blocks delivery when required gate evidence is missing or final artifact checks fail. A user-acknowledged override records a conscious exception; it does not convert unresolved evidence into verified evidence.",
+            "This guard blocks delivery when required gate evidence is missing or final artifact checks fail, including DOCX structural parity and deterministic layout checks when applicable. It does not replace visual inspection of rendered pages. A user-acknowledged override records a conscious exception; it does not convert unresolved evidence into verified evidence.",
             "",
         ]
     )
@@ -216,6 +263,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Run final deterministic checks before delivering a formal research artifact.")
     parser.add_argument("--artifact", required=True, help="Formal artifact path, such as a .docx, .pdf, or final Markdown file.")
     parser.add_argument("--source", help="Markdown/text source path for final integrity and citation checks.")
+    parser.add_argument("--previous-docx", help="Previous accepted DOCX baseline for revision-safety layout checks.")
     parser.add_argument("--require-project-delivery-review", action="store_true")
     parser.add_argument("--require-material-passport", action="store_true", help="Compatibility flag; material passport is checked through the pre-delivery lock.")
     parser.add_argument("--require-integrity-preflight", action="store_true", help="Compatibility flag; final integrity preflight runs unless explicitly skipped.")
@@ -231,6 +279,11 @@ def main() -> int:
     parser.add_argument("--receipt-artifact-match", action="store_true", help="Require skill receipts to match the final artifact path.")
     parser.add_argument("--fail-on-claim-attention", action="store_true")
     parser.add_argument("--skip-integrity-preflight", action="store_true")
+    parser.add_argument("--skip-structure-parity", action="store_true", help="Skip Markdown-DOCX structural parity for DOCX artifacts.")
+    parser.add_argument("--skip-layout-review", action="store_true", help="Skip deterministic DOCX layout review for DOCX artifacts.")
+    parser.add_argument("--allow-table-loss", action="store_true", help="Allow a table-count decrease after an explicit logged layout decision.")
+    parser.add_argument("--allow-layout-regression", action="store_true", help="Allow heading/table/list count regressions after an explicit logged layout decision.")
+    parser.add_argument("--layout-decision-reason", help="Required when skipping DOCX checks or allowing structure/layout regression.")
     parser.add_argument("--acknowledge-override", action="store_true")
     parser.add_argument("--override-reason")
     args = parser.parse_args()
@@ -243,8 +296,32 @@ def main() -> int:
     if args.source and (source is None or not source.exists()):
         print(f"Missing source: {args.source}")
         return 1
+    previous_docx = resolve(args.previous_docx)
+    if args.previous_docx and (previous_docx is None or not previous_docx.exists()):
+        print(f"Missing previous DOCX: {args.previous_docx}")
+        return 1
+    layout_exception_requested = any(
+        [
+            args.skip_structure_parity,
+            args.skip_layout_review,
+            args.allow_table_loss,
+            args.allow_layout_regression,
+        ]
+    )
+    if layout_exception_requested and not (args.layout_decision_reason and args.layout_decision_reason.strip()):
+        print(
+            "--layout-decision-reason is required when using --skip-structure-parity, "
+            "--skip-layout-review, --allow-table-loss, or --allow-layout-regression."
+        )
+        return 2
 
     results = [guard_lock(args, artifact)]
+    if layout_exception_requested:
+        results.append(GuardResult("layout_exception_reason", "PASS", args.layout_decision_reason.strip()))
+    if artifact.suffix.lower() == ".docx" and not args.skip_structure_parity:
+        results.append(guard_structure_parity(args, artifact, source))
+    if artifact.suffix.lower() == ".docx" and not args.skip_layout_review:
+        results.append(guard_docx_layout(args, artifact, source))
     if source is not None and not args.skip_integrity_preflight:
         results.append(guard_integrity(source, args))
     if source is not None:
@@ -266,7 +343,7 @@ def main() -> int:
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     report = OUT_DIR / f"Formal_Delivery_Guard_{artifact.stem}_{datetime.now(timezone.utc).strftime('%Y-%m-%d_%H%M%S')}.md"
-    report.write_text(render_report(artifact, source, results, override_path), encoding="utf-8")
+    report.write_text(render_report(artifact, source, results, override_path, args.layout_decision_reason), encoding="utf-8")
     print(f"Report: {report}")
     if override_path:
         print(f"Override: {override_path}")

@@ -123,7 +123,9 @@ Use:
 - skill execution receipt check when the runtime lists required receipts;
 - pre-delivery lock with `scripts/pre_delivery_lock.py`;
 - final guard with `scripts/formal_delivery_guard.py`;
-- Word/PDF/render checks when relevant.
+- Markdown-DOCX structural parity with `scripts/markdown_docx_structure_check.py` when a Markdown source is rendered to Word;
+- DOCX layout review with `scripts/docx_layout_review_check.py` for important Word outputs, using `--previous-docx` when a previous accepted version exists;
+- Word/PDF/render checks and visual page inspection when relevant.
 
 Record:
 
@@ -140,6 +142,9 @@ Delivery checkpoint:
 - Pre-delivery lock:
 - Formal delivery guard:
 - Document-quality gate:
+- Markdown-DOCX structural parity:
+- DOCX layout review:
+- Layout self-review verdict:
 - Render/layout check:
 - Final status:
 - Remaining TO CONFIRM:
@@ -159,4 +164,4 @@ Delivery checkpoint: not applicable because no Word/PDF/stakeholder-facing artif
 - If a requirement source is missing, mark it `TO CONFIRM`.
 - If the output is for public sharing, run the privacy check first.
 - Checkpoints are evidence of workflow discipline; they do not guarantee grade, publication, funding, approval, or client acceptance.
-- A `HOLD` Material Passport or `BLOCK` formal delivery guard means the artifact should remain a draft unless the user explicitly records an override.
+- A `HOLD` Material Passport, `BLOCK` formal delivery guard, failed Markdown-DOCX structural parity check, or failed DOCX layout review means the artifact should remain a draft unless the user explicitly records an override.

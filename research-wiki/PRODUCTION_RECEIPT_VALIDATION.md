@@ -24,6 +24,9 @@ Purpose: check whether a substantial Production run used the system carefully.
 | Document-quality | Completed for formal or stakeholder-facing outputs |
 | Pre-delivery lock | Created and checked before formal Word/PDF/stakeholder-facing delivery |
 | Formal delivery guard | PASS, BLOCK with fixes, or explicit override record before formal delivery |
+| Markdown-DOCX structural parity | Markdown tables and structural features are verified against generated Word output when a Markdown source is rendered to `.docx` |
+| DOCX layout review | Important Word outputs are checked for deterministic layout regressions, using a previous accepted `.docx` baseline when available |
+| Layout self-review | Rendered pages or equivalent visual surface are inspected when important Word/PDF artifacts are delivered |
 | Render check | Attempted for important Word outputs |
 | TASK_STATE | Updated after the run |
 | Knowledge-base growth | For KB tasks, raw-inbox/growth-queue/compiled-wiki actions preserve source-of-record and privacy boundaries |

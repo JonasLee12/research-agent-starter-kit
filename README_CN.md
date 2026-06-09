@@ -51,6 +51,10 @@ flowchart LR
 
 ## 最新更新
 
+**v1.5.2** 加入了 DOCX Structure and Layout Guards。
+
+这意味着正式 Word 交付现在可以拦截一种常见渲染失败：Markdown 表格在 Word 里变成管道符文本段落，或新版 DOCX 相比上一版已接受 Word 丢失表格、标题、列表或可见层级。这是交付流程里的确定性保护，不替代人工页面检查，也不替代项目自己的格式要求。
+
 **v1.5.1** 加入了 Style Fingerprint Gate 和 Skill Execution Receipts。
 
 这意味着正式写作现在可以要求关键检查留下本地证据回执。runtime 会按任务类型列出必做回执；扫描类 gate 会生成可核对报告；delivery guard 可以因为缺少回执而拦截交付，而不是接受一句“已检查”。回执只能说明证据文件存在，不证明分析已经足够，也不证明证据本身为真。
@@ -137,7 +141,8 @@ bash scripts/run_vector_index.sh
 | Style fingerprint gate | `.agents/skills/style-fingerprint-gate/`, `scripts/style_fingerprint_scan.py` | 在正式交付前扫描重复的二元否定对比句式 |
 | Skill execution receipts | `scripts/skill_execution_receipt.py`, `research-wiki/SKILL_EXECUTION_RECEIPT_PROTOCOL.md` | 记录 task ID、skill、stage、status、evidence path 和 evidence hash |
 | Material Passport | `.agents/skills/material-passport/`, `scripts/material_passport.py` | 在正式文档推进前打包已记录的 source readiness、用户提供的 compliance/requirement status、citation boundary 和 `TO CONFIRM` |
-| Formal delivery guard | `.agents/skills/formal-delivery-guard/`, `scripts/pre_delivery_lock.py`, `scripts/formal_delivery_guard.py` | 创建/检查 pre-delivery lock，并在缺少必要证据时阻止正式交付 |
+| Formal delivery guard | `.agents/skills/formal-delivery-guard/`, `scripts/pre_delivery_lock.py`, `scripts/formal_delivery_guard.py` | 创建/检查 pre-delivery lock，并在缺少必要证据或 DOCX 结构/排版检查失败时阻止正式交付 |
+| DOCX structure/layout guards | `scripts/markdown_docx_structure_check.py`, `scripts/docx_layout_review_check.py` | 检查 Markdown 表格是否变成真实 Word 表格，并检查重要 DOCX 修订是否悄悄丢失可见结构 |
 | External review fallback | `scripts/build_external_review_bundle.py`, `templates/prompts/EXTERNAL_REVIEWER_PROMPT.md` | 生成本地质审包且不会自动上传；是否复制给 Codex、ChatGPT、Claude、Gemini 或人工 reviewer 由用户决定 |
 | Release surface verification | `.agents/skills/release-surface-verification/` | 在声称发布完成前，检查用户可见的 GitHub release 页面、About/sidebar、topics、渲染后的 README/docs 和公开链接 |
 | Public sync policy | `PUBLIC_SYNC_POLICY.md` | 说明 shared core、private-only、public-only、同步检查和 release 边界 |
@@ -180,7 +185,11 @@ python scripts/style_fingerprint_scan.py path/to/draft.md --strict
 python scripts/skill_execution_receipt.py create --task-id my-task --skill style-fingerprint-gate --stage writing --artifact path/to/draft.md --status PASS --evidence audit-reports/style-fingerprint/my-report.md
 python scripts/pre_delivery_lock.py create --target path/to/final.docx --runtime-receipt path/to/receipt.md --material-passport path/to/passport.md --source-map path/to/source-map.md --integrity-preflight path/to/integrity.md --quality-gate path/to/quality.md
 python scripts/formal_delivery_guard.py --artifact path/to/final.docx --source path/to/source.md --require-style-fingerprint --require-skill-receipts --task-id my-task
+python scripts/markdown_docx_structure_check.py --markdown path/to/source.md --docx path/to/final.docx --previous-docx path/to/accepted.docx
+python scripts/docx_layout_review_check.py --docx path/to/final.docx --markdown path/to/source.md --previous-docx path/to/accepted.docx
 ```
+
+DOCX 例外旗标，例如 `--skip-structure-parity`、`--skip-layout-review`、`--allow-table-loss` 和 `--allow-layout-regression`，必须同时提供 `--layout-decision-reason`。这些旗标只用于明确记录过的排版决定，不能当作方便绕过。
 
 可选 vector smoke test：
 

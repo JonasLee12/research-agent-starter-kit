@@ -51,6 +51,10 @@ The workflow is strict where it matters:
 
 ## What's New
 
+**v1.5.2** adds DOCX Structure and Layout Guards.
+
+That means formal Word delivery can now block a common rendering failure: Markdown tables flattening into pipe-delimited paragraphs, or a revised DOCX losing tables, headings, lists, or visible hierarchy compared with a previous accepted Word version. These checks are deterministic safeguards inside the delivery workflow; they do not replace visual page inspection or project-specific format requirements.
+
 **v1.5.1** adds Style Fingerprint Gate and Skill Execution Receipts.
 
 That means formal writing can now require local evidence receipts for key checks. The runtime lists task-specific receipt requirements, scanner-style gates create checkable reports, and the delivery guard can block missing receipts instead of accepting a chat claim that a skill was used. Receipts show that evidence artifacts exist; they do not prove the analysis is sufficient or that the evidence is true.
@@ -137,7 +141,8 @@ bash scripts/run_vector_index.sh
 | Style fingerprint gate | `.agents/skills/style-fingerprint-gate/`, `scripts/style_fingerprint_scan.py` | Scans repeated binary negative-contrast templates before formal delivery |
 | Skill execution receipts | `scripts/skill_execution_receipt.py`, `research-wiki/SKILL_EXECUTION_RECEIPT_PROTOCOL.md` | Records task ID, skill, stage, status, evidence path, and evidence hash for required gates |
 | Material Passport | `.agents/skills/material-passport/`, `scripts/material_passport.py` | Packages recorded source readiness, user-supplied compliance/requirement status, citation boundaries, and `TO CONFIRM` items before formal artifacts move forward |
-| Formal delivery guard | `.agents/skills/formal-delivery-guard/`, `scripts/pre_delivery_lock.py`, `scripts/formal_delivery_guard.py` | Creates/checks pre-delivery locks and blocks formal delivery when required evidence is missing |
+| Formal delivery guard | `.agents/skills/formal-delivery-guard/`, `scripts/pre_delivery_lock.py`, `scripts/formal_delivery_guard.py` | Creates/checks pre-delivery locks and blocks formal delivery when required evidence or DOCX structure/layout checks are missing |
+| DOCX structure/layout guards | `scripts/markdown_docx_structure_check.py`, `scripts/docx_layout_review_check.py` | Checks that Markdown tables become real Word tables and that important DOCX revisions do not silently lose visible structure |
 | External review fallback | `scripts/build_external_review_bundle.py`, `templates/prompts/EXTERNAL_REVIEWER_PROMPT.md` | Builds a local review bundle with no automatic upload; the user decides what to share with Codex, ChatGPT, Claude, Gemini, or a human reviewer |
 | Release surface verification | `.agents/skills/release-surface-verification/` | Checks the user-visible GitHub release page, About/sidebar, topics, rendered README/docs, and public links before claiming a release is complete |
 | Public sync policy | `PUBLIC_SYNC_POLICY.md` | Defines shared core files, private-only content, public-only onboarding files, sync checks, and release-boundary rules |
@@ -180,7 +185,11 @@ python scripts/style_fingerprint_scan.py path/to/draft.md --strict
 python scripts/skill_execution_receipt.py create --task-id my-task --skill style-fingerprint-gate --stage writing --artifact path/to/draft.md --status PASS --evidence audit-reports/style-fingerprint/my-report.md
 python scripts/pre_delivery_lock.py create --target path/to/final.docx --runtime-receipt path/to/receipt.md --material-passport path/to/passport.md --source-map path/to/source-map.md --integrity-preflight path/to/integrity.md --quality-gate path/to/quality.md
 python scripts/formal_delivery_guard.py --artifact path/to/final.docx --source path/to/source.md --require-style-fingerprint --require-skill-receipts --task-id my-task
+python scripts/markdown_docx_structure_check.py --markdown path/to/source.md --docx path/to/final.docx --previous-docx path/to/accepted.docx
+python scripts/docx_layout_review_check.py --docx path/to/final.docx --markdown path/to/source.md --previous-docx path/to/accepted.docx
 ```
+
+DOCX exception flags such as `--skip-structure-parity`, `--skip-layout-review`, `--allow-table-loss`, and `--allow-layout-regression` require `--layout-decision-reason`. Use them only for explicit documented layout decisions, not as a convenience bypass.
 
 Optional vector smoke test:
 
