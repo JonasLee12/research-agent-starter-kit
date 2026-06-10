@@ -25,6 +25,16 @@ Production work should update:
 
 Before formal writing, the Production Window should use source-first, cognitive planning, self-review, style, citation, and document-quality gates.
 
+For later-stage outputs that depend on earlier project decisions, the Production Window should also use Stage Continuity:
+
+- compute or consume the runtime `recall_decision`;
+- read `research-wiki/STAGE_GRAPH.md` when Stage Continuity A+B is triggered;
+- write a short Stage Continuity Capsule before drafting or revising the artifact;
+- recompute recall when the task changes from discussion to formal output, from layout to content, or from reading to design/method/analysis work;
+- before delivery, check that the final artifact still matches the inherited upstream decisions.
+
+This is meant to stop a new window from treating a long project as if it started in the current chat. It is not a full-history reread by default; `scripts/stage_recall_policy.py` chooses the smallest useful recall tier.
+
 ## Maintenance Window
 
 Use the Maintenance Window for:
@@ -52,6 +62,8 @@ The windows share state through files, not chat memory:
 
 If one window changes workflow rules, it should update `TASK_STATE.md` so the other window can refresh context.
 
+If one window creates or changes a stage-level decision, it should also update the Stage Graph or a related continuity capsule so later work can inherit that decision without rereading the whole project.
+
 ## Startup Prompt Pattern
 
 At the start of a new window, ask the agent to read:
@@ -70,6 +82,7 @@ Then ask it to report:
 2. active tasks;
 3. open confirmations;
 4. which skills and gates apply to the requested task.
+5. whether the task triggers Stage Continuity and which recall tier applies.
 
 ## Why The Separation Matters
 

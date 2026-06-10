@@ -6,7 +6,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-green.svg)](https://www.python.org/)
-[![Evals](https://img.shields.io/badge/Skill_Evals-33%2F33_passing-brightgreen.svg)](#validation)
+[![Evals](https://img.shields.io/badge/Skill_Evals-38%2F38_passing-brightgreen.svg)](#validation)
 
 它可以配合 Codex、Claude Code、Cursor，或任何能读取本地文件并遵守 `SKILL.md` 指令的 coding agent 使用。这个 starter kit 本身是本地文件驱动；你选择的 agent 工具可能仍然有自己的登录、订阅、API-key 要求，或不同的 skill-discovery 行为。即使某个 agent 不能自动发现 skill，本地 Python 检查脚本仍然可以使用。
 
@@ -50,6 +50,12 @@ flowchart LR
 5. **知识库更新要有边界** — 有用决定和已审 source 可以进入知识库，但 retrieval 和 notes 只是导航层，不能替代 source readiness。
 
 ## 最新更新
+
+**v1.6.0** 加入了 Stage Continuity 和 Token-Aware Recall。
+
+这意味着长期项目在切换阶段后，不应该只根据当前聊天直接写后续产物。比如 method plan、instrument、analysis plan、stakeholder-facing memo 这类高风险任务，需要先看 Stage Graph 里的上游 source-of-record，再写 Stage Continuity Capsule，说明继承了什么、哪些还没确认、哪些不能擅自改变。
+
+它也会控制 token 消耗：纯排版、拼写、日志和 Git bookkeeping 不会被迫做完整上游审计；真正改变方法、设计、分析或正式 claim 的任务才进入 targeted recall。用户如果要求跳过上游检查，agent 必须先指出被跳过的依赖；如果用户接受风险，只能记录为 override risk，不能说成 gate pass。
 
 **v1.5.2** 加入了 DOCX Structure and Layout Guards。
 
@@ -116,6 +122,7 @@ bash scripts/run_vector_index.sh
 |---|---|---|
 | Agent 容易编造事实或要求 | Source-first gate | 正式写作先查本地证据，不靠记忆发挥 |
 | 文稿看起来流畅，但论证很薄 | Cognitive frameworks + self-review loop | 交付前检查 claim、warrant 和段落推进 |
+| 切换阶段后忘记回顾旧决定 | Stage Continuity + Token-Aware Recall | Agent 根据 Stage Graph 做最小必要回顾，并在任务变化时重新检查 recall tier |
 | 用户想“去 AI 味”或降低 AI 率 | Authorial voice integrity | 拒绝检测规避框架，改为 evidence-led authorial voice 工作 |
 | Skill 被提到但没有真正执行 | Skill execution receipts | 必做检查必须留下本地证据回执；回执不是质量证明 |
 | 正式文本反复使用机械式对比句 | Style fingerprint gate | 用固定词组清单扫描 `rather than` / `not...but` 等重复模板 |
@@ -143,6 +150,7 @@ bash scripts/run_vector_index.sh
 | Material Passport | `.agents/skills/material-passport/`, `scripts/material_passport.py` | 在正式文档推进前打包已记录的 source readiness、用户提供的 compliance/requirement status、citation boundary 和 `TO CONFIRM` |
 | Formal delivery guard | `.agents/skills/formal-delivery-guard/`, `scripts/pre_delivery_lock.py`, `scripts/formal_delivery_guard.py` | 创建/检查 pre-delivery lock，并在缺少必要证据或 DOCX 结构/排版检查失败时阻止正式交付 |
 | DOCX structure/layout guards | `scripts/markdown_docx_structure_check.py`, `scripts/docx_layout_review_check.py` | 检查 Markdown 表格是否变成真实 Word 表格，并检查重要 DOCX 修订是否悄悄丢失可见结构 |
+| Stage continuity | `research-wiki/STAGE_GRAPH.md`, `research-wiki/STAGE_CONTINUITY_PROTOCOL.md`, `scripts/stage_recall_policy.py`, `scripts/stage_continuity_capsule_check.py` | 防止后续阶段工作忽略上游决定，同时用 recall tier 控制 token 消耗 |
 | External review fallback | `scripts/build_external_review_bundle.py`, `templates/prompts/EXTERNAL_REVIEWER_PROMPT.md` | 生成本地质审包且不会自动上传；是否复制给 Codex、ChatGPT、Claude、Gemini 或人工 reviewer 由用户决定 |
 | Release surface verification | `.agents/skills/release-surface-verification/` | 在声称发布完成前，检查用户可见的 GitHub release 页面、About/sidebar、topics、渲染后的 README/docs 和公开链接 |
 | Public sync policy | `PUBLIC_SYNC_POLICY.md` | 说明 shared core、private-only、public-only、同步检查和 release 边界 |
@@ -165,7 +173,7 @@ bash scripts/run_vector_index.sh
 
 ## 验证
 
-当前公开模板显示 **33/33 skill evaluations passing**。
+当前公开模板显示 **38/38 skill evaluations passing**。
 这些是轻量级 static/routing checks，用来检查高风险流程是否指向真实文件和工具，不证明 agent 行为质量。这个 badge 反映的是已发布模板状态；你自定义系统后应重新运行下面的检查。
 
 ```bash

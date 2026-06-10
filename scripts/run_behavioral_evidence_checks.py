@@ -54,6 +54,8 @@ def check() -> tuple[list[str], list[str]]:
             "research-wiki/ZOTERO_AND_CITATION_WORKFLOW_SPEC.md",
             "research-wiki/DOCUMENT_PIPELINE.md",
             "research-wiki/WRITING_QUALITY_RUBRIC.md",
+            "research-wiki/STAGE_GRAPH.md",
+            "research-wiki/STAGE_CONTINUITY_PROTOCOL.md",
             "knowledge-base/self-growing/README.md",
             "knowledge-base/self-growing/growth-queue.md",
             "knowledge-base/self-growing/compiled-wiki/INDEX.md",
@@ -62,6 +64,7 @@ def check() -> tuple[list[str], list[str]]:
             "templates/prompts/EXTERNAL_REVIEWER_PROMPT.md",
             ".agents/skills/academic-self-review-loop/SKILL.md",
             ".agents/skills/academic-integrity-preflight/SKILL.md",
+            ".agents/skills/context-continuity/SKILL.md",
         ]
     )
     passed = []
@@ -152,6 +155,20 @@ def check() -> tuple[list[str], list[str]]:
         passed.append("Runtime routes self-growing knowledge-base setup to KB operations with health-check gate.")
     else:
         failed.append("Runtime does not route self-growing knowledge-base setup to KB operations.")
+    stage_route = classify("Design the method plan from a previous project brief", "Production")
+    if (
+        stage_route.recall_decision.get("tier", 0) >= 3
+        and "stage_continuity_gate" in stage_route.gates
+        and "research-wiki/STAGE_GRAPH.md" in stage_route.required_files
+    ):
+        passed.append("Runtime routes high-risk stage work through Stage Continuity and targeted recall.")
+    else:
+        failed.append("Runtime does not route high-risk stage work through Stage Continuity.")
+    layout_route = classify("Fix the DOCX table layout and heading formatting", "Production")
+    if layout_route.recall_decision.get("tier") == 2 and "stage_continuity_gate" not in layout_route.gates:
+        passed.append("Runtime keeps format-only DOCX repair below the Stage Continuity trigger.")
+    else:
+        failed.append("Runtime over-routes format-only DOCX repair into Stage Continuity.")
     return passed, failed
 
 

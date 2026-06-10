@@ -14,17 +14,19 @@ The operating sequence is:
 
 1. classify the task;
 2. choose the smallest useful skill set;
-3. check sources before formal claims;
-4. package evidence status with a Material Passport before formal artifacts move forward;
-5. run integrity preflight before substantive formal drafting;
-6. make claims, gaps, warrants, and boundaries explicit before drafting;
-7. run self-review before style polishing;
-8. check authorial voice when prose risks becoming generic, detector-framed, or disclosure-unsafe;
-9. scan repeated style fingerprints before formal delivery;
-10. require execution receipts for selected formal-writing gates;
-11. use quality gates and formal delivery guards before formal delivery;
-12. record important decisions in project memory;
-13. keep production work and system maintenance separate.
+3. compute the minimum useful recall tier;
+4. check stage continuity when later-stage work depends on earlier decisions;
+5. check sources before formal claims;
+6. package evidence status with a Material Passport before formal artifacts move forward;
+7. run integrity preflight before substantive formal drafting;
+8. make claims, gaps, warrants, and boundaries explicit before drafting;
+9. run self-review before style polishing;
+10. check authorial voice when prose risks becoming generic, detector-framed, or disclosure-unsafe;
+11. scan repeated style fingerprints before formal delivery;
+12. require execution receipts for selected formal-writing gates;
+13. use quality gates and formal delivery guards before formal delivery;
+14. record important decisions in project memory;
+15. keep production work and system maintenance separate.
 
 ## 2. What The System Is For
 
@@ -62,6 +64,7 @@ Do not use it as a substitute for:
 | Compliance layer | `compliance/PROJECT_COMPLIANCE_TRACKER.md` | Tracks ethics, privacy, legal, funder, journal, client, IP, and AI-use requirements |
 | Quality layer | `quality-gates/PROJECT_DELIVERY_REVIEW_GATE.md`, `university-guidance/` | Stores general delivery gates and optional assessed-academic requirements |
 | Writing quality layer | `.agents/skills/cognitive-frameworks/`, `.agents/skills/academic-self-review-loop/`, `research-wiki/WRITING_QUALITY_RUBRIC.md` | Checks argument depth, paragraph quality, warrants, and revision quality before style polishing |
+| Stage continuity layer | `research-wiki/STAGE_GRAPH.md`, `research-wiki/STAGE_CONTINUITY_PROTOCOL.md`, `scripts/stage_recall_policy.py`, `scripts/stage_continuity_capsule_check.py` | Prevents later-stage work from ignoring upstream source-of-record decisions while keeping recall token-aware |
 | Integrity layer | `.agents/skills/academic-integrity-preflight/`, `scripts/academic_integrity_preflight.py` | Checks concrete prompt residue, placeholder, fake-reference, unsupported-claim, and disclosure-boundary risks |
 | Authorial voice layer | `.agents/skills/authorial-voice-integrity/`, `research-wiki/AI_WRITING_AUTHORIAL_VOICE_POLICY.md`, `scripts/authorial_voice_scan.py` | Improves authorial judgement and project-appropriate style while blocking detector-evasion and disclosure-hiding requests |
 | Style fingerprint layer | `.agents/skills/style-fingerprint-gate/`, `scripts/style_fingerprint_scan.py` | Scans repeated binary negative-contrast templates before formal delivery |
@@ -200,6 +203,8 @@ Version `v0.4.0` adds a local engineering layer.
 | Tool | Job |
 |---|---|
 | `scripts/agent_runtime.py` | Checks task type, mode, skills, gates, and required files before substantial work |
+| `scripts/stage_recall_policy.py` | Computes token-aware recall tiers from task intent, target files, and change type |
+| `scripts/stage_continuity_capsule_check.py` | Checks whether a Stage Continuity Capsule names upstream files, inherited decisions, open confirmations, and boundaries |
 | `scripts/build_external_review_bundle.py` | Builds a local external-review bundle for Codex, ChatGPT, Claude, Gemini, or human review |
 | `scripts/claude_independent_review.py` | Optional privacy-gated Claude Code runner for the same advisory external-review role |
 | `scripts/academic_integrity_preflight.py` | Checks concrete integrity risks before formal drafting or delivery |
@@ -228,6 +233,8 @@ Boundary:
 - public metadata search is not claim evidence;
 - subscription databases need lawful credentials;
 - runtime preflight works only when the workflow calls it;
+- token-aware recall controls context budget only and cannot override source, compliance, citation, privacy, document-quality, delivery, or stage-continuity gates;
+- Stage Continuity applies only when a task both produces or changes a high-risk later-stage artifact and has a known upstream dependency;
 - claim-support audit still needs source-section reading before verification.
 - External reviewer feedback from Codex, ChatGPT, Claude, Gemini, or a human reviewer is advisory only and cannot replace source, privacy, citation, compliance, or delivery gates.
 - Python 3 is needed for these local scripts; extra Python packages are not needed by default.

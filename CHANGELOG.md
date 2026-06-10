@@ -1,5 +1,34 @@
 # Changelog
 
+## v1.6.0 - Stage Continuity And Token-Aware Recall - 2026-06-10
+
+Status: long-running project continuity and context-budget reliability update.
+
+### Added
+
+- `research-wiki/STAGE_GRAPH.md` as a generic, user-customisable pointer map for upstream source-of-record dependencies.
+- `research-wiki/STAGE_CONTINUITY_PROTOCOL.md` to define Stage Continuity A+B triggers, non-triggers, user-skip override handling, Deep Reasoning Pass, and capsule requirements.
+- `scripts/stage_recall_policy.py` to compute deterministic recall tiers from task intent, target files, and change type.
+- `scripts/stage_continuity_capsule_check.py` to check capsule fields, concrete source paths, and confirmation boundaries.
+- Stage continuity unit tests and eval cases `STAGE-001`, `STAGE-002`, and `STAGE-003`.
+- Claude Code advisory review packet and review report for this public sync.
+
+### Changed
+
+- `scripts/agent_runtime.py` now emits a `recall_decision` for every preflight and adds Stage Continuity gates only when recall reaches Tier 3 or higher.
+- `agent-orchestration` now requires opening recall, mid-task recall recomputation, and pre-delivery recall reconciliation for substantial stage-sensitive work.
+- `context-continuity` now owns Stage Continuity Capsules and records what later work must inherit.
+- `AGENTS.md`, `PROJECT_AGENT_PREFERENCES.md`, `README.md`, and `README_CN.md` now document the workflow: opening recall prevents blind drafting, mid-task recall prevents drift, and delivery gates prevent packaging drift as a formal artifact.
+- Skill eval registry now reports 38 public checks, including three new Stage Continuity cases.
+
+### Boundary
+
+- Stage Graph rows are starter examples, not required private-project structure. A one-row graph is valid after customisation.
+- Token-Aware Recall is a context-budget controller. It cannot override source-first, compliance, citation, privacy, document-quality, or formal delivery gates.
+- Deep Reasoning Pass is an auditable decision summary, not private chain-of-thought and not a replacement for cognitive frameworks or self-review.
+- User-accepted skip/override records risk; it is not a quality pass.
+- This release does not include private project content, institution-specific requirements, participant material, private local paths, credentials, runtime state, or generated private reports.
+
 ## v1.5.2 - DOCX Structure And Layout Guards - 2026-06-09
 
 Status: formal Word delivery reliability update.

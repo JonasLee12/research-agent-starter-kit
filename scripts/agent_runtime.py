@@ -15,6 +15,8 @@ from dataclasses import dataclass, asdict
 from datetime import datetime
 from pathlib import Path
 
+from stage_recall_policy import decide as decide_stage_recall
+
 
 ROOT = Path(__file__).resolve().parents[1]
 EVENT_LOG = ROOT / "research-wiki" / "SESSION_EVENT_LOG.jsonl"
@@ -462,6 +464,7 @@ class RuntimeRoute:
     required_files: list[str]
     missing_files: list[str]
     warnings: list[str]
+    recall_decision: dict
     status: str
 
 
@@ -512,6 +515,27 @@ def classify(task: str, window: str) -> RuntimeRoute:
     gates = unique([gate for rule in matched for gate in rule["gates"]])
     receipt_requirements = unique([item for rule in matched for item in rule.get("receipt_requirements", [])])
     required_files = unique(BASE_FILES + [path for rule in matched for path in rule["required_files"]])
+    recall = decide_stage_recall(task=task, change_type="unspecified")
+    if recall.tier >= 3:
+        skills = unique(skills + ["context-continuity", "cognitive-frameworks"])
+        gates = unique(
+            gates
+            + [
+                "stage_continuity_gate",
+                "stage_continuity_capsule_check",
+                "deep_reasoning_pass_when_non_obvious",
+            ]
+        )
+        receipt_requirements = unique(receipt_requirements + ["context-continuity@thinking"])
+        required_files = unique(
+            required_files
+            + [
+                "research-wiki/STAGE_GRAPH.md",
+                "research-wiki/STAGE_CONTINUITY_PROTOCOL.md",
+                "scripts/stage_recall_policy.py",
+                "scripts/stage_continuity_capsule_check.py",
+            ]
+        )
     missing_files = [path for path in required_files if not (ROOT / path).exists()]
     warnings = []
 
@@ -544,6 +568,8 @@ def classify(task: str, window: str) -> RuntimeRoute:
         "material_passport",
     }.issubset(set(gates)):
         warnings.append("Formal output lacks staged checkpoint gates.")
+    if recall.tier == 4:
+        warnings.append("Recall tier 4: pause for branch decision or run full upstream audit only when explicitly requested.")
 
     status = "PASS" if not missing_files and not any("lacks" in warning for warning in warnings) else "BLOCKED"
     timestamp = datetime.now().isoformat(timespec="seconds")
@@ -560,6 +586,7 @@ def classify(task: str, window: str) -> RuntimeRoute:
         required_files=required_files,
         missing_files=missing_files,
         warnings=warnings,
+        recall_decision=asdict(recall),
         status=status,
     )
 
@@ -600,6 +627,12 @@ def markdown(route: RuntimeRoute) -> str:
         f"- Task types: {', '.join(route.task_types)}",
         f"- Skills: {', '.join(route.skills)}",
         f"- Gates: {', '.join(route.gates)}",
+        "",
+        "## Recall Decision",
+        "",
+        f"- Tier: {route.recall_decision.get('tier')} ({route.recall_decision.get('tier_name')})",
+        f"- Recommended action: {route.recall_decision.get('recommended_action')}",
+        f"- Floor reasons: {', '.join(route.recall_decision.get('floor_reasons', []))}",
         "",
         "## Required Skill Execution Receipts",
         "",

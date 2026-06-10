@@ -6,7 +6,7 @@ Build a local research agent that thinks before writing, checks sources before c
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-green.svg)](https://www.python.org/)
-[![Evals](https://img.shields.io/badge/Skill_Evals-33%2F33_passing-brightgreen.svg)](#validation)
+[![Evals](https://img.shields.io/badge/Skill_Evals-38%2F38_passing-brightgreen.svg)](#validation)
 
 Use it with Codex, Claude Code, Cursor, or any coding agent that can read local files and follow `SKILL.md` instructions. The kit itself is file-based and local-first; the agent tool you choose may have its own login, subscription, API-key requirements, or different skill-discovery behaviour. The Python checks remain usable even when an agent does not auto-discover skills.
 
@@ -50,6 +50,12 @@ The workflow is strict where it matters:
 5. **Update knowledge deliberately** — useful decisions and reviewed sources can be added to the knowledge base, but retrieval and notes remain navigation aids until source readiness is confirmed.
 
 ## What's New
+
+**v1.6.0** adds Stage Continuity and Token-Aware Recall.
+
+That means a long-running project can now prevent a common cross-stage failure: drafting a later-stage method plan, instrument, analysis plan, or stakeholder-facing memo without checking earlier source-of-record decisions. The runtime emits a recall tier, the Stage Graph points to upstream dependencies, and a Stage Continuity Capsule records what was inherited, what remains open, and what must not change without confirmation.
+
+It also keeps context use proportionate. Format-only fixes and bookkeeping stay light; high-risk stage changes get targeted recall; supersession or "skip upstream" cases surface the dependency first and record any accepted override as risk, not as a pass.
 
 **v1.5.2** adds DOCX Structure and Layout Guards.
 
@@ -116,6 +122,7 @@ bash scripts/run_vector_index.sh
 |---|---|---|
 | The agent invents facts or requirements | Source-first gate | Formal writing starts from local evidence, not memory |
 | The draft sounds polished but the argument is thin | Cognitive frameworks + self-review loop | Claims, warrants, and paragraph logic are checked before delivery |
+| A later-stage artifact ignores earlier project commitments | Stage Continuity + Token-Aware Recall | The agent checks the Stage Graph, writes a targeted capsule, and recomputes recall when the task changes |
 | The user asks to reduce AI rate or humanise prose | Authorial voice integrity | The detector-evasion framing is refused and converted into evidence-led authorial voice work |
 | A skill is mentioned but not actually executed | Skill execution receipts | Required checks must leave local evidence receipts; receipts are not proof of analytical quality |
 | Formal prose repeats mechanical contrast templates | Style fingerprint gate | A fixed phrase list, including `rather than` / `not...but`, is scanned before delivery |
@@ -147,6 +154,7 @@ bash scripts/run_vector_index.sh
 | Release surface verification | `.agents/skills/release-surface-verification/` | Checks the user-visible GitHub release page, About/sidebar, topics, rendered README/docs, and public links before claiming a release is complete |
 | Public sync policy | `PUBLIC_SYNC_POLICY.md` | Defines shared core files, private-only content, public-only onboarding files, sync checks, and release-boundary rules |
 | Delivery pipeline | `research-wiki/DOCUMENT_PIPELINE.md` | Splits formal work into THINKING, WRITING, and DELIVERY checkpoints |
+| Stage continuity | `research-wiki/STAGE_GRAPH.md`, `research-wiki/STAGE_CONTINUITY_PROTOCOL.md`, `scripts/stage_recall_policy.py`, `scripts/stage_continuity_capsule_check.py` | Prevents later-stage work from ignoring upstream decisions while keeping recall token-aware |
 
 ## Scope And Limits
 
@@ -165,7 +173,7 @@ These limits are part of the design. The system should make weak evidence visibl
 
 ## Validation
 
-The public template currently reports **33/33 skill evaluations passing**.
+The public template currently reports **38/38 skill evaluations passing**.
 These are lightweight static/routing checks for high-risk cases, not proof of behavioural quality. The badge reflects the published template state; rerun the checks after customising the kit.
 
 ```bash
@@ -274,6 +282,7 @@ Edit `.agents/skills/cognitive-frameworks/SKILL.md` to adjust gap classification
 - [Self-Growing Knowledge Base](knowledge-base/self-growing/README.md) — Controlled knowledge-base growth workflow
 - [Retrieval Protocol](research-wiki/RETRIEVAL_PROTOCOL.md) — How the local retrieval layers work together
 - [Document Pipeline](research-wiki/DOCUMENT_PIPELINE.md) — Staged checkpoint delivery process
+- [Stage Continuity Protocol](research-wiki/STAGE_CONTINUITY_PROTOCOL.md) — Token-aware recall and upstream dependency checks
 - [AI Writing Authorial Voice Policy](research-wiki/AI_WRITING_AUTHORIAL_VOICE_POLICY.md) — Integrity-safe authorial voice boundary
 - [Skill Execution Receipt Protocol](research-wiki/SKILL_EXECUTION_RECEIPT_PROTOCOL.md) — Evidence receipts for required skill execution
 - [Software and Plugin Requirements](docs/SOFTWARE_AND_PLUGIN_REQUIREMENTS.md) — Required and optional tools

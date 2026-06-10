@@ -6,6 +6,35 @@ Date: 2026-05-30
 
 This file records the release checks completed before publishing the starter kit as an open-source repository.
 
+## v1.6.0 Public Sync Audit - 2026-06-10
+
+Scope: Stage Continuity and Token-Aware Recall improvements were generalised into the public starter kit.
+
+Included public-safe changes:
+
+- generic Stage Continuity protocol and Stage Graph template;
+- deterministic recall-tier helper and Stage Continuity Capsule checker;
+- runtime routing support for `recall_decision`;
+- agent-orchestration and context-continuity skill guidance;
+- README, changelog, system overview, dual-window guide, and evaluation registry updates;
+- focused tests and behavioural evidence checks for high-risk stage work, user-skip instructions, layout-only repairs, and bookkeeping tasks.
+
+Privacy and public-template boundary:
+
+- no private research drafts, source notes, compliance files, human-subject records, local machine paths, adviser/reviewer materials, or institution-specific requirements were copied into this public update;
+- Stage Graph rows are examples and templates, not project-specific source-of-record claims;
+- Claude Code review was used as advisory feedback only and did not replace local privacy, validation, or release-surface checks.
+
+Validation completed for this update:
+
+- Python compile check for changed scripts;
+- unit tests;
+- skill evals;
+- behavioural evidence checks;
+- schema validation;
+- privacy check;
+- `git diff --check`.
+
 ## Public Identity
 
 - Maintainer: `[YOUR_NAME]`

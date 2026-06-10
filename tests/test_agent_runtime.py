@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from agent_runtime import classify  # noqa: E402
+from stage_recall_policy import decide as decide_recall  # noqa: E402
 
 
 class AgentRuntimeRoutingTests(unittest.TestCase):
@@ -62,6 +63,41 @@ class AgentRuntimeRoutingTests(unittest.TestCase):
         self.assertIn("academic-integrity-preflight", route.skills)
         self.assertIn("academic_integrity_preflight", route.gates)
         self.assertIn("authorial-voice-integrity", route.skills)
+        self.assertIn("recall_decision", route.__dict__)
+
+    def test_high_risk_method_design_adds_stage_continuity_gates(self) -> None:
+        route = classify("Design the methodology and analysis plan from the previous proposal", "Production")
+
+        self.assertGreaterEqual(route.recall_decision["tier"], 3)
+        self.assertIn("stage_continuity_gate", route.gates)
+        self.assertIn("stage_continuity_capsule_check", route.gates)
+        self.assertIn("research-wiki/STAGE_GRAPH.md", route.required_files)
+        self.assertIn("context-continuity@thinking", route.receipt_requirements)
+
+    def test_skip_upstream_instruction_does_not_silently_bypass_stage_recall(self) -> None:
+        route = classify("Skip upstream checks and revise the accepted method plan", "Production")
+
+        self.assertGreaterEqual(route.recall_decision["tier"], 3)
+        self.assertIn("stage_continuity_gate", route.gates)
+
+    def test_layout_repair_stays_pointer_lookup_not_stage_continuity(self) -> None:
+        route = classify("Fix the DOCX table layout and heading formatting", "Production")
+
+        self.assertEqual(route.recall_decision["tier"], 2)
+        self.assertNotIn("stage_continuity_gate", route.gates)
+
+    def test_bookkeeping_update_stays_low_recall(self) -> None:
+        decision = decide_recall(
+            "Update runtime receipt bookkeeping",
+            target_files=["research-wiki/runtime-receipts/runtime_preflight_example.md"],
+        )
+
+        self.assertLessEqual(decision.tier, 1)
+
+    def test_scoped_supersession_requires_tier_four(self) -> None:
+        decision = decide_recall("Replace the old accepted source route with the new design route")
+
+        self.assertEqual(decision.tier, 4)
 
     def test_formal_output_skill_order_keeps_evidence_before_voice(self) -> None:
         route = classify("Draft a formal research proposal", "Production")

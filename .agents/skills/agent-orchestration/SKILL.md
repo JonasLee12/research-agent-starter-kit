@@ -19,6 +19,10 @@ The user may grant project-level standing permission for the agent to decide whe
 
 Before drafting any formal document, use `dissertation-source-first-gate`. Extract known factual fields from source files. Do not invent names, emails, dates, institutional contacts, supervisor/PI/client details, signatures, participant facts, datasets, results, administrative requirements, journal/funder/client requirements, marking criteria, grade-band standards, LMS requirements, deadlines, word counts, or submission rules. If a field is not found in the source material, mark it `TO CONFIRM`.
 
+Before substantive cross-stage work, apply `research-wiki/STAGE_CONTINUITY_PROTOCOL.md` when both conditions hold: (A) the task changes, designs, restates, translates, formalises, or produces a high-risk deliverable class such as method plan, compliance material, fieldwork instrument, analysis plan, stakeholder-facing decision memo, or formal section draft; and (B) `research-wiki/STAGE_GRAPH.md` lists upstream dependencies or the task references prior decisions, accepted outputs, source-of-record files, source maps, or checkpoints. Citation-only edits, formatting/layout fixes, typo repair, file moves, bookkeeping, and source summaries without design/formal-claim output do not trigger the gate.
+
+Use `scripts/stage_recall_policy.py` or the runtime preflight `recall_decision` as the token-aware recall controller. Tier 0 means no project recall; Tier 1 anchor scan; Tier 2 pointer lookup; Tier 3 targeted Stage Continuity Capsule; Tier 4 full upstream audit or pause. This controller manages context budget only. It never overrides Stage Continuity A+B, source-first, compliance, citation, privacy, document-quality, or delivery gates. If the user says to skip upstream checks for a triggered deliverable, surface the omitted dependency first and record an override risk only after explicit user acceptance.
+
 Before answering rubric, grade-band, marking-criteria, journal/funder/client requirement, LMS requirement, word-count, deadline, or submission-rule questions, use the strongest available project requirement source. Use `university-guidance/RUBRIC_EVIDENCE_GATE.md` for assessed academic work. Distinguish official original text, local summary, inference, and evidence-insufficient status.
 
 Before delivering formal documents or important project notes, use `dissertation-document-quality-gate` at the appropriate level.
@@ -37,10 +41,13 @@ Use this quick sequence at the start of every Production Window turn:
 
 1. Classify the user's current task by mode and task type.
 2. Select the smallest useful skill set from the classification table.
-3. Open the relevant `SKILL.md` files before acting on any non-trivial task.
-4. Add source-first, cognitive-framework, self-review, argument-spine, style-memory, document-quality, compliance, project-delivery, and context-continuity gates when the task involves formal or stakeholder-facing output.
-5. Re-route if the user changes the task during the turn.
-6. Record the routing in `research-wiki/PRODUCTION_RUN_REGISTER.md` for substantial Production tasks.
+3. Compute or consume the Token-Aware Recall tier and state the minimum recall scope for substantial work.
+4. Check whether Stage Continuity A+B is triggered. If yes, read `research-wiki/STAGE_GRAPH.md`, write a Stage Continuity Capsule, and run `scripts/stage_continuity_capsule_check.py` when available.
+5. Open the relevant `SKILL.md` files before acting on any non-trivial task.
+6. Add source-first, cognitive-framework, self-review, argument-spine, style-memory, document-quality, compliance, project-delivery, and context-continuity gates when the task involves formal or stakeholder-facing output.
+7. Re-route and recompute recall if the user changes the task during the turn.
+8. Before formal delivery, confirm the final artifact still matches the latest recall tier, source map, and gates.
+9. Record the routing in `research-wiki/PRODUCTION_RUN_REGISTER.md` for substantial Production tasks.
 
 Use this receipt wording:
 
@@ -53,6 +60,8 @@ Skill routing:
 - Subagent decision:
 - Gates required:
 - Gates completed:
+- Recall Decision Note:
+- Stage Continuity Gate triggered:
 ```
 
 If a substantial Production output has no skill-routing receipt, treat the task as incomplete for maintenance-audit purposes.
@@ -82,6 +91,7 @@ Classify the user's request into one or more categories:
 | LMS/module requirements | `dissertation-research-search-protocol`, `dissertation-research-wiki`, `dissertation-chapter-plan`, `dissertation-citation-audit` |
 | literature search / literature review | `dissertation-research-search-protocol`, `dissertation-learning-loop`, `dissertation-literature-review`, `cognitive-frameworks`, `dissertation-argument-spine`, `dissertation-citation-audit`, `academic-self-review-loop` when drafting formal synthesis |
 | research questions / methodology | `cognitive-frameworks`, `dissertation-argument-spine`, `dissertation-research-review`, `dissertation-chapter-plan`, `academic-self-review-loop` when drafting formal prose |
+| Stage Continuity triggered deliverable | `context-continuity`, `cognitive-frameworks`, `dissertation-source-first-gate`, `dissertation-argument-spine`, `dissertation-research-review` |
 | interview guide / data collection | `qualitative-theme-audit`, `responsible-ai-agent-audit`, `teacher-adoption-modeling` |
 | confirmed design-elicitation / co-design outputs | `codesign-output-synthesis`, `qualitative-theme-audit`, `ai-agent-design-spec` |
 | AI agent concept / prototype | `ai-agent-design-spec`, `active-learning-design-support`, `prototype-evaluation-audit` |

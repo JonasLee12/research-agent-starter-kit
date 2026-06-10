@@ -121,6 +121,29 @@ Minimum protocol:
 
 Use `.agents/skills/cognitive-frameworks/SKILL.md` and `scripts/cognitive_protocol_check.py` when available.
 
+## Stage Continuity And Token-Aware Recall Rule
+
+For long-running projects, a later-stage task must not ignore earlier source-of-record decisions.
+
+Use `research-wiki/STAGE_GRAPH.md` and `research-wiki/STAGE_CONTINUITY_PROTOCOL.md` when a task both:
+
+1. changes, designs, restates, translates, formalises, or produces a high-risk deliverable; and
+2. has upstream dependencies in the Stage Graph or references prior decisions, accepted outputs, source maps, or checkpoints.
+
+Use `scripts/stage_recall_policy.py --task "<TASK>"` or the runtime `recall_decision` to choose the minimum recall scope:
+
+- Tier 0: no project recall;
+- Tier 1: anchor scan;
+- Tier 2: pointer lookup;
+- Tier 3: targeted Stage Continuity Capsule;
+- Tier 4: full upstream audit or pause.
+
+This saves tokens; it does not weaken source-first, compliance, citation, privacy, document-quality, or delivery gates.
+
+If the user asks to skip an upstream check, first surface the omitted dependency. Proceed only if the user explicitly accepts the override risk, and record that risk rather than calling the gate a pass.
+
+For non-obvious route decisions, create a Deep Reasoning Pass before drafting. It is a concise decision record, not a replacement for cognitive frameworks or self-review.
+
 ## Academic Self-Review Rule
 
 For formal academic or professional prose, the agent must run `academic-self-review-loop` before style polishing and document-quality gates.
