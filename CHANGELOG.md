@@ -7,6 +7,10 @@
 - GitHub social preview asset at `docs/assets/social-preview.png`, with editable SVG source and manifest in `docs/assets/`.
 - Annotated runtime routing demo image at `docs/assets/terminal-routing-demo.png`, with editable SVG source and manifest in `docs/assets/`.
 
+### Changed
+
+- Simplified the README and README_CN workflow diagrams to show the public control path: output-risk routing, light receipts, source packaging, skill receipts, and delivery guard.
+
 ### Boundary
 
 - The social preview and routing demo are deterministic public assets. They do not include private project content, institution-specific requirements, participant material, screenshots, local paths, credentials, or generated private reports.

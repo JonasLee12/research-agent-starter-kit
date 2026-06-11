@@ -42,28 +42,21 @@ python scripts/agent_runtime.py "Write two formal methodology paragraphs synthes
 
 ```mermaid
 flowchart LR
-    A["User task"] --> B["Route skills"]
-    B --> C["Source-first check"]
-    C --> D["Material Passport"]
-    D --> E["Academic integrity preflight"]
-    E --> F["Cognitive map"]
-    F --> G["Draft or revise"]
-    G --> H["Two-pass self-review"]
-    H --> I["Authorial voice check"]
-    I --> J["Style fingerprint scan"]
-    J --> L["Skill execution receipts"]
-    L --> M["Delivery gate"]
-    M --> K["Knowledge update"]
-
-    C -. blocks unsupported facts .-> X["Revise evidence"]
-    X -. back to source check .-> C
-    E -. catches placeholders / fake refs .-> Y["Fix artifact"]
-    Y -. back to source package .-> D
-    M -. blocks weak formal output .-> Z["Complete required gates"]
-    Z -. back to review .-> H
+    A["User task"] --> B{"Output risk?"}
+    B -->|"lookup, planning, minor edit"| C["Bounded route"]
+    B -->|"formal prose, DOCX, stakeholder output"| D["Formal route"]
+    C --> E["Light receipts"]
+    E --> F["Knowledge update"]
+    D --> G["Source package"]
+    G --> H["Integrity + review"]
+    H --> I["Skill receipts"]
+    I --> J{"Delivery guard"}
+    J -->|"PASS"| F
+    J -->|"BLOCK"| K["Fix missing evidence"]
+    K --> G
 ```
 
-虚线代表 revision loop。意思是：如果某个 gate 发现问题，agent 应该停下来修复，再重新运行相关检查。
+这张图只展示首页需要理解的核心控制路径：小任务保持轻量，正式输出进入 source package、review evidence、receipt 和 delivery guard。完整 formal-writing chain 仍然保留在项目 skills 和 scripts 里。
 
 这套流程在关键位置会变严格：
 

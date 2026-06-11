@@ -42,28 +42,21 @@ python scripts/agent_runtime.py "Write two formal methodology paragraphs synthes
 
 ```mermaid
 flowchart LR
-    A["User task"] --> B["Route skills"]
-    B --> C["Source-first check"]
-    C --> D["Material Passport"]
-    D --> E["Academic integrity preflight"]
-    E --> F["Cognitive map"]
-    F --> G["Draft or revise"]
-    G --> H["Two-pass self-review"]
-    H --> I["Authorial voice check"]
-    I --> J["Style fingerprint scan"]
-    J --> L["Skill execution receipts"]
-    L --> M["Delivery gate"]
-    M --> K["Knowledge update"]
-
-    C -. blocks unsupported facts .-> X["Revise evidence"]
-    X -. back to source check .-> C
-    E -. catches placeholders / fake refs .-> Y["Fix artifact"]
-    Y -. back to source package .-> D
-    M -. blocks weak formal output .-> Z["Complete required gates"]
-    Z -. back to review .-> H
+    A["User task"] --> B{"Output risk?"}
+    B -->|"lookup, planning, minor edit"| C["Bounded route"]
+    B -->|"formal prose, DOCX, stakeholder output"| D["Formal route"]
+    C --> E["Light receipts"]
+    E --> F["Knowledge update"]
+    D --> G["Source package"]
+    G --> H["Integrity + review"]
+    H --> I["Skill receipts"]
+    I --> J{"Delivery guard"}
+    J -->|"PASS"| F
+    J -->|"BLOCK"| K["Fix missing evidence"]
+    K --> G
 ```
 
-The dashed paths are revision loops. They show where the agent should stop, fix the weak point, and rerun the relevant gate.
+This diagram shows the public control path. Small tasks stay light; formal outputs move through source packaging, review evidence, receipts, and a delivery guard. The full internal formal-writing chain is still documented in the project skills and scripts.
 
 The workflow is strict where it matters:
 

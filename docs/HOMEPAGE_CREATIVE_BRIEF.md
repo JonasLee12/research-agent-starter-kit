@@ -82,6 +82,7 @@ Recommended order:
 3. **Revised workflow diagram**
    - Narrow the visual story to source gate -> routing -> receipts -> delivery guard.
    - Keep full details in documentation.
+   - Status: completed in the Mermaid diagrams inside `README.md` and `README_CN.md`.
 
 4. **Optional GitHub Pages mock**
    - Only after README positioning is stable.
