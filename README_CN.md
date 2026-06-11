@@ -1,6 +1,8 @@
 # Research Agent Starter Kit
 
-搭建一个本地 research agent：先思考，再写作；先查证据，再下判断；正式交付前拦截不满足要求的输出。
+一套 local-first research-agent 工作流：面向需要“可辩护正式输出”的研究项目，而不只是生成流畅草稿。
+
+它帮助 coding agent 在下判断前先查 source，给小任务走轻量路由，让关键 gate 留下执行回执，并在 Word/PDF 或 stakeholder-facing 输出被当作可用版本前拦截薄弱交付。
 
 [English README](README.md)
 
@@ -8,11 +10,31 @@
 [![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-green.svg)](https://www.python.org/)
 [![Evals](https://img.shields.io/badge/Skill_Evals-48%2F48_passing-brightgreen.svg)](#validation)
 
-它可以配合 Codex、Claude Code、Cursor，或任何能读取本地文件并遵守 `SKILL.md` 指令的 coding agent 使用。这个 starter kit 本身是本地文件驱动；你选择的 agent 工具可能仍然有自己的登录、订阅、API-key 要求，或不同的 skill-discovery 行为。即使某个 agent 不能自动发现 skill，本地 Python 检查脚本仍然可以使用。
+它可以配合 Codex、Claude Code、Cursor，或任何能读取本地文件并遵守 `SKILL.md` 指令的 coding agent 使用。这个 starter kit 本身是本地文件驱动；你选择的 agent 工具可能仍然有自己的登录、订阅、API-key 要求或 skill-discovery 行为，但本地 Python 检查脚本仍可独立使用。
 
-这套 starter kit 适合 dissertation、thesis、article、report、proposal 和其他结构化研究项目。目标很明确：让 AI 帮你研究和写作，但不能随便编造事实、跳过证据、忽略引用和交付风险。
+它适合有 citation、evidence、compliance、style 或 delivery 要求的研究项目：dissertation、thesis、article、report、proposal、evidence synthesis 和其他结构化研究工作。
 
-它不能替代 source review、ethics/compliance approval、supervisor judgement、peer review 或机构凭据。这些限制会被明确显示出来。
+它不能替代 source review、ethics/compliance approval、supervisor judgement、peer review 或机构凭据。设计目标是让这些限制在 polished prose 掩盖问题之前就显露出来。
+
+## 它保护什么
+
+| Risk | Guard |
+|---|---|
+| 流畅草稿编造事实，或把 metadata 当证据 | Source-first gate 和 source-readiness matrix |
+| 小型 lookup 被误路由成昂贵正式写作流程 | Bounded routing 和 light receipts |
+| 切换阶段后忽略旧决定 | Stage Continuity 和 Token-Aware Recall |
+| Skill 只是被声称使用，但没有真正执行 | Skill execution receipts |
+| Word/PDF 交付丢失结构或跳过检查 | Formal delivery guard 和 DOCX structure/layout checks |
+
+## 路由示例
+
+```bash
+python scripts/agent_runtime.py "Run methodology literature search and rematch sources" --window Production
+# bounded_source_planning -> source planning、search、citation boundary、learning loop 的轻量回执
+
+python scripts/agent_runtime.py "Write two formal methodology paragraphs synthesising the methodology literature" --window Production
+# formal_research_output -> source-first、Material Passport、integrity preflight、cognitive planning、self-review、style/document gates
+```
 
 ## 它如何工作
 

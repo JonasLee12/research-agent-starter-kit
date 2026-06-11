@@ -1,6 +1,8 @@
 # Research Agent Starter Kit
 
-Build a local research agent that thinks before writing, checks sources before claiming, and blocks weak formal outputs before delivery.
+Local-first research-agent workflows for people who need defensible formal outputs, not just fluent drafts.
+
+This starter kit helps a coding agent check sources before claims, route small tasks lightly, leave evidence receipts for required gates, and block weak Word/PDF or stakeholder-facing outputs before they are treated as usable.
 
 [中文说明](README_CN.md)
 
@@ -8,11 +10,31 @@ Build a local research agent that thinks before writing, checks sources before c
 [![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-green.svg)](https://www.python.org/)
 [![Evals](https://img.shields.io/badge/Skill_Evals-48%2F48_passing-brightgreen.svg)](#validation)
 
-Use it with Codex, Claude Code, Cursor, or any coding agent that can read local files and follow `SKILL.md` instructions. The kit itself is file-based and local-first; the agent tool you choose may have its own login, subscription, API-key requirements, or different skill-discovery behaviour. The Python checks remain usable even when an agent does not auto-discover skills.
+Use it with Codex, Claude Code, Cursor, or any coding agent that can read local files and follow `SKILL.md` instructions. The kit itself is file-based and local-first; your agent tool may have its own login, subscription, API-key requirements, or skill-discovery behaviour, but the Python checks remain usable even when skills are not auto-discovered.
 
-This starter kit is for dissertations, theses, articles, reports, proposals, and structured research projects where AI assistance must stay evidence-aware, auditable, and honest about its limits.
+Built for researchers working under citation, evidence, compliance, style, or delivery requirements: dissertations, theses, articles, reports, proposals, evidence syntheses, and structured research projects.
 
-It does not replace source review, ethics/compliance approval, supervisor judgement, peer review, or institutional credentials. Those limits are visible by design.
+It does not replace source review, ethics or compliance approval, supervisor judgement, peer review, or institutional credentials. The point is to make those limits visible before polished text hides them.
+
+## What It Protects
+
+| Risk | Guard |
+|---|---|
+| A fluent draft invents facts or overuses metadata | Source-first gate and source-readiness matrix |
+| A small lookup becomes an expensive formal-writing workflow | Bounded routing and light receipts |
+| A later-stage artifact ignores earlier decisions | Stage Continuity and Token-Aware Recall |
+| A skill is claimed but never actually ran | Skill execution receipts |
+| A Word/PDF deliverable loses structure or skips checks | Formal delivery guard and DOCX structure/layout checks |
+
+## Concrete Routing Example
+
+```bash
+python scripts/agent_runtime.py "Run methodology literature search and rematch sources" --window Production
+# bounded_source_planning -> light receipts for source planning, search, citation boundary, learning loop
+
+python scripts/agent_runtime.py "Write two formal methodology paragraphs synthesising the methodology literature" --window Production
+# formal_research_output -> source-first, Material Passport, integrity preflight, cognitive planning, self-review, style/document gates
+```
 
 ## How It Works
 
