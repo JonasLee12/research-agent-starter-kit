@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Annotated runtime routing demo</title>
+  <desc id="desc">A side-by-side terminal-style demo showing how bounded source planning uses light receipts while formal research output uses the full formal writing gate chain.</desc>
+  <rect width="1600" height="900" fill="#f6f8fb"/>
+  <g font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif">
+    <text x="88" y="96" font-size="48" font-weight="800" fill="#0f1720">Runtime Routing Demo</text>
+    <text x="90" y="140" font-size="23" fill="#526173">Same research domain. Different workflow because output risk is different.</text>
+
+    <rect x="88" y="190" width="675" height="520" rx="10" fill="#ffffff" stroke="#cfdae6"/>
+    <rect x="837" y="190" width="675" height="520" rx="10" fill="#ffffff" stroke="#cfdae6"/>
+
+    <text x="124" y="242" font-size="28" font-weight="800" fill="#0f1720">Bounded Source Planning</text>
+    <text x="124" y="276" font-size="18" fill="#526173">Lookup, rematch, priority sorting, or planning only.</text>
+    <text x="873" y="242" font-size="28" font-weight="800" fill="#0f1720">Formal Research Output</text>
+    <text x="873" y="276" font-size="18" fill="#526173">New formal prose, stakeholder-facing, or delivery-bound output.</text>
+
+    <rect x="124" y="314" width="603" height="252" rx="8" fill="#101820"/>
+    <rect x="124" y="314" width="603" height="44" rx="8" fill="#182333"/>
+    <circle cx="148" cy="336" r="6" fill="#ef4444"/>
+    <circle cx="170" cy="336" r="6" fill="#f59e0b"/>
+    <circle cx="192" cy="336" r="6" fill="#10b981"/>
+
+    <rect x="873" y="314" width="603" height="252" rx="8" fill="#101820"/>
+    <rect x="873" y="314" width="603" height="44" rx="8" fill="#182333"/>
+    <circle cx="897" cy="336" r="6" fill="#ef4444"/>
+    <circle cx="919" cy="336" r="6" fill="#f59e0b"/>
+    <circle cx="941" cy="336" r="6" fill="#10b981"/>
+  </g>
+
+  <g font-family="Menlo, Consolas, 'Courier New', monospace" font-size="17">
+    <text x="154" y="392" fill="#dbeafe">$ agent_runtime "methodology literature search"</text>
+    <text x="154" y="430" fill="#93c5fd">task_type: bounded_source_planning</text>
+    <text x="154" y="468" fill="#a7f3d0">receipts: light</text>
+    <text x="154" y="506" fill="#e5e7eb">gates: search, citation boundary, learning loop</text>
+    <text x="154" y="544" fill="#fef3c7">status: proceed without formal-writing chain</text>
+
+    <text x="903" y="392" fill="#dbeafe">$ agent_runtime "write methodology paragraphs"</text>
+    <text x="903" y="430" fill="#fef3c7">task_type: formal_research_output</text>
+    <text x="903" y="468" fill="#fecaca">receipts: full formal-writing set</text>
+    <text x="903" y="506" fill="#e5e7eb">gates: source-first, passport, integrity, review</text>
+    <text x="903" y="544" fill="#fca5a5">status: block if delivery evidence is missing</text>
+  </g>
+
+  <g font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif">
+    <rect x="124" y="604" width="170" height="42" rx="8" fill="#e8f1ff" stroke="#b9d3ff"/>
+    <text x="146" y="631" font-size="16" font-weight="700" fill="#1d4ed8">Keeps cost down</text>
+    <rect x="312" y="604" width="184" height="42" rx="8" fill="#e8fbf3" stroke="#b7ead6"/>
+    <text x="334" y="631" font-size="16" font-weight="700" fill="#047857">No prose claim yet</text>
+    <rect x="514" y="604" width="194" height="42" rx="8" fill="#f2f5f8" stroke="#d8e0e7"/>
+    <text x="536" y="631" font-size="16" font-weight="700" fill="#334155">Evidence stays bounded</text>
+
+    <rect x="873" y="604" width="180" height="42" rx="8" fill="#fff7ed" stroke="#fed7aa"/>
+    <text x="895" y="631" font-size="16" font-weight="700" fill="#c2410c">Formal claims</text>
+    <rect x="1071" y="604" width="186" height="42" rx="8" fill="#fee2e2" stroke="#fecaca"/>
+    <text x="1093" y="631" font-size="16" font-weight="700" fill="#b91c1c">Delivery risk</text>
+    <rect x="1275" y="604" width="164" height="42" rx="8" fill="#f2f5f8" stroke="#d8e0e7"/>
+    <text x="1297" y="631" font-size="16" font-weight="700" fill="#334155">Full receipts</text>
+  </g>
+
+  <g font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif">
+    <rect x="88" y="760" width="1424" height="72" rx="10" fill="#0f1720"/>
+    <text x="124" y="805" font-size="24" font-weight="800" fill="#ffffff">Routing rule:</text>
+    <text x="284" y="805" font-size="24" fill="#dbeafe">keywords like "methodology" do not decide the workflow; artifact risk does.</text>
+  </g>
+</svg>

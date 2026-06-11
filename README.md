@@ -36,6 +36,8 @@ python scripts/agent_runtime.py "Write two formal methodology paragraphs synthes
 # formal_research_output -> source-first, Material Passport, integrity preflight, cognitive planning, self-review, style/document gates
 ```
 
+![Annotated runtime routing demo](docs/assets/terminal-routing-demo.png)
+
 ## How It Works
 
 ```mermaid

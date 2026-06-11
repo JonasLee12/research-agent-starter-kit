@@ -1,0 +1,15 @@
+{
+  "asset": "terminal-routing-demo",
+  "created": "2026-06-11",
+  "dimensions": {
+    "width": 1600,
+    "height": 900
+  },
+  "files": {
+    "editable_source": "docs/assets/terminal-routing-demo.svg",
+    "readme_image": "docs/assets/terminal-routing-demo.png"
+  },
+  "purpose": "Show the public starter kit's bounded routing distinction between source-planning tasks and formal research-output tasks.",
+  "copy_boundary": "The image explains routing behaviour only. It does not claim source support, academic correctness, compliance approval, grades, publication, or acceptance.",
+  "provenance": "Deterministic SVG/Pillow render. No generated text, private dissertation content, screenshots, institution-specific material, participant material, or credentials."
+}

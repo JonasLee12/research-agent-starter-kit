@@ -76,6 +76,8 @@ Recommended order:
 2. **Annotated terminal demo image**
    - Show `bounded_source_planning` versus `formal_research_output`.
    - This is the highest-trust developer-facing asset.
+   - Status: created at `docs/assets/terminal-routing-demo.png`, with editable source at `docs/assets/terminal-routing-demo.svg`.
+   - README placement: embedded under the concrete routing example in both `README.md` and `README_CN.md`.
 
 3. **Revised workflow diagram**
    - Narrow the visual story to source gate -> routing -> receipts -> delivery guard.
