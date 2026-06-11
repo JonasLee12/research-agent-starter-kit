@@ -144,6 +144,21 @@ If the user asks to skip an upstream check, first surface the omitted dependency
 
 For non-obvious route decisions, create a Deep Reasoning Pass before drafting. It is a concise decision record, not a replacement for cognitive frameworks or self-review.
 
+## Bounded Task Routing Rule
+
+Do not treat every methodology, literature, proposal-background, or source task as formal writing.
+
+Use light receipt sets for:
+
+- source planning;
+- reading priority sorting;
+- literature/source lookup;
+- citation-key, reference-format, typo, or punctuation edits.
+
+Escalate to the full formal-writing chain only when the task asks for formal prose, paragraph/section/chapter drafting, Word/DOCX delivery, stakeholder/reviewer/client/submission-facing output, or protected source-of-record edits.
+
+Bounded work must still preserve evidence boundaries: metadata-only sources stay metadata-only, source-readiness is not upgraded without source-section review, and protected registers are not edited without a separately routed task.
+
 ## Academic Self-Review Rule
 
 For formal academic or professional prose, the agent must run `academic-self-review-loop` before style polishing and document-quality gates.

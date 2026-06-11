@@ -124,6 +124,57 @@ class AgentRuntimeRoutingTests(unittest.TestCase):
         self.assertIn("dissertation-research-search-protocol@research", route.receipt_requirements)
         self.assertNotIn("style-fingerprint-gate@writing", route.receipt_requirements)
 
+    def test_bounded_source_planning_uses_light_receipts(self) -> None:
+        route = classify("Run methodology literature search and rematch sources", "Production")
+
+        self.assertEqual(route.mode, "Research Mode")
+        self.assertIn("bounded_source_planning", route.task_types)
+        self.assertNotIn("formal_research_output", route.task_types)
+        self.assertIn("dissertation-research-search-protocol@research", route.receipt_requirements)
+        self.assertNotIn("academic-self-review-loop@writing", route.receipt_requirements)
+        self.assertNotIn("style-fingerprint-gate@writing", route.receipt_requirements)
+
+    def test_bounded_lookup_uses_light_receipts(self) -> None:
+        route = classify("Check whether Palinkas 2015 has a usable sampling source section", "Production")
+
+        self.assertIn("bounded_research_lookup", route.task_types)
+        self.assertNotIn("formal_research_output", route.task_types)
+        self.assertIn("dissertation-citation-audit@review", route.receipt_requirements)
+        self.assertNotIn("academic-integrity-preflight@thinking", route.receipt_requirements)
+
+    def test_formal_methodology_paragraphs_still_use_full_workflow(self) -> None:
+        route = classify("Write two formal methodology paragraphs synthesising the methodology literature", "Production")
+
+        self.assertIn("formal_research_output", route.task_types)
+        self.assertNotIn("bounded_source_planning", route.task_types)
+        self.assertIn("academic-integrity-preflight@thinking", route.receipt_requirements)
+        self.assertIn("academic-self-review-loop@writing", route.receipt_requirements)
+        self.assertIn("style-fingerprint-gate@writing", route.receipt_requirements)
+
+    def test_ambiguous_source_planning_plus_summary_routes_formal(self) -> None:
+        route = classify("整理 Methodology 的文献并写两段总结", "Production")
+
+        self.assertIn("formal_research_output", route.task_types)
+        self.assertNotIn("bounded_source_planning", route.task_types)
+        self.assertIn("academic-self-review-loop@writing", route.receipt_requirements)
+
+    def test_minor_citation_format_edit_stays_light(self) -> None:
+        route = classify("Fix the citation format and typos only in this report", "Production")
+
+        self.assertEqual(route.mode, "Minor Edit Mode")
+        self.assertIn("minor_edit", route.task_types)
+        self.assertNotIn("formal_research_output", route.task_types)
+        self.assertIn("dissertation-citation-audit@review", route.receipt_requirements)
+        self.assertNotIn("academic-self-review-loop@writing", route.receipt_requirements)
+
+    def test_minor_edit_on_submission_ready_document_uses_full_workflow(self) -> None:
+        route = classify("Fix typos only in the submission-ready report", "Production")
+
+        self.assertIn("formal_research_output", route.task_types)
+        self.assertNotIn("minor_edit", route.task_types)
+        self.assertIn("academic-integrity-preflight@thinking", route.receipt_requirements)
+        self.assertIn("academic-self-review-loop@writing", route.receipt_requirements)
+
     def test_knowledge_base_setup_routes_to_kb_operations(self) -> None:
         route = classify("Set up a self-growing knowledge base with local retrieval", "Production")
 

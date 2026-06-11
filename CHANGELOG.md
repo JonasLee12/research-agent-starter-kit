@@ -1,5 +1,32 @@
 # Changelog
 
+## v1.7.0 - Bounded Routing And Session Log Integrity - 2026-06-11
+
+Status: proportional routing and maintenance-audit reliability update.
+
+### Added
+
+- Bounded runtime task types for source planning, research lookup, and minor citation/typo edits.
+- Light receipt sets for bounded source planning, bounded research lookup, and minor edits.
+- `scripts/session_log_integrity_check.py` to check JSONL validity, legal window labels, runtime/window alignment, paired session starts/ends, and timestamp parseability.
+- `research-wiki/tool-schemas/session_log_integrity_check.schema.json`.
+- Runtime/eval coverage for protected-document minor edits, formal methodology paragraphs, bounded methodology literature search, ambiguous source planning plus summary prose, bounded source lookup, receipt-window inference, and session-log integrity pass/fail cases.
+
+### Changed
+
+- `scripts/agent_runtime.py` now keeps source planning, literature-priority sorting, lookup, and minor edit tasks on light routes unless the task asks for formal prose, Word/DOCX, stakeholder-facing or submission-facing output, or protected source-of-record edits.
+- `scripts/run_skill_evals.py` now runs targeted behavioural checks for the new routing boundaries instead of only checking that referenced files exist.
+- `scripts/skill_execution_receipt.py` infers `Maintenance` when no explicit window is provided and the stage/task type/task id clearly describes maintenance or public-sync work.
+- `AGENTS.md`, `templates/AGENTS.example.md`, `PROJECT_AGENT_PREFERENCES.md`, `agent-orchestration`, `WINDOW_WORKFLOW_PROMPTS.md`, `README.md`, `README_CN.md`, and `docs/SYSTEM_OVERVIEW.md` now document bounded/light routes and session-log integrity checks.
+- Skill eval registry now reports 48 public checks.
+
+### Boundary
+
+- Bounded routes do not weaken source, citation, privacy, compliance, or document-quality boundaries.
+- Metadata-only sources remain metadata-only until source-section review supports an upgrade.
+- Protected source-of-record edits still need their own route; a bounded source-planning task cannot silently update registers or formal source files.
+- This release does not include private project content, institution-specific requirements, participant material, private local paths, credentials, runtime state, or generated private reports.
+
 ## v1.6.0 - Stage Continuity And Token-Aware Recall - 2026-06-10
 
 Status: long-running project continuity and context-budget reliability update.

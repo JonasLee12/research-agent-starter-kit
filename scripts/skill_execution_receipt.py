@@ -24,6 +24,19 @@ CHECK_DIR = ROOT / "audit-reports" / "skill-receipts"
 EVENT_LOG = ROOT / "research-wiki" / "SESSION_EVENT_LOG.jsonl"
 
 PASSING_STATUSES = {"PASS", "WARN", "NA"}
+MAINTENANCE_WINDOW_HINTS = [
+    "maintenance",
+    "system_maintenance",
+    "audit",
+    "runtime",
+    "routing",
+    "skill-change",
+    "skill change",
+    "release",
+    "github",
+    "public-sync",
+    "public sync",
+]
 
 
 @dataclass
@@ -78,6 +91,15 @@ def evidence_record(path_text: str) -> EvidenceRecord:
     path = resolve(path_text)
     exists = path.exists()
     return EvidenceRecord(path=rel(path), exists=exists, sha256=sha256(path) if exists and path.is_file() else None)
+
+
+def infer_window(explicit_window: str | None, task_type: str, stage: str, task_id: str) -> str:
+    if explicit_window:
+        return explicit_window
+    haystack = " ".join([task_type or "", stage or "", task_id or ""]).lower()
+    if any(hint in haystack for hint in MAINTENANCE_WINDOW_HINTS):
+        return "Maintenance"
+    return "Production"
 
 
 def receipt_runtime_path(receipt: SkillReceipt) -> Path:
@@ -255,11 +277,12 @@ def create(args: argparse.Namespace) -> int:
         return 1
 
     artifact = rel(resolve(args.artifact)) if args.artifact else ""
+    window = infer_window(args.window, args.task_type, args.stage, args.task_id)
     receipt = SkillReceipt(
         version=1,
         created_at=datetime.now(timezone.utc).isoformat(timespec="seconds"),
         task_id=args.task_id,
-        window=args.window,
+        window=window,
         task_type=args.task_type or "",
         stage=args.stage,
         skill=args.skill,
@@ -345,7 +368,7 @@ def main() -> int:
     create_p.add_argument("--evidence", action="append")
     create_p.add_argument("--command", default="")
     create_p.add_argument("--notes", default="")
-    create_p.add_argument("--window", choices=["Production", "Maintenance"], default="Production")
+    create_p.add_argument("--window", choices=["Production", "Maintenance"], default=None)
     create_p.add_argument("--task-type", default="")
     create_p.add_argument("--allow-missing-evidence", action="store_true")
     create_p.add_argument("--allow-no-evidence", action="store_true")

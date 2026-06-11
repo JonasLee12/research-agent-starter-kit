@@ -6,7 +6,7 @@ Build a local research agent that thinks before writing, checks sources before c
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-green.svg)](https://www.python.org/)
-[![Evals](https://img.shields.io/badge/Skill_Evals-38%2F38_passing-brightgreen.svg)](#validation)
+[![Evals](https://img.shields.io/badge/Skill_Evals-48%2F48_passing-brightgreen.svg)](#validation)
 
 Use it with Codex, Claude Code, Cursor, or any coding agent that can read local files and follow `SKILL.md` instructions. The kit itself is file-based and local-first; the agent tool you choose may have its own login, subscription, API-key requirements, or different skill-discovery behaviour. The Python checks remain usable even when an agent does not auto-discover skills.
 
@@ -50,6 +50,12 @@ The workflow is strict where it matters:
 5. **Update knowledge deliberately** — useful decisions and reviewed sources can be added to the knowledge base, but retrieval and notes remain navigation aids until source readiness is confirmed.
 
 ## What's New
+
+**v1.7.0** adds bounded routing and session-log integrity checks.
+
+That means the agent can now keep small tasks small. Source planning, literature-priority sorting, source lookup, citation-key fixes, reference-format edits, and typos use light receipt sets unless the task asks for formal prose, Word/DOCX, stakeholder-facing or submission-facing output, or protected source-of-record edits. Methodology or literature-review keywords alone no longer justify the full formal-writing chain.
+
+It also adds `scripts/session_log_integrity_check.py`, so maintenance audits can block malformed JSONL, illegal window labels, runtime/window mismatches, and unpaired session starts instead of treating log drift as harmless bookkeeping.
 
 **v1.6.0** adds Stage Continuity and Token-Aware Recall.
 
@@ -123,6 +129,7 @@ bash scripts/run_vector_index.sh
 | The agent invents facts or requirements | Source-first gate | Formal writing starts from local evidence, not memory |
 | The draft sounds polished but the argument is thin | Cognitive frameworks + self-review loop | Claims, warrants, and paragraph logic are checked before delivery |
 | A later-stage artifact ignores earlier project commitments | Stage Continuity + Token-Aware Recall | The agent checks the Stage Graph, writes a targeted capsule, and recomputes recall when the task changes |
+| The agent over-routes source planning as formal writing | Bounded runtime routes | Source planning, lookup, and minor edits use light receipt sets until the task truly asks for formal output |
 | The user asks to reduce AI rate or humanise prose | Authorial voice integrity | The detector-evasion framing is refused and converted into evidence-led authorial voice work |
 | A skill is mentioned but not actually executed | Skill execution receipts | Required checks must leave local evidence receipts; receipts are not proof of analytical quality |
 | Formal prose repeats mechanical contrast templates | Style fingerprint gate | A fixed phrase list, including `rather than` / `not...but`, is scanned before delivery |
@@ -139,6 +146,7 @@ bash scripts/run_vector_index.sh
 |---|---|---|
 | Skills | `.agents/skills/` | Local instructions for routing, writing, review, source checks, KB operations, and maintenance |
 | Runtime routing | `scripts/agent_runtime.py` | Classifies task types and lists required skills, files, and gates |
+| Session log integrity | `scripts/session_log_integrity_check.py` | Checks JSONL validity, window labels, runtime/window alignment, paired sessions, and timestamp parseability |
 | Source readiness | `knowledge-base/SOURCE_READINESS_MATRIX.md` | Tracks whether a source is metadata-only, partly reviewed, or citation-ready |
 | Self-growing KB | `knowledge-base/self-growing/` | Manages controlled knowledge-base growth |
 | Retrieval | `scripts/local_retrieval_search.py`, `scripts/build_agent_index.py` | Builds local searchable indexes without replacing source review |
@@ -173,12 +181,13 @@ These limits are part of the design. The system should make weak evidence visibl
 
 ## Validation
 
-The public template currently reports **38/38 skill evaluations passing**.
+The public template currently reports **48/48 skill evaluations passing**.
 These are lightweight static/routing checks for high-risk cases, not proof of behavioural quality. The badge reflects the published template state; rerun the checks after customising the kit.
 
 ```bash
 python scripts/run_skill_evals.py
 python scripts/validate_agent_schemas.py
+python scripts/session_log_integrity_check.py --strict --no-report
 python -m unittest discover -s tests
 python scripts/run_behavioral_evidence_checks.py
 bash scripts/privacy_check.sh

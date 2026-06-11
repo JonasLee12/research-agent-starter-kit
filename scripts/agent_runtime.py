@@ -33,6 +33,23 @@ BASE_FILES = [
     "research-wiki/WINDOW_WORKFLOW_PROMPTS.md",
 ]
 
+BOUNDED_SOURCE_PLANNING_RECEIPTS = [
+    "dissertation-source-first-gate@planning",
+    "dissertation-research-search-protocol@research",
+    "dissertation-citation-audit@review",
+    "dissertation-learning-loop@integration",
+]
+
+BOUNDED_RESEARCH_LOOKUP_RECEIPTS = [
+    "dissertation-research-search-protocol@research",
+    "dissertation-citation-audit@review",
+]
+
+MINOR_EDIT_RECEIPTS = [
+    "dissertation-source-first-gate@minor-edit",
+    "dissertation-citation-audit@review",
+]
+
 TASK_RULES: list[dict] = [
     {
         "name": "formal_research_output",
@@ -136,6 +153,111 @@ TASK_RULES: list[dict] = [
             "dissertation-document-quality-gate@writing",
             "formal-delivery-guard@delivery",
         ],
+    },
+    {
+        "name": "bounded_source_planning",
+        "patterns": [
+            r"\b(methodology|literature|source|reading|citation).*\b(plan|planning|priority|priorities|sort|organise|organize|hierarchy|readiness|rematch|mapping|support audit|application)\b",
+            r"\b(plan|planning|priority|priorities|sort|organise|organize|hierarchy|readiness|rematch|mapping|support audit|application).*\b(methodology|literature|source|reading|citation)\b",
+            r"\baudit\b.*\b(methodology|literature|source|citation)\b.*\bsupport\b",
+            r"\b(methodology|literature|source|citation)\b.*\bsupport\b.*\baudit\b",
+            r"(方法|文献|来源|阅读|引用).*(计划|规划|优先|排序|整理|层级|准备度|匹配|重匹配|支持|应用)",
+            r"(计划|规划|优先|排序|整理|层级|准备度|匹配|重匹配|支持|应用).*(方法|文献|来源|阅读|引用)",
+        ],
+        "mode": "Research Mode",
+        "skills": [
+            "agent-orchestration",
+            "dissertation-source-first-gate",
+            "dissertation-research-search-protocol",
+            "dissertation-citation-audit",
+            "dissertation-learning-loop",
+            "context-continuity",
+        ],
+        "gates": [
+            "bounded_task_boundary",
+            "no_formal_prose_delivery",
+            "no_protected_source_of_record_edit_without_separate_route",
+            "metadata_only_boundary",
+            "source_readiness_boundary",
+            "learning_loop_update_when_applicable",
+            "task_state_update",
+            "session_event_log",
+        ],
+        "required_files": [
+            ".agents/skills/dissertation-research-search-protocol/SKILL.md",
+            ".agents/skills/dissertation-citation-audit/SKILL.md",
+            ".agents/skills/dissertation-learning-loop/SKILL.md",
+            "knowledge-base/SOURCE_REGISTER.md",
+            "knowledge-base/SOURCE_READINESS_MATRIX.md",
+            "research-wiki/TASK_STATE.md",
+            "research-wiki/PRODUCTION_RUN_REGISTER.md",
+        ],
+        "receipt_requirements": BOUNDED_SOURCE_PLANNING_RECEIPTS,
+    },
+    {
+        "name": "bounded_research_lookup",
+        "patterns": [
+            r"\b(check|verify|lookup|look up|confirm|find whether|see if)\b.*\b(source|citation|paper|article|doi|full text|methodology literature|usable section)\b",
+            r"\b(source|citation|paper|article|doi|full text|methodology literature|usable section)\b.*\b(check|verify|lookup|look up|confirm|find whether|see if)\b",
+            r"(检查|核对|确认|查一下|查找|验证).*(来源|文献|引用|论文|文章|全文|DOI|可用章节)",
+            r"(来源|文献|引用|论文|文章|全文|DOI|可用章节).*(检查|核对|确认|查一下|查找|验证)",
+        ],
+        "mode": "Research Mode",
+        "skills": [
+            "agent-orchestration",
+            "dissertation-research-search-protocol",
+            "dissertation-citation-audit",
+            "context-continuity",
+        ],
+        "gates": [
+            "bounded_lookup_boundary",
+            "no_source_register_update_without_user_confirmation",
+            "metadata_only_or_source_section_status_label",
+            "evidence_insufficient_label_when_needed",
+            "session_event_log",
+        ],
+        "required_files": [
+            ".agents/skills/dissertation-research-search-protocol/SKILL.md",
+            ".agents/skills/dissertation-citation-audit/SKILL.md",
+            "knowledge-base/SOURCE_REGISTER.md",
+            "knowledge-base/SOURCE_READINESS_MATRIX.md",
+        ],
+        "receipt_requirements": BOUNDED_RESEARCH_LOOKUP_RECEIPTS,
+    },
+    {
+        "name": "minor_edit",
+        "patterns": [
+            r"\bminor edit\b",
+            r"\btypo\b",
+            r"\bpunctuation\b",
+            r"\bcitation key\b",
+            r"\breference format\b",
+            r"\bcitation format\b",
+            r"\bfix\b.*\b(reference|citation|typo|punctuation)\b",
+            r"\b(reference|citation|typo|punctuation)\b.*\bfix\b",
+            r"(错字|标点|小修|小改|引用键|引用格式|参考文献格式)",
+        ],
+        "mode": "Minor Edit Mode",
+        "skills": [
+            "agent-orchestration",
+            "dissertation-source-first-gate",
+            "dissertation-citation-audit",
+            "context-continuity",
+        ],
+        "gates": [
+            "minor_edit_boundary",
+            "no_substantive_prose_change",
+            "no_design_or_method_change",
+            "no_source_readiness_upgrade",
+            "task_state_update_when_substantial",
+            "session_event_log_when_substantial",
+        ],
+        "required_files": [
+            ".agents/skills/dissertation-source-first-gate/SKILL.md",
+            ".agents/skills/dissertation-citation-audit/SKILL.md",
+            "knowledge-base/SOURCE_READINESS_MATRIX.md",
+        ],
+        "receipt_requirements": MINOR_EDIT_RECEIPTS,
     },
     {
         "name": "authorial_voice_integrity",
@@ -449,6 +571,45 @@ MAINTENANCE_ONLY_PATTERNS = [
     r"(提示词|配置|设置|日程|更新).*自动化",
 ]
 
+BOUNDED_PLANNING_TERMS = [
+    r"\bplan(ning)?\b",
+    r"\bpriorit(y|ies)\b",
+    r"\bsort\b",
+    r"\borganis(e|ation|ing)\b",
+    r"\borganiz(e|ation|ing)\b",
+    r"\bhierarchy\b",
+    r"\brematch\b",
+    r"\bsource\s+application\b",
+    r"\bsupport\s+audit\b",
+    r"计划|规划|准备度|优先|排序|整理|层级|重匹配|应用|支持审计",
+]
+
+FORMAL_TEXT_OUTPUT_PATTERNS = [
+    r"\b(write|draft|rewrite|redraft|translate|produce|generate|create)\b.*\b(paragraph|section|chapter|draft|proposal|methodology section|literature review|formal|submission|stakeholder[- ]facing|supervisor[- ]facing|reviewer[- ]facing|client[- ]facing|docx|word|report|manuscript|grant)\b",
+    r"\b(paragraph|section|chapter|draft|proposal|methodology section|literature review|formal|submission|stakeholder[- ]facing|supervisor[- ]facing|reviewer[- ]facing|client[- ]facing|docx|word|report|manuscript|grant)\b.*\b(write|draft|rewrite|redraft|translate|produce|generate|create)\b",
+    r"\bformal\s+(writing|document|draft|output)\b",
+    r"\bsubmission[- ]?(facing|ready)?\b",
+    r"\b(stakeholder|supervisor|reviewer|client)[- ]facing\b",
+    r"\bWord\b",
+    r"\bdocx\b",
+    r"写.*(段|段落|章节|正文|正式|导师|客户|评审|文档|方法章节|文献综述|总结|报告)",
+    r"(撰写|生成|产出|改写|重写|翻译).*(段|段落|章节|正文|正式|导师|客户|评审|文档|方法章节|文献综述|总结|报告)",
+    r"(段|段落|章节|正文|正式|导师|客户|评审|文档|方法章节|文献综述|总结|报告).*(写|撰写|生成|产出|改写|重写|翻译)",
+]
+
+PROTECTED_SOURCE_OF_RECORD_EDIT_PATTERNS = [
+    r"\b(update|edit|modify|change|revise)\b.*\b(SOURCE_REGISTER|SOURCE_READINESS_MATRIX|TASK_STATE|PRODUCTION_RUN_REGISTER|source register|source readiness matrix)\b",
+    r"\b(SOURCE_REGISTER|SOURCE_READINESS_MATRIX|TASK_STATE|PRODUCTION_RUN_REGISTER|source register|source readiness matrix)\b.*\b(update|edit|modify|change|revise)\b",
+    r"(更新|修改|改动).*(SOURCE_REGISTER|SOURCE_READINESS_MATRIX|TASK_STATE|PRODUCTION_RUN_REGISTER|源登记|准备度矩阵)",
+]
+
+PROTECTED_DOCUMENT_PATTERNS = [
+    r"\b(final|accepted|approved|locked|official|submission[- ]ready|for submission)\b.*\b(document|draft|report|manuscript|proposal|docx|word|file)\b",
+    r"\b(document|draft|report|manuscript|proposal|docx|word|file)\b.*\b(final|accepted|approved|locked|official|submission[- ]ready|for submission)\b",
+    r"(最终|已接受|已批准|锁定|正式|提交版|定稿).*(文档|草稿|报告|手稿|proposal|docx|word|文件)",
+    r"(文档|草稿|报告|手稿|proposal|docx|word|文件).*(最终|已接受|已批准|锁定|正式|提交版|定稿)",
+]
+
 
 @dataclass
 class RuntimeRoute:
@@ -483,11 +644,51 @@ def unique(items: list[str]) -> list[str]:
     return output
 
 
+def matches_any(text: str, patterns: list[str]) -> bool:
+    return any(re.search(pattern, text, flags=re.I) for pattern in patterns)
+
+
+def has_bounded_planning_intent(task: str) -> bool:
+    return matches_any(task, BOUNDED_PLANNING_TERMS)
+
+
+def edits_protected_source_of_record(task: str) -> bool:
+    return matches_any(task, PROTECTED_SOURCE_OF_RECORD_EDIT_PATTERNS)
+
+
+def touches_protected_document(task: str) -> bool:
+    return matches_any(task, PROTECTED_DOCUMENT_PATTERNS)
+
+
+def has_formal_output_intent(task: str) -> bool:
+    if touches_protected_document(task):
+        return True
+    if matches_any(task, FORMAL_TEXT_OUTPUT_PATTERNS):
+        bounded = has_bounded_planning_intent(task)
+        hard_formal = matches_any(
+            task,
+            [
+                r"\b(paragraph|section|chapter|draft|formal|submission|stakeholder[- ]facing|supervisor[- ]facing|reviewer[- ]facing|client[- ]facing|docx|word)\b",
+                r"(段|段落|章节|正文|正式|导师|客户|评审|文档|Word)",
+            ],
+        )
+        return hard_formal or not bounded
+    return False
+
+
 def classify(task: str, window: str) -> RuntimeRoute:
     matched = []
     for rule in TASK_RULES:
         if any(re.search(pattern, task, flags=re.I) for pattern in rule["patterns"]):
             matched.append(rule)
+    formal_rule = next(rule for rule in TASK_RULES if rule["name"] == "formal_research_output")
+    bounded_source_rule = next(rule for rule in TASK_RULES if rule["name"] == "bounded_source_planning")
+    bounded_lookup_rule = next(rule for rule in TASK_RULES if rule["name"] == "bounded_research_lookup")
+    minor_edit_rule = next(rule for rule in TASK_RULES if rule["name"] == "minor_edit")
+    formal_output = has_formal_output_intent(task)
+    protected_source_edit = edits_protected_source_of_record(task)
+    if formal_output and formal_rule not in matched:
+        matched.append(formal_rule)
     # Precedence rule: in the Maintenance Window, explicit audit/system/skill
     # wording makes `system_maintenance` the lead route. Other genuinely matched
     # task types can remain as secondary context, but they should not change the
@@ -504,6 +705,35 @@ def classify(task: str, window: str) -> RuntimeRoute:
             matched = [system_rule] + [rule for rule in matched if rule is not system_rule]
     if not matched:
         matched = [TASK_RULES[-1] if window.lower() == "maintenance" else TASK_RULES[0]]
+
+    if protected_source_edit:
+        matched = [
+            rule
+            for rule in matched
+            if rule["name"] not in {"bounded_source_planning", "bounded_research_lookup", "minor_edit"}
+        ]
+
+    if formal_output:
+        matched = [
+            rule
+            for rule in matched
+            if rule["name"] not in {"bounded_source_planning", "bounded_research_lookup", "minor_edit"}
+        ]
+    elif minor_edit_rule in matched:
+        matched = [minor_edit_rule] + [
+            rule for rule in matched if rule is not minor_edit_rule and rule["name"] == "system_maintenance"
+        ]
+    elif bounded_lookup_rule in matched:
+        matched = [bounded_lookup_rule] + [
+            rule for rule in matched if rule is not bounded_lookup_rule and rule["name"] == "system_maintenance"
+        ]
+    elif bounded_source_rule in matched:
+        matched = [bounded_source_rule] + [
+            rule for rule in matched if rule is not bounded_source_rule and rule["name"] == "system_maintenance"
+        ]
+
+    if not matched:
+        matched = [TASK_RULES[-1] if window.lower() == "maintenance" else formal_rule]
 
     mode = (
         "Maintenance Mode"

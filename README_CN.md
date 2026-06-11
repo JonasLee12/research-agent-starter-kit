@@ -6,7 +6,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-green.svg)](https://www.python.org/)
-[![Evals](https://img.shields.io/badge/Skill_Evals-38%2F38_passing-brightgreen.svg)](#validation)
+[![Evals](https://img.shields.io/badge/Skill_Evals-48%2F48_passing-brightgreen.svg)](#validation)
 
 它可以配合 Codex、Claude Code、Cursor，或任何能读取本地文件并遵守 `SKILL.md` 指令的 coding agent 使用。这个 starter kit 本身是本地文件驱动；你选择的 agent 工具可能仍然有自己的登录、订阅、API-key 要求，或不同的 skill-discovery 行为。即使某个 agent 不能自动发现 skill，本地 Python 检查脚本仍然可以使用。
 
@@ -50,6 +50,12 @@ flowchart LR
 5. **知识库更新要有边界** — 有用决定和已审 source 可以进入知识库，但 retrieval 和 notes 只是导航层，不能替代 source readiness。
 
 ## 最新更新
+
+**v1.7.0** 加入了 bounded routing 和 session-log integrity checks。
+
+这意味着小任务可以保持小任务。source planning、literature priority sorting、source lookup、citation-key 修复、reference-format 小改和 typo edit 会使用 light receipt set；只有任务明确要求正式正文、Word/DOCX、stakeholder-facing/submission-facing 输出，或修改 protected source-of-record 时，才升级到 full formal-writing chain。单纯出现 methodology 或 literature review 关键词，不再自动触发完整正式写作流程。
+
+它还新增了 `scripts/session_log_integrity_check.py`。维护审计可以检查 JSONL 是否损坏、window label 是否非法、runtime receipt 和 event window 是否不一致、session_start/session_end 是否成对，而不是把日志漂移当作无关紧要的 bookkeeping。
 
 **v1.6.0** 加入了 Stage Continuity 和 Token-Aware Recall。
 
@@ -123,6 +129,7 @@ bash scripts/run_vector_index.sh
 | Agent 容易编造事实或要求 | Source-first gate | 正式写作先查本地证据，不靠记忆发挥 |
 | 文稿看起来流畅，但论证很薄 | Cognitive frameworks + self-review loop | 交付前检查 claim、warrant 和段落推进 |
 | 切换阶段后忘记回顾旧决定 | Stage Continuity + Token-Aware Recall | Agent 根据 Stage Graph 做最小必要回顾，并在任务变化时重新检查 recall tier |
+| Source planning 被误当作正式写作 | Bounded runtime routes | Source planning、lookup 和小修先走 light receipt set，直到任务真的要求正式输出 |
 | 用户想“去 AI 味”或降低 AI 率 | Authorial voice integrity | 拒绝检测规避框架，改为 evidence-led authorial voice 工作 |
 | Skill 被提到但没有真正执行 | Skill execution receipts | 必做检查必须留下本地证据回执；回执不是质量证明 |
 | 正式文本反复使用机械式对比句 | Style fingerprint gate | 用固定词组清单扫描 `rather than` / `not...but` 等重复模板 |
@@ -139,6 +146,7 @@ bash scripts/run_vector_index.sh
 |---|---|---|
 | Skills | `.agents/skills/` | 任务路由、写作、审查、source check、知识库和维护规则 |
 | Runtime routing | `scripts/agent_runtime.py` | 判断任务类型，列出需要的 skills、files 和 gates |
+| Session log integrity | `scripts/session_log_integrity_check.py` | 检查 JSONL、window label、runtime/window alignment、session 配对和 timestamp |
 | Source readiness | `knowledge-base/SOURCE_READINESS_MATRIX.md` | 记录 source 是 metadata-only、partly reviewed，还是 citation-ready |
 | Self-growing KB | `knowledge-base/self-growing/` | 管理可控的知识库增长 |
 | Retrieval | `scripts/local_retrieval_search.py`, `scripts/build_agent_index.py` | 建立本地可检索索引，但不替代 source review |
@@ -173,12 +181,13 @@ bash scripts/run_vector_index.sh
 
 ## 验证
 
-当前公开模板显示 **38/38 skill evaluations passing**。
+当前公开模板显示 **48/48 skill evaluations passing**。
 这些是轻量级 static/routing checks，用来检查高风险流程是否指向真实文件和工具，不证明 agent 行为质量。这个 badge 反映的是已发布模板状态；你自定义系统后应重新运行下面的检查。
 
 ```bash
 python scripts/run_skill_evals.py
 python scripts/validate_agent_schemas.py
+python scripts/session_log_integrity_check.py --strict --no-report
 python -m unittest discover -s tests
 python scripts/run_behavioral_evidence_checks.py
 bash scripts/privacy_check.sh

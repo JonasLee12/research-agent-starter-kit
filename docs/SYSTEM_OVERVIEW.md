@@ -13,7 +13,7 @@ The goal is controlled support for many kinds of research-project work. The agen
 The operating sequence is:
 
 1. classify the task;
-2. choose the smallest useful skill set;
+2. choose the smallest useful skill set, including bounded/light routes for source planning, lookup, and minor edits;
 3. compute the minimum useful recall tier;
 4. check stage continuity when later-stage work depends on earlier decisions;
 5. check sources before formal claims;
@@ -73,7 +73,7 @@ Do not use it as a substitute for:
 | Self-growing KB layer | `knowledge-base/self-growing/`, `scripts/kb_health_check.py` | Controls raw intake, growth queue triage, compiled-wiki navigation, and KB health checks |
 | Retrieval layer | `scripts/build_agent_index.py`, `scripts/local_retrieval_search.py`, `scripts/build_vector_index.py` | Provides local SQLite/FTS/hashed retrieval and optional ChromaDB neural retrieval |
 | Privacy layer | `PRIVACY_CHECKLIST.md`, `PUBLIC_RELEASE_AUDIT.md`, `scripts/privacy_check.sh` | Prevents private data from being shared accidentally |
-| Runtime layer | `scripts/agent_runtime.py`, `research-wiki/runtime-receipts/`, `research-wiki/SESSION_EVENT_LOG.jsonl` | Makes important workflow routing and gate checks auditable |
+| Runtime layer | `scripts/agent_runtime.py`, `scripts/session_log_integrity_check.py`, `research-wiki/runtime-receipts/`, `research-wiki/SESSION_EVENT_LOG.jsonl` | Makes workflow routing, light/full receipt choices, and session-log integrity auditable |
 | Connector layer | `scripts/academic_database_connector.py`, `config/academic_database_connectors.example.json` | Supports public metadata search and subscription credential checks |
 | Independent review layer | `scripts/build_external_review_bundle.py`, `scripts/claude_independent_review.py` | Optional advisory review through a local bundle for Codex/ChatGPT/Claude/Gemini/human review, with Claude Code as one direct runner |
 | Schema layer | `research-wiki/tool-schemas/`, `scripts/validate_agent_schemas.py` | Keeps local workflow tools explicit and testable |
@@ -119,6 +119,8 @@ Use this for system reliability:
 The Maintenance Window should avoid formal project drafting unless the user explicitly asks to switch roles.
 
 Maintenance routing is intentionally conservative. In the Maintenance Window, words such as audit, update, implement, workflow, template, and GitHub usually make system maintenance the lead route. This keeps rule edits, automation updates, and public-release work from being mistaken for ordinary research writing.
+
+Production routing is intentionally proportional. Source planning, literature-priority sorting, bounded source lookup, and minor citation/typo edits should stay on light receipt routes unless the task asks for formal prose, Word/DOCX, stakeholder-facing or submission-facing output, or protected source-of-record edits.
 
 ## 5. Skill System
 
@@ -205,6 +207,7 @@ Version `v0.4.0` adds a local engineering layer.
 | `scripts/agent_runtime.py` | Checks task type, mode, skills, gates, and required files before substantial work |
 | `scripts/stage_recall_policy.py` | Computes token-aware recall tiers from task intent, target files, and change type |
 | `scripts/stage_continuity_capsule_check.py` | Checks whether a Stage Continuity Capsule names upstream files, inherited decisions, open confirmations, and boundaries |
+| `scripts/session_log_integrity_check.py` | Checks JSONL session logs, legal window labels, runtime/window alignment, paired session starts/ends, and timestamp parseability |
 | `scripts/build_external_review_bundle.py` | Builds a local external-review bundle for Codex, ChatGPT, Claude, Gemini, or human review |
 | `scripts/claude_independent_review.py` | Optional privacy-gated Claude Code runner for the same advisory external-review role |
 | `scripts/academic_integrity_preflight.py` | Checks concrete integrity risks before formal drafting or delivery |

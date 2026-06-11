@@ -77,6 +77,7 @@ If the project is an assessed dissertation or thesis, also read:
 14. 不要编造姓名、日期、导师/PI/客户、学校/期刊/基金/客户要求、伦理要求、参与者信息、数据、结果、文献、引用或页码。
 15. 不确定的信息标为 TO CONFIRM。
 16. 正式可读/可提交/可分享输出默认生成 Word .docx，除非项目更适合 Markdown、PDF、slides、spreadsheet 或 code artifact。
+17. source planning、literature priority sorting、source lookup、citation-key/typo/reference-format 小修使用 bounded/light receipt route；只有正式正文、Word/DOCX、stakeholder/submission-facing 输出或 protected source-of-record 修改才升级到 full formal-writing chain。
 
 开始工作前，请先告诉我你已读取哪些项目记忆文件，以及当前 TASK_STATE 里最重要的下一步是什么。
 ```
@@ -211,6 +212,7 @@ If the project is an assessed dissertation or thesis, also read:
 6. 创建、复制、迁移或修改 skills 前，先使用 project-skill-creator-governance；需要写 SKILL.md 时再配合全局 skill-creator。
 7. 用户要求 Superpowers-style workflow 时，使用 using-superpowers 作为项目安全适配层；不直接安装外部 Superpowers 包，除非用户另行确认。
 8. 涉及 MarkItDown 或 Playwright 时，先检查本地工具可用性；不自动安装依赖。
+9. 审计 runtime/session 记录时，运行 `scripts/session_log_integrity_check.py --strict`；window mismatch、非法窗口、JSONL 损坏或未闭合 session 都要作为维护问题处理。
 
 开始工作前，请先告诉我当前系统最重要的维护状态，以及最近一次 TASK_STATE 中与系统规则相关的更新是什么。
 ```
