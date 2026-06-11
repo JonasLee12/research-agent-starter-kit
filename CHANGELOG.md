@@ -1,5 +1,16 @@
 # Changelog
 
+## Unreleased
+
+### Added
+
+- GitHub social preview asset at `docs/assets/social-preview.png`, with editable SVG source and manifest in `docs/assets/`.
+
+### Boundary
+
+- The social preview is a deterministic public asset. It does not include private project content, institution-specific requirements, participant material, screenshots, local paths, credentials, or generated private reports.
+- GitHub social preview upload remains a repository-settings step if no stable API-backed update path is available.
+
 ## v1.7.0 - Bounded Routing And Session Log Integrity - 2026-06-11
 
 Status: proportional routing and maintenance-audit reliability update.

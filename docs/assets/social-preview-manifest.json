@@ -1,0 +1,20 @@
+{
+  "asset": "social-preview",
+  "created": "2026-06-11",
+  "dimensions": {
+    "width": 1280,
+    "height": 640
+  },
+  "files": {
+    "editable_source": "docs/assets/social-preview.svg",
+    "github_upload": "docs/assets/social-preview.png"
+  },
+  "copy": {
+    "title": "Research Agent Starter Kit",
+    "subtitle": "Local-first workflows for defensible formal research outputs.",
+    "supporting_line": "Source-first gates, bounded routing, skill receipts, and delivery guards."
+  },
+  "design_route": "Trust-First Research Cockpit",
+  "provenance": "Deterministic SVG/Pillow render. No generated text, logo, source claim, private dissertation content, or institution-specific material.",
+  "manual_publication_note": "GitHub repository social preview images are configured in repository settings. Upload docs/assets/social-preview.png there if the UI does not expose an API-backed update path."
+}

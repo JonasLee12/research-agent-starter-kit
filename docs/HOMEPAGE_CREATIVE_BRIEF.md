@@ -70,6 +70,8 @@ Recommended order:
    - 1280 x 640.
    - Typographic, minimal.
    - Copy: `Research Agent Starter Kit` + `Local-first workflows for defensible formal research outputs.`
+   - Status: created at `docs/assets/social-preview.png`, with editable source at `docs/assets/social-preview.svg`.
+   - Publication note: upload the PNG through GitHub repository settings if GitHub does not expose a stable API-backed social-preview update path.
 
 2. **Annotated terminal demo image**
    - Show `bounded_source_planning` versus `formal_research_output`.
