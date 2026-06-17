@@ -10,11 +10,13 @@
 ### Changed
 
 - Simplified the README and README_CN workflow diagrams to show the public control path: output-risk routing, light receipts, source packaging, skill receipts, and delivery guard.
+- Changed the project license for future distributions from MIT to PolyForm Noncommercial License 1.0.0, allowing personal, educational, research, and other non-commercial use while reserving commercial use.
 
 ### Boundary
 
 - The social preview and routing demo are deterministic public assets. They do not include private project content, institution-specific requirements, participant material, screenshots, local paths, credentials, or generated private reports.
 - GitHub social preview upload remains a repository-settings step if no stable API-backed update path is available.
+- Earlier versions or copies already received under MIT remain governed by their original license terms; this update sets the license boundary for current and future distributions.
 
 ## v1.7.0 - Bounded Routing And Session Log Integrity - 2026-06-11
 

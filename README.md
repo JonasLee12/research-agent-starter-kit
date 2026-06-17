@@ -6,9 +6,11 @@ This starter kit helps a coding agent check sources before claims, route small t
 
 [中文说明](README_CN.md)
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![License: PolyForm Noncommercial](https://img.shields.io/badge/License-PolyForm_Noncommercial-orange.svg)](LICENSE)
 [![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-green.svg)](https://www.python.org/)
 [![Evals](https://img.shields.io/badge/Skill_Evals-48%2F48_passing-brightgreen.svg)](#validation)
+
+License boundary: this repository is source-available under the [PolyForm Noncommercial License 1.0.0](LICENSE). Personal, educational, research, and other non-commercial use is allowed. Commercial use, resale, paid hosting/SaaS, paid training or consulting productisation, and redistribution as part of a paid product require prior written permission.
 
 Use it with Codex, Claude Code, Cursor, or any coding agent that can read local files and follow `SKILL.md` instructions. The kit itself is file-based and local-first; your agent tool may have its own login, subscription, API-key requirements, or skill-discovery behaviour, but the Python checks remain usable even when skills are not auto-discovered.
 
@@ -321,4 +323,6 @@ See [ACKNOWLEDGEMENTS.md](ACKNOWLEDGEMENTS.md) for open-source projects and work
 
 ## License
 
-[MIT](LICENSE)
+This project is source-available under the [PolyForm Noncommercial License 1.0.0](LICENSE).
+
+You may use, study, modify, and share it for personal, educational, research, and other non-commercial purposes. Commercial use, resale, paid hosting/SaaS, paid training or consulting productisation, or redistribution as part of a paid product requires prior written permission from the licensor.

@@ -6,9 +6,11 @@
 
 [English README](README.md)
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![License: PolyForm Noncommercial](https://img.shields.io/badge/License-PolyForm_Noncommercial-orange.svg)](LICENSE)
 [![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-green.svg)](https://www.python.org/)
 [![Evals](https://img.shields.io/badge/Skill_Evals-48%2F48_passing-brightgreen.svg)](#validation)
+
+许可边界：本仓库以 [PolyForm Noncommercial License 1.0.0](LICENSE) 提供源码。允许个人学习、教育、研究和其他非商业使用；未经书面许可，不允许商业使用、转售、付费托管/SaaS、付费培训或咨询产品化，也不允许作为付费产品的一部分再分发。
 
 它可以配合 Codex、Claude Code、Cursor，或任何能读取本地文件并遵守 `SKILL.md` 指令的 coding agent 使用。这个 starter kit 本身是本地文件驱动；你选择的 agent 工具可能仍然有自己的登录、订阅、API-key 要求或 skill-discovery 行为，但本地 Python 检查脚本仍可独立使用。
 
@@ -320,4 +322,6 @@ python scripts/build_external_review_bundle.py path/to/draft.md
 
 ## 许可
 
-[MIT](LICENSE)
+本项目以 [PolyForm Noncommercial License 1.0.0](LICENSE) 提供源码。
+
+你可以将它用于个人学习、教育、研究和其他非商业目的，也可以在这些边界内学习、修改和分享。未经许可，不允许商业使用、转售、付费托管/SaaS、付费培训或咨询产品化，也不允许作为付费产品的一部分再分发。

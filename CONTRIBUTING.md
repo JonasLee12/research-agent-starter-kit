@@ -2,6 +2,12 @@
 
 Contributions are welcome. This guide explains how to contribute to the research-agent-starter-kit.
 
+## Contribution licensing
+
+By submitting a contribution, you agree that it may be distributed under the project's current license, the PolyForm Noncommercial License 1.0.0, unless a separate written agreement says otherwise.
+
+Do not submit code, documentation, assets, examples, or data that you are not allowed to license on these terms.
+
 ## How to contribute
 
 1. Fork the repository
