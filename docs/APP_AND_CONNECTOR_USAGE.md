@@ -60,6 +60,9 @@ These scripts are included in the repository and use Python 3 standard-library f
 | `scripts/material_passport.py` | Included | Packages source, compliance/requirement, citation, and open-confirmation status before formal artifacts move forward |
 | `scripts/pre_delivery_lock.py` | Included | Creates/checks local pre-delivery lock receipts before formal delivery |
 | `scripts/formal_delivery_guard.py` | Included | Blocks formal delivery when required evidence is missing, with an explicit override audit path |
+| `scripts/claim_ledger_lite_check.py` | Included | Checks formal-claim ledger structure, evidence-status boundaries, cannot-prove fields, concept contracts, and metadata-only overclaims |
+| `scripts/visible_output_qa_check.py` | Included | Checks visible-output QA notes for rendered/preview evidence, deterministic checks, visual inspection, baseline/regression boundary, unresolved risks, and verdict |
+| `scripts/borrowed_pattern_boundary_lint.py` | Included | Blocks unsafe borrowed style/workflow wording such as detector-evasion, detector-score, authorship-verdict, or humanising-as-evasion promises |
 | `scripts/kb_health_check.py` | Included | Checks self-growing knowledge-base structure, raw-inbox triage, unresolved markers, and private-data boundary hits |
 | `scripts/build_agent_index.py` | Included | Builds a local SQLite index of project memory files |
 | `scripts/local_retrieval_search.py` | Included | Runs local FTS and hashed-vector retrieval over project files |
@@ -76,6 +79,9 @@ These scripts are included in the repository and use Python 3 standard-library f
 - External reviewer feedback from Codex, ChatGPT, Claude, Gemini, or a human reviewer is not source evidence.
 - Claude Code is optional. Users without Claude can use `scripts/build_external_review_bundle.py` and paste the generated prompt into a separate reviewer.
 - Authorial voice checks are not AI detectors. They improve evidence-led style and block detector-evasion or disclosure-hiding requests.
+- Borrowed-pattern lint is not an AI detector. It only checks whether imported public style/workflow language accidentally creates unsafe detector-evasion, detector-score, authorship-verdict, or humanising-as-evasion instructions.
+- Claim Ledger Lite is not source proof. It records claim boundaries and allowed wording until source-section review or project confirmation exists.
+- Visible Output QA is not approval. It verifies that the visible surface was checked; content, compliance, citation, and quality gates still apply.
 - Style fingerprint scans are not AI detectors. They only flag repeated surface templates that may make formal prose feel mechanical.
 - Skill execution receipts prove a required check produced an evidence artifact. They do not prove that the evidence is academically sufficient or that the agent revised deeply.
 - Subscription databases need lawful access.
@@ -157,6 +163,9 @@ python3 scripts/agent_runtime.py "set up this research project" --window Mainten
 | `scripts/material_passport.py` | 已包含 | 在正式文档推进前打包 source、compliance/requirement、citation 和 open-confirmation 状态 |
 | `scripts/pre_delivery_lock.py` | 已包含 | 正式交付前创建/检查本地 pre-delivery lock receipts |
 | `scripts/formal_delivery_guard.py` | 已包含 | 缺少必要证据时阻止正式交付，并提供明确的 override audit path |
+| `scripts/claim_ledger_lite_check.py` | 已包含 | 检查 formal-claim ledger 的字段、evidence-status boundary、cannot-prove、concept contract 和 metadata-only overclaim |
+| `scripts/visible_output_qa_check.py` | 已包含 | 检查 visible-output QA note 是否有 rendered/preview evidence、deterministic checks、visual inspection、baseline/regression boundary、unresolved risks 和 verdict |
+| `scripts/borrowed_pattern_boundary_lint.py` | 已包含 | 阻止把外部 style/workflow 语言变成 detector-evasion、detector-score、authorship-verdict 或 humanising-as-evasion 承诺 |
 | `scripts/kb_health_check.py` | 已包含 | 检查 self-growing knowledge base 结构、raw-inbox triage、未解决标记和 private-data boundary hits |
 | `scripts/build_agent_index.py` | 已包含 | 为项目记忆文件建立本地 SQLite index |
 | `scripts/local_retrieval_search.py` | 已包含 | 对项目文件运行本地 FTS 和 hashed-vector retrieval |
@@ -173,6 +182,9 @@ python3 scripts/agent_runtime.py "set up this research project" --window Mainten
 - Codex、ChatGPT、Claude、Gemini 或人工 reviewer 给出的 external feedback 都不是正式证据。
 - Claude Code 是可选工具。没有 Claude 的用户可以使用 `scripts/build_external_review_bundle.py`，把生成的 prompt 复制到另一个 reviewer。
 - Authorial voice check 不是 AI detector。它用于改进 evidence-led style，并阻止检测规避或隐藏 AI-use disclosure 的请求。
+- Borrowed-pattern lint 不是 AI detector。它只检查借鉴外部公开 style/workflow 语言时，是否误生成检测规避、检测分数优化、作者身份判断或 humanising-as-evasion 规则。
+- Claim Ledger Lite 不是 source proof。它只记录 claim boundary 和 allowed wording，直到 source-section review 或项目确认完成。
+- Visible Output QA 不是正式批准。它只证明可见表面被检查过；content、compliance、citation 和 quality gates 仍然适用。
 - Style fingerprint scan 不是 AI detector。它只检查会让正式文本显得机械的重复表层句式。
 - Skill execution receipts 只证明必做检查产出了证据文件，不证明证据已经足够或 agent 已经深度修改。
 - 订阅数据库需要合法访问权限。

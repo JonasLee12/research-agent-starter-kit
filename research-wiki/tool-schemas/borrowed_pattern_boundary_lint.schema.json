@@ -1,0 +1,32 @@
+{
+  "name": "borrowed_pattern_boundary_lint",
+  "version": "2026-06-22",
+  "inputs_required": [
+    "optional_target_files_or_directories",
+    "optional_no_report_flag"
+  ],
+  "outputs_expected": [
+    "borrowed_pattern_lint_status",
+    "unsafe_import_finding_count",
+    "missing_target_list",
+    "optional_markdown_report"
+  ],
+  "preconditions": [
+    "public_skill_or_style_pattern_is_being_adapted",
+    "local_policy_or_skill_files_available"
+  ],
+  "quality_gate": [
+    "detector_evasion_promises_blocked",
+    "detector_score_optimisation_promises_blocked",
+    "authorship_verdict_promises_blocked",
+    "humanising_as_evasion_tactics_blocked",
+    "boundary_only_policy_language_allowed"
+  ],
+  "failure_modes": [
+    "detector_evasion_promise_found",
+    "detector_score_optimisation_promise_found",
+    "authorship_verdict_promise_found",
+    "humanising_as_evasion_tactic_found",
+    "missing_scan_target"
+  ]
+}

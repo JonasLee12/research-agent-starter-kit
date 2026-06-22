@@ -17,16 +17,17 @@ The operating sequence is:
 3. compute the minimum useful recall tier;
 4. check stage continuity when later-stage work depends on earlier decisions;
 5. check sources before formal claims;
-6. package evidence status with a Material Passport before formal artifacts move forward;
-7. run integrity preflight before substantive formal drafting;
-8. make claims, gaps, warrants, and boundaries explicit before drafting;
-9. run self-review before style polishing;
-10. check authorial voice when prose risks becoming generic, detector-framed, or disclosure-unsafe;
-11. scan repeated style fingerprints before formal delivery;
-12. require execution receipts for selected formal-writing gates;
-13. use quality gates and formal delivery guards before formal delivery;
-14. record important decisions in project memory;
-15. keep production work and system maintenance separate.
+6. constrain formal claim strength with Claim Ledger Lite when claim-support or source-readiness changes are involved;
+7. package evidence status with a Material Passport before formal artifacts move forward;
+8. run integrity preflight before substantive formal drafting;
+9. make claims, gaps, warrants, and boundaries explicit before drafting;
+10. run self-review before style polishing;
+11. check authorial voice when prose risks becoming generic, detector-framed, or disclosure-unsafe;
+12. scan repeated style fingerprints before formal delivery;
+13. require execution receipts for selected formal-writing gates;
+14. use quality gates, Visible Output QA, and formal delivery guards before formal delivery;
+15. record important decisions in project memory;
+16. keep production work and system maintenance separate.
 
 ## 2. What The System Is For
 
@@ -65,11 +66,13 @@ Do not use it as a substitute for:
 | Quality layer | `quality-gates/PROJECT_DELIVERY_REVIEW_GATE.md`, `university-guidance/` | Stores general delivery gates and optional assessed-academic requirements |
 | Writing quality layer | `.agents/skills/cognitive-frameworks/`, `.agents/skills/academic-self-review-loop/`, `research-wiki/WRITING_QUALITY_RUBRIC.md` | Checks argument depth, paragraph quality, warrants, and revision quality before style polishing |
 | Stage continuity layer | `research-wiki/STAGE_GRAPH.md`, `research-wiki/STAGE_CONTINUITY_PROTOCOL.md`, `scripts/stage_recall_policy.py`, `scripts/stage_continuity_capsule_check.py` | Prevents later-stage work from ignoring upstream source-of-record decisions while keeping recall token-aware |
+| Claim boundary layer | `research-wiki/CLAIM_LEDGER_LITE_PROTOCOL.md`, `scripts/claim_ledger_lite_check.py` | Keeps formal claims, claim-support audits, and source-readiness changes within evidence boundaries |
 | Integrity layer | `.agents/skills/academic-integrity-preflight/`, `scripts/academic_integrity_preflight.py` | Checks concrete prompt residue, placeholder, fake-reference, unsupported-claim, and disclosure-boundary risks |
 | Authorial voice layer | `.agents/skills/authorial-voice-integrity/`, `research-wiki/AI_WRITING_AUTHORIAL_VOICE_POLICY.md`, `scripts/authorial_voice_scan.py` | Improves authorial judgement and project-appropriate style while blocking detector-evasion and disclosure-hiding requests |
+| Borrowed-pattern boundary layer | `scripts/borrowed_pattern_boundary_lint.py` | Prevents imported public style/workflow patterns from becoming detector-evasion, detector-score, authorship-verdict, or humanising-as-evasion guidance |
 | Style fingerprint layer | `.agents/skills/style-fingerprint-gate/`, `scripts/style_fingerprint_scan.py` | Scans repeated binary negative-contrast templates before formal delivery |
 | Skill execution evidence layer | `scripts/skill_execution_receipt.py`, `research-wiki/SKILL_EXECUTION_RECEIPT_PROTOCOL.md` | Requires selected skills to produce evidence receipts rather than only being mentioned in chat |
-| Formal delivery layer | `.agents/skills/material-passport/`, `.agents/skills/formal-delivery-guard/`, `scripts/material_passport.py`, `scripts/pre_delivery_lock.py`, `scripts/formal_delivery_guard.py` | Packages readiness evidence, creates pre-delivery locks, and blocks formal delivery when required evidence is missing |
+| Formal delivery layer | `.agents/skills/material-passport/`, `.agents/skills/formal-delivery-guard/`, `scripts/material_passport.py`, `scripts/pre_delivery_lock.py`, `scripts/formal_delivery_guard.py`, `research-wiki/VISIBLE_OUTPUT_QA_PROTOCOL.md`, `scripts/visible_output_qa_check.py` | Packages readiness evidence, creates pre-delivery locks, checks visible surfaces, and blocks formal delivery when required evidence is missing |
 | Self-growing KB layer | `knowledge-base/self-growing/`, `scripts/kb_health_check.py` | Controls raw intake, growth queue triage, compiled-wiki navigation, and KB health checks |
 | Retrieval layer | `scripts/build_agent_index.py`, `scripts/local_retrieval_search.py`, `scripts/build_vector_index.py` | Provides local SQLite/FTS/hashed retrieval and optional ChromaDB neural retrieval |
 | Privacy layer | `PRIVACY_CHECKLIST.md`, `PUBLIC_RELEASE_AUDIT.md`, `scripts/privacy_check.sh` | Prevents private data from being shared accidentally |
@@ -208,6 +211,9 @@ Version `v0.4.0` adds a local engineering layer.
 | `scripts/stage_recall_policy.py` | Computes token-aware recall tiers from task intent, target files, and change type |
 | `scripts/stage_continuity_capsule_check.py` | Checks whether a Stage Continuity Capsule names upstream files, inherited decisions, open confirmations, and boundaries |
 | `scripts/session_log_integrity_check.py` | Checks JSONL session logs, legal window labels, runtime/window alignment, paired session starts/ends, and timestamp parseability |
+| `scripts/claim_ledger_lite_check.py` | Checks Claim Ledger Lite tables for required fields, evidence-status boundaries, cannot-prove fields, concept contracts, and metadata-only overclaims |
+| `scripts/visible_output_qa_check.py` | Checks Visible Output QA notes for artifact, communication job, rendered/preview evidence, deterministic checks, visual inspection, baseline/regression boundary, unresolved risks, and verdict |
+| `scripts/borrowed_pattern_boundary_lint.py` | Lints borrowed public style/workflow pattern language for unsafe detector-evasion, detector-score, authorship-verdict, or humanising-as-evasion imports |
 | `scripts/build_external_review_bundle.py` | Builds a local external-review bundle for Codex, ChatGPT, Claude, Gemini, or human review |
 | `scripts/claude_independent_review.py` | Optional privacy-gated Claude Code runner for the same advisory external-review role |
 | `scripts/academic_integrity_preflight.py` | Checks concrete integrity risks before formal drafting or delivery |

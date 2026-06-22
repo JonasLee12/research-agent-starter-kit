@@ -21,12 +21,14 @@ Purpose: check whether a substantial Production run used the system carefully.
 | Writing checkpoint | `*_WRITING_CHECKPOINT.md` created or equivalent section recorded |
 | Delivery checkpoint | `*_DELIVERY_CHECKPOINT.md` created, or explicitly marked not applicable when no formal artifact is delivered |
 | Citation check | Consistency and claim-support boundary recorded for citation-heavy work |
+| Claim Ledger Lite | Formal core claims, citation claim-support audits, and source-readiness upgrades record claim, evidence status, cannot-prove boundary, concept contract, allowed wording, and review action |
 | Document-quality | Completed for formal or stakeholder-facing outputs |
 | Pre-delivery lock | Created and checked before formal Word/PDF/stakeholder-facing delivery |
 | Formal delivery guard | PASS, BLOCK with fixes, or explicit override record before formal delivery |
 | Markdown-DOCX structural parity | Markdown tables and structural features are verified against generated Word output when a Markdown source is rendered to `.docx` |
 | DOCX layout review | Important Word outputs are checked for deterministic layout regressions, using a previous accepted `.docx` baseline when available |
 | Layout self-review | Rendered pages or equivalent visual surface are inspected when important Word/PDF artifacts are delivered |
+| Visible Output QA | Word/PDF, figure, browser, Obsidian, GitHub, or other visible surfaces are checked against the communication job with rendered/preview evidence, deterministic checks, visual inspection, baseline/regression boundary, unresolved risks, and verdict |
 | Render check | Attempted for important Word outputs |
 | TASK_STATE | Updated after the run |
 | Knowledge-base growth | For KB tasks, raw-inbox/growth-queue/compiled-wiki actions preserve source-of-record and privacy boundaries |

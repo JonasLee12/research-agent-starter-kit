@@ -1,0 +1,37 @@
+{
+  "name": "visible_output_qa_check",
+  "version": "2026-06-22",
+  "inputs_required": [
+    "markdown_target",
+    "allow_no_render_flag"
+  ],
+  "outputs_expected": [
+    "visible_output_qa_status",
+    "field_issue_count",
+    "referenced_path_evidence",
+    "optional_markdown_report"
+  ],
+  "preconditions": [
+    "visible_output_qa_protocol_available",
+    "target_markdown_available"
+  ],
+  "quality_gate": [
+    "required_visible_output_fields_checked",
+    "rendered_or_preview_path_checked",
+    "deterministic_check_status_checked",
+    "visual_inspection_status_checked",
+    "baseline_or_regression_status_checked",
+    "delivery_verdict_checked"
+  ],
+  "failure_modes": [
+    "missing_visible_output_qa_section",
+    "missing_required_field",
+    "empty_required_field",
+    "missing_rendered_output_path_or_reason",
+    "referenced_path_missing",
+    "deterministic_checks_not_recorded",
+    "visual_inspection_not_recorded",
+    "invalid_delivery_verdict",
+    "pass_with_unresolved_issues"
+  ]
+}

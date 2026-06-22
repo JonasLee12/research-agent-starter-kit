@@ -63,6 +63,7 @@ Current conceptual lens:
 5. **Make section blueprints before prose**
    - For each section, state the reader question, section job, evidence needed, claims allowed, and claims to avoid.
    - A section should not be drafted if its job is unclear.
+   - For formal proposal, literature review, methodology, manuscript, report, grant, or stakeholder-facing claims, consume the Claim Ledger Lite from `research-wiki/CLAIM_LEDGER_LITE_PROTOCOL.md` when required. The argument thread must not make a claim stronger than the ledger's `allowed_wording`.
 
 6. **Use a section rationale matrix for important writing**
    - For proposal, chapter, supervisor-facing, or major revision work, create a section rationale matrix before substantial prose.

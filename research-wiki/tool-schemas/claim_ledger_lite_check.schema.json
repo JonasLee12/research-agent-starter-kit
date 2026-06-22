@@ -1,0 +1,35 @@
+{
+  "name": "claim_ledger_lite_check",
+  "version": "2026-06-22",
+  "inputs_required": [
+    "markdown_target"
+  ],
+  "outputs_expected": [
+    "claim_ledger_status",
+    "row_count",
+    "field_issue_count",
+    "optional_markdown_report"
+  ],
+  "preconditions": [
+    "claim_ledger_lite_protocol_available",
+    "target_markdown_available"
+  ],
+  "quality_gate": [
+    "claim_id_format_checked",
+    "required_columns_checked",
+    "evidence_status_boundary_checked",
+    "cannot_prove_field_checked",
+    "concept_contract_required_for_high_risk_terms",
+    "metadata_only_not_promoted_to_citation_ready"
+  ],
+  "failure_modes": [
+    "missing_claim_ledger_lite_section",
+    "missing_required_column",
+    "empty_required_field",
+    "invalid_claim_id",
+    "duplicate_claim_id",
+    "invalid_evidence_status",
+    "citation_ready_overclaim",
+    "missing_concept_contract"
+  ]
+}

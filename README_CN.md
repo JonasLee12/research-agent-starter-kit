@@ -2,13 +2,13 @@
 
 一套 local-first research-agent 工作流：面向需要“可辩护正式输出”的研究项目，而不只是生成流畅草稿。
 
-它帮助 coding agent 在下判断前先查 source，给小任务走轻量路由，让关键 gate 留下执行回执，并在 Word/PDF 或 stakeholder-facing 输出被当作可用版本前拦截薄弱交付。
+它帮助 coding agent 在下判断前先查 source，给小任务走轻量路由，让关键 gate 留下执行回执，并在 Word/PDF 或 stakeholder-facing 输出被当作可用版本前标出薄弱交付。
 
 [English README](README.md)
 
 [![License: PolyForm Noncommercial](https://img.shields.io/badge/License-PolyForm_Noncommercial-orange.svg)](LICENSE)
 [![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-green.svg)](https://www.python.org/)
-[![Evals](https://img.shields.io/badge/Skill_Evals-48%2F48_passing-brightgreen.svg)](#validation)
+[![Evals](https://img.shields.io/badge/Skill_Evals-53%2F53_passing-brightgreen.svg)](#validation)
 
 许可边界：本仓库以 [PolyForm Noncommercial License 1.0.0](LICENSE) 提供源码。允许个人学习、教育、研究和其他非商业使用；未经书面许可，不允许商业使用、转售、付费托管/SaaS、付费培训或咨询产品化，也不允许作为付费产品的一部分再分发。
 
@@ -27,6 +27,8 @@
 | 切换阶段后忽略旧决定 | Stage Continuity 和 Token-Aware Recall |
 | Skill 只是被声称使用，但没有真正执行 | Skill execution receipts |
 | Word/PDF 交付丢失结构或跳过检查 | Formal delivery guard 和 DOCX structure/layout checks |
+| 正式 claim 超出证据能支持的范围 | Claim Ledger Lite |
+| 公开页面或渲染结果没有打开检查却被说成已修好 | Visible Output QA |
 
 ## 路由示例
 
@@ -70,6 +72,12 @@ flowchart LR
 
 ## 最新更新
 
+**Unreleased** 加入 Claim Ledger Lite、Visible Output QA、borrowed-pattern boundary lint，以及面向完全新手的中英文上手指南。
+
+这意味着正式 claim 现在可以用轻量 claim ledger 记录 evidence status、cannot-prove boundary、concept contract、allowed wording 和 review action。Word/PDF、figure、GitHub 页面、Obsidian 视图、browser page 等可见输出，需要有 rendered/preview evidence，不能只凭本地文件或 commit 就声称已检查。借鉴外部 style/workflow 项目时，也会用 lint 防止把公共项目里的灵感变成 detector-evasion、detector-score、authorship-verdict 或 humanising-as-evasion 规则。
+
+如果你还不熟悉 Codex 或 GitHub，先看 [Beginner README](docs/BEGINNER_README.md) 或 [中文新手 README](docs/BEGINNER_README_CN.md)。
+
 **v1.7.0** 加入了 bounded routing 和 session-log integrity checks。
 
 这意味着小任务可以保持小任务。source planning、literature priority sorting、source lookup、citation-key 修复、reference-format 小改和 typo edit 会使用 light receipt set；只有任务明确要求正式正文、Word/DOCX、stakeholder-facing/submission-facing 输出，或修改 protected source-of-record 时，才升级到 full formal-writing chain。单纯出现 methodology 或 literature review 关键词，不再自动触发完整正式写作流程。
@@ -112,6 +120,8 @@ flowchart LR
 
 如果你使用 Obsidian：**请把 knowledge-base/ 作为 Obsidian vault 打开，不要打开整个仓库根目录。** 见 [Obsidian Setup](docs/OBSIDIAN_SETUP.md)。
 
+如果你刚接触 Codex 或 GitHub：先看 [Beginner README](docs/BEGINNER_README.md) 或 [中文新手 README](docs/BEGINNER_README_CN.md)。
+
 如果你没有 Claude Code：使用 external-review bundle workflow，把生成的 prompt 复制到另一个 Codex、ChatGPT、Claude、Gemini 或人工 review 流程。见 [External Review Options](docs/EXTERNAL_REVIEW_OPTIONS.md)。
 
 如果你想把这套模板真正用到自己的项目上，先读 [Real Project Operating Guide](docs/REAL_PROJECT_OPERATING_GUIDE.md)。
@@ -151,6 +161,8 @@ bash scripts/run_vector_index.sh
 | Source planning 被误当作正式写作 | Bounded runtime routes | Source planning、lookup 和小修先走 light receipt set，直到任务真的要求正式输出 |
 | 用户想“去 AI 味”或降低 AI 率 | Authorial voice integrity | 拒绝检测规避框架，改为 evidence-led authorial voice 工作 |
 | Skill 被提到但没有真正执行 | Skill execution receipts | 必做检查必须留下本地证据回执；回执不是质量证明 |
+| 正式 claim 超出证据边界 | Claim Ledger Lite | 记录 claim wording、cannot-prove boundary、concept contract 和 review action |
+| 可见输出只凭 source-layer 变化就声称完成 | Visible Output QA | 在交付前检查 rendered/preview surface 是否符合 communication job |
 | 正式文本反复使用机械式对比句 | Style fingerprint gate | 用固定词组清单扫描 `rather than` / `not...but` 等重复模板 |
 | 引用格式看似正确，但不一定支持正文 | Citation audit and source-readiness matrix | 区分 citation consistency 和 claim support |
 | 知识散落在聊天、文件和笔记里 | Self-growing KB workflow | 新材料经过 raw inbox、growth queue、compiled wiki，保留边界 |
@@ -182,6 +194,9 @@ bash scripts/run_vector_index.sh
 | Release surface verification | `.agents/skills/release-surface-verification/` | 在声称发布完成前，检查用户可见的 GitHub release 页面、About/sidebar、topics、渲染后的 README/docs 和公开链接 |
 | Public sync policy | `PUBLIC_SYNC_POLICY.md` | 说明 shared core、private-only、public-only、同步检查和 release 边界 |
 | Delivery pipeline | `research-wiki/DOCUMENT_PIPELINE.md` | 把正式工作拆成 THINKING、WRITING、DELIVERY 三个 checkpoint |
+| Claim Ledger Lite | `research-wiki/CLAIM_LEDGER_LITE_PROTOCOL.md`, `scripts/claim_ledger_lite_check.py` | 防止正式 claim 超出 evidence boundary，同时避免每个 lookup 都变成重型 audit |
+| Visible Output QA | `research-wiki/VISIBLE_OUTPUT_QA_PROTOCOL.md`, `scripts/visible_output_qa_check.py` | 对 Word/PDF、figure、GitHub、Obsidian、browser 等可见交付面要求 rendered/preview evidence |
+| Borrowed-pattern boundary lint | `scripts/borrowed_pattern_boundary_lint.py` | 阻止把外部 style/workflow 规则改造成 detector-evasion 或 authorship-verdict 承诺 |
 
 ## 范围和限制
 
@@ -200,7 +215,7 @@ bash scripts/run_vector_index.sh
 
 ## 验证
 
-当前公开模板显示 **48/48 skill evaluations passing**。
+当前公开模板显示 **53/53 skill evaluations passing**。
 这些是轻量级 static/routing checks，用来检查高风险流程是否指向真实文件和工具，不证明 agent 行为质量。这个 badge 反映的是已发布模板状态；你自定义系统后应重新运行下面的检查。
 
 ```bash
@@ -209,6 +224,7 @@ python scripts/validate_agent_schemas.py
 python scripts/session_log_integrity_check.py --strict --no-report
 python -m unittest discover -s tests
 python scripts/run_behavioral_evidence_checks.py
+python scripts/borrowed_pattern_boundary_lint.py --no-report
 bash scripts/privacy_check.sh
 ```
 
@@ -216,8 +232,10 @@ bash scripts/privacy_check.sh
 
 ```bash
 python scripts/material_passport.py --artifact path/to/draft.md --scope short
+python scripts/claim_ledger_lite_check.py path/to/claim-ledger.md
 python scripts/authorial_voice_scan.py --target path/to/draft.md
 python scripts/style_fingerprint_scan.py path/to/draft.md --strict
+python scripts/visible_output_qa_check.py path/to/visible-output-qa.md
 python scripts/skill_execution_receipt.py create --task-id my-task --skill style-fingerprint-gate --stage writing --artifact path/to/draft.md --status PASS --evidence audit-reports/style-fingerprint/my-report.md
 python scripts/pre_delivery_lock.py create --target path/to/final.docx --runtime-receipt path/to/receipt.md --material-passport path/to/passport.md --source-map path/to/source-map.md --integrity-preflight path/to/integrity.md --quality-gate path/to/quality.md
 python scripts/formal_delivery_guard.py --artifact path/to/final.docx --source path/to/source.md --require-style-fingerprint --require-skill-receipts --task-id my-task

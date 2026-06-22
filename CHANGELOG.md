@@ -6,17 +6,28 @@
 
 - GitHub social preview asset at `docs/assets/social-preview.png`, with editable SVG source and manifest in `docs/assets/`.
 - Annotated runtime routing demo image at `docs/assets/terminal-routing-demo.png`, with editable SVG source and manifest in `docs/assets/`.
+- `research-wiki/CLAIM_LEDGER_LITE_PROTOCOL.md`, `scripts/claim_ledger_lite_check.py`, and schema coverage for lightweight formal-claim boundary ledgers.
+- `research-wiki/VISIBLE_OUTPUT_QA_PROTOCOL.md`, `scripts/visible_output_qa_check.py`, and schema coverage for rendered/previewed output checks.
+- `scripts/borrowed_pattern_boundary_lint.py` and schema coverage to prevent imported style/workflow patterns from becoming detector-evasion, detector-score, authorship-verdict, or humanising-as-evasion guidance.
+- Beginner onboarding guides for users new to Codex and GitHub: `docs/BEGINNER_README.md` and `docs/BEGINNER_README_CN.md`.
+- Eval cases for Claim Ledger Lite, Visible Output QA, borrowed-pattern lint, formal/citation-heavy gate routing, and citation-key minor-edit routing.
 
 ### Changed
 
 - Simplified the README and README_CN workflow diagrams to show the public control path: output-risk routing, light receipts, source packaging, skill receipts, and delivery guard.
 - Changed the project license for future distributions from MIT to PolyForm Noncommercial License 1.0.0, allowing personal, educational, research, and other non-commercial use while reserving commercial use.
+- Runtime routing now adds Claim Ledger Lite to formal/citation-heavy routes, adds Visible Output QA to formal visible-output routes, and keeps no-content citation-key/reference-format repairs on the minor-edit path.
+- README and README_CN now report 53 public skill evals and link the beginner guides.
+- AGENTS, AGENTS template, project preferences, relevant skills, and receipt validation now document the new claim-ledger and visible-output boundaries.
 
 ### Boundary
 
 - The social preview and routing demo are deterministic public assets. They do not include private project content, institution-specific requirements, participant material, screenshots, local paths, credentials, or generated private reports.
 - GitHub social preview upload remains a repository-settings step if no stable API-backed update path is available.
 - Earlier versions or copies already received under MIT remain governed by their original license terms; this update sets the license boundary for current and future distributions.
+- Claim Ledger Lite is a claim-strength and structure check only; it does not prove source support or make metadata-only sources citation-ready.
+- Visible Output QA verifies the rendered or previewed surface only; it does not prove compliance, citation support, academic/professional quality, or approval readiness.
+- Beginner guides are public onboarding docs and contain no private project facts.
 
 ## v1.7.0 - Bounded Routing And Session Log Integrity - 2026-06-11
 

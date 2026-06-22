@@ -50,6 +50,8 @@ Cognitive protocol:
 
 The protocol can be a temporary note, a checkpoint file, or a section inside a planning document.
 
+Use `research-wiki/CLAIM_LEDGER_LITE_PROTOCOL.md` when formal claims, stakeholder-facing claims, source-readiness upgrades, or citation claim-support audits need stable `claim_id` boundaries. `cognitive-frameworks` prepares candidate claims, warrants, limitations, and concept contracts; `dissertation-citation-audit` owns the ledger check.
+
 ## Gap / Problem Type Taxonomy
 
 Use one or more of these allowed categories. Do not write a vague gap statement without naming the type.

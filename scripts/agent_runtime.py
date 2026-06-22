@@ -33,6 +33,16 @@ BASE_FILES = [
     "research-wiki/WINDOW_WORKFLOW_PROMPTS.md",
 ]
 
+CLAIM_LEDGER_LITE_FILES = [
+    "research-wiki/CLAIM_LEDGER_LITE_PROTOCOL.md",
+    "scripts/claim_ledger_lite_check.py",
+]
+
+VISIBLE_OUTPUT_QA_FILES = [
+    "research-wiki/VISIBLE_OUTPUT_QA_PROTOCOL.md",
+    "scripts/visible_output_qa_check.py",
+]
+
 BOUNDED_SOURCE_PLANNING_RECEIPTS = [
     "dissertation-source-first-gate@planning",
     "dissertation-research-search-protocol@research",
@@ -110,7 +120,9 @@ TASK_RULES: list[dict] = [
             "layout_self_review_verdict_for_important_docx",
             "citation_consistency_check",
             "claim_support_audit_when_citation_heavy",
+            "claim_ledger_lite_when_formal_claims_or_citation_heavy",
             "document_quality_gate",
+            "visible_output_qa_when_delivery_surface_exists",
             "task_state_update",
         ],
         "required_files": [
@@ -139,6 +151,8 @@ TASK_RULES: list[dict] = [
             "scripts/_docx_runtime.py",
             "scripts/markdown_docx_structure_check.py",
             "scripts/docx_layout_review_check.py",
+            *CLAIM_LEDGER_LITE_FILES,
+            *VISIBLE_OUTPUT_QA_FILES,
         ],
         "receipt_requirements": [
             "dissertation-source-first-gate@thinking",
@@ -230,9 +244,9 @@ TASK_RULES: list[dict] = [
             r"\bminor edit\b",
             r"\btypo\b",
             r"\bpunctuation\b",
-            r"\bcitation key\b",
-            r"\breference format\b",
-            r"\bcitation format\b",
+            r"\bcitation[- ]key\b",
+            r"\breference[- ]format(?:ting)?\b",
+            r"\bcitation[- ]format(?:ting)?\b",
             r"\bfix\b.*\b(reference|citation|typo|punctuation)\b",
             r"\b(reference|citation|typo|punctuation)\b.*\bfix\b",
             r"(错字|标点|小修|小改|引用键|引用格式|参考文献格式)",
@@ -373,11 +387,13 @@ TASK_RULES: list[dict] = [
             "citation_consistency_check",
             "claim_support_audit",
             "source_readiness_boundary",
+            "claim_ledger_lite_when_formal_claims_or_citation_heavy",
         ],
         "required_files": [
             "knowledge-base/SOURCE_READINESS_MATRIX.md",
             "knowledge-base/SOURCE_REGISTER.md",
             "research-wiki/ZOTERO_AND_CITATION_WORKFLOW_SPEC.md",
+            *CLAIM_LEDGER_LITE_FILES,
         ],
         "receipt_requirements": [
             "dissertation-citation-audit@review",
@@ -610,6 +626,22 @@ PROTECTED_DOCUMENT_PATTERNS = [
     r"(文档|草稿|报告|手稿|proposal|docx|word|文件).*(最终|已接受|已批准|锁定|正式|提交版|定稿)",
 ]
 
+NO_CONTENT_CHANGE_PATTERNS = [
+    r"\bdo not change (?:wording|meaning|content|claims?|argument)\b",
+    r"\bno (?:wording|meaning|content|claim|argument) change\b",
+    r"\bwithout changing (?:wording|meaning|content|claims?|argument)\b",
+    r"不(改|修改|改变).*(措辞|含义|内容|claim|论证|正文)",
+    r"不动.*(正文|内容|含义|论证)",
+]
+
+LOW_COST_EDIT_PATTERNS = [
+    r"\bcitation[- ]key\b",
+    r"\breference[- ]format(?:ting)?\b",
+    r"\bcitation[- ]format(?:ting)?\b",
+    r"\btypo\b",
+    r"\bpunctuation\b",
+]
+
 
 @dataclass
 class RuntimeRoute:
@@ -660,7 +692,15 @@ def touches_protected_document(task: str) -> bool:
     return matches_any(task, PROTECTED_DOCUMENT_PATTERNS)
 
 
+def is_no_content_minor_edit(task: str) -> bool:
+    return matches_any(task, LOW_COST_EDIT_PATTERNS) and (
+        matches_any(task, NO_CONTENT_CHANGE_PATTERNS) or matches_any(task, [r"\bminor\b", r"\bonly\b", r"只", r"小修"])
+    )
+
+
 def has_formal_output_intent(task: str) -> bool:
+    if is_no_content_minor_edit(task) and not touches_protected_document(task):
+        return False
     if touches_protected_document(task):
         return True
     if matches_any(task, FORMAL_TEXT_OUTPUT_PATTERNS):

@@ -28,6 +28,18 @@ Use when checking references, citations, literature review drafts, theoretical c
 
 Create or update `audit-reports/CITATION_AUDIT.md`.
 
+## Claim Ledger Lite
+
+Use `research-wiki/CLAIM_LEDGER_LITE_PROTOCOL.md` when the task audits or revises formal proposal, thesis/dissertation, manuscript, report, grant, stakeholder-facing argument claims, chapter/section-level claim support, or source-readiness upgrades.
+
+For those tasks, create or check a Claim Ledger Lite table before treating claim support as usable:
+
+```bash
+python3 scripts/claim_ledger_lite_check.py <ledger.md>
+```
+
+The ledger must record the claim, output location, source anchor, evidence status, what the evidence cannot prove, concept contract, allowed wording, and review action. It does not make metadata-only sources citation-ready and it does not replace source-section verification.
+
 ## Guardrails
 
 Read `../dissertation-shared/references/citation-discipline.md`.

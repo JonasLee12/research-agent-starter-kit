@@ -159,6 +159,18 @@ Escalate to the full formal-writing chain only when the task asks for formal pro
 
 Bounded work must still preserve evidence boundaries: metadata-only sources stay metadata-only, source-readiness is not upgraded without source-section review, and protected registers are not edited without a separately routed task.
 
+## Claim Ledger Lite Rule
+
+For formal proposal, thesis/dissertation, manuscript, report, grant, stakeholder-facing argument claims, citation claim-support audits, or source-readiness upgrades, use `research-wiki/CLAIM_LEDGER_LITE_PROTOCOL.md`.
+
+The ledger must name the claim, source anchor, evidence status, what the evidence cannot prove, concept contract, allowed wording, and review action. It is a claim-strength control, not a citation-readiness upgrade and not proof of source support.
+
+## Visible Output QA Rule
+
+For Word/PDF, figure, diagram, public GitHub, Obsidian, browser, or other user-visible deliverables, use `research-wiki/VISIBLE_OUTPUT_QA_PROTOCOL.md`.
+
+Do not claim a visible surface is fixed or ready from source-layer evidence alone. A local file, commit, tag, script result, or generated document must be followed by a rendered/previewed surface check when the user-visible surface is the deliverable or failure point.
+
 ## Academic Self-Review Rule
 
 For formal academic or professional prose, the agent must run `academic-self-review-loop` before style polishing and document-quality gates.
@@ -210,6 +222,8 @@ Not allowed:
 - make unsupported claims sound more confident.
 
 Use `scripts/authorial_voice_scan.py` when available. It is not an AI detector.
+
+When adapting public style or workflow patterns, run `scripts/borrowed_pattern_boundary_lint.py` when local tools are available. Do not import detector-evasion promises, detector-score optimisation, authorship verdicts, or humanising-as-evasion tactics.
 
 ## Three-Stage Document Pipeline Rule
 

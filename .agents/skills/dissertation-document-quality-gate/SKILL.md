@@ -95,6 +95,29 @@ For important `.docx` outputs:
 - record a layout self-review verdict; unresolved table loss, heading flattening, or unexplained regression is delivery-blocking unless the user explicitly accepts an override risk
 - use `TMPDIR=/private/tmp` for document rendering on macOS
 
+### Visible Output QA
+
+For Word/PDF, figure, diagram, browser, Obsidian, GitHub, or other user-visible deliverables, use `research-wiki/VISIBLE_OUTPUT_QA_PROTOCOL.md`.
+
+Record:
+
+- artifact;
+- communication job;
+- rendered output or preview path;
+- deterministic checks;
+- visual inspection;
+- baseline/regression check;
+- unresolved risks;
+- delivery verdict.
+
+When local tools are available, validate the note:
+
+```bash
+python3 scripts/visible_output_qa_check.py <qa-note.md>
+```
+
+A Visible Output QA pass only proves that the visible surface was checked. It does not prove citation support, compliance readiness, academic/professional quality, or submission readiness.
+
 ### Artifact Completeness
 
 For important proposal, chapter, manuscript, report, stakeholder-facing, or revision-package outputs, check whether the task needs:

@@ -75,6 +75,22 @@ TASK_PATTERNS = [
     (1, "task_intent:source_summary", r"\b(read|summari[sz]e|summary)\b.{0,80}\b(source|paper|article|literature|policy|report)\b"),
 ]
 
+LOW_COST_FORMAL_EDIT_PATTERNS = [
+    r"\bcitation[- ]key\b",
+    r"\breference[- ]format(?:ting)?\b",
+    r"\bcitation[- ]format(?:ting)?\b",
+    r"\btypo\b",
+    r"\bpunctuation\b",
+]
+
+NO_CONTENT_CHANGE_PATTERNS = [
+    r"\bdo not change (?:wording|meaning|content|claims?|argument)\b",
+    r"\bno (?:wording|meaning|content|claim|argument) change\b",
+    r"\bwithout changing (?:wording|meaning|content|claims?|argument)\b",
+    r"不(改|修改|改变).*(措辞|含义|内容|claim|论证|正文)",
+    r"不动.*(正文|内容|含义|论证)",
+]
+
 EXPLICIT_REFERENCE_PATTERNS = [
     (3, "explicit_reference:source_of_record", r"\b(source[- ]of[- ]record|design lock|accepted output|current source)\b"),
     (2, "explicit_reference:prior_artifact", r"\b(previous|prior|old version|checkpoint|source map|appendix|protocol)\b"),
@@ -201,8 +217,13 @@ def classify_path(path_text: str, stage_paths: dict[str, StagePath]) -> PathClas
 def pattern_floor(text: str, patterns: list[tuple[int, str, str]]) -> tuple[int, list[str]]:
     floor = 0
     reasons: list[str] = []
+    low_cost_no_content_change = any(re.search(pattern, text, flags=re.I) for pattern in LOW_COST_FORMAL_EDIT_PATTERNS) and any(
+        re.search(pattern, text, flags=re.I) for pattern in NO_CONTENT_CHANGE_PATTERNS
+    )
     for value, reason, pattern in patterns:
         if re.search(pattern, text, flags=re.I):
+            if low_cost_no_content_change and reason == "task_intent:high_risk_stage_deliverable":
+                continue
             floor = max(floor, value)
             reasons.append(reason)
     return floor, reasons

@@ -219,7 +219,7 @@ def check_behavioral_case(case_id: str) -> list[str]:
             problems.append(f"runtime-ambiguous-formal-receipts:{','.join(missing)}")
         return problems
     if case_id == "RUNTIME-009":
-        code, data, output = runtime_json("Check whether Palinkas 2015 has a usable sampling source section")
+        code, data, output = runtime_json("Check whether Author 2020 has a usable sampling source section")
         if code != 0:
             return [f"runtime-bounded-lookup-exit:{code}:{output[:120]}"]
         if data is None:
@@ -362,6 +362,162 @@ def check_behavioral_case(case_id: str) -> list[str]:
             ]
         )
         return [] if code == 1 and "Blocking issues: 1" in output else [f"session-log-window-mismatch:{code}:{output[:120]}"]
+    if case_id == "DOC-007":
+        weak = eval_fixture_path(case_id, "_weak_visible_output.md")
+        weak.write_text(
+            """# Delivery Note
+
+Visible Output QA:
+- Artifact: `outputs/missing.docx`
+- Communication job: deliver a readable report
+- Delivery verdict: passed
+""",
+            encoding="utf-8",
+        )
+        weak_code, _ = run_local_script(["scripts/visible_output_qa_check.py", str(weak), "--no-report"])
+        if weak_code == 0:
+            return ["visible-output-weak-passed"]
+        strong = eval_fixture_path(case_id, "_strong_visible_output.md")
+        strong.write_text(
+            """# Delivery Note
+
+Visible Output QA:
+- Artifact: `README.md`
+- Communication job: confirm rendered public onboarding text is readable and linked
+- Rendered output / preview: `README.md`
+- Deterministic checks: PASS - markdown file exists and links were reviewed in source
+- Visual inspection: inspected rendered README preview and no obvious clipping or missing section was found
+- Baseline / regression check: not-applicable - new public documentation section
+- Unresolved risks: none - public page still requires release-surface verification after push
+- Delivery verdict: passed
+""",
+            encoding="utf-8",
+        )
+        strong_code, output = run_local_script(["scripts/visible_output_qa_check.py", str(strong), "--no-report"])
+        return [] if strong_code == 0 else [f"visible-output-strong-blocked:{strong_code}:{output[:120]}"]
+    if case_id == "CLAIM-003":
+        weak = eval_fixture_path(case_id, "_weak_claim_ledger.md")
+        weak.write_text(
+            """# Claim Ledger Lite
+
+| claim_id | claim | output_location | source_anchor | evidence_status |
+|---|---|---|---|---|
+| CLM-001 | The intervention is proven effective. | Section 1 | `knowledge-base/sources/example.md` | DIRECT SUPPORT |
+""",
+            encoding="utf-8",
+        )
+        weak_code, _ = run_local_script(["scripts/claim_ledger_lite_check.py", str(weak), "--no-report"])
+        if weak_code == 0:
+            return ["claim-ledger-weak-passed"]
+        strong = eval_fixture_path(case_id, "_strong_claim_ledger.md")
+        strong.write_text(
+            """# Claim Ledger Lite
+
+| claim_id | claim | output_location | source_anchor | evidence_status | cannot_prove | concept_contract | allowed_wording | review_action |
+|---|---|---|---|---|---|---|---|---|
+| CLM-001 | The reviewed source may support an adoption-condition claim. | Section 2 paragraph 1 | `knowledge-base/SOURCE_READINESS_MATRIX.md` | PARTIAL SUPPORT | Does not prove effectiveness or causality. | adoption condition: use as a scoped design or interpretation condition only | "may indicate one adoption condition..." | qualify before drafting |
+""",
+            encoding="utf-8",
+        )
+        strong_code, output = run_local_script(["scripts/claim_ledger_lite_check.py", str(strong), "--no-report"])
+        if strong_code != 0:
+            return [f"claim-ledger-strong-blocked:{strong_code}:{output[:120]}"]
+        overclaim = eval_fixture_path(case_id, "_overclaim_claim_ledger.md")
+        overclaim.write_text(
+            """# Claim Ledger Lite
+
+| claim_id | claim | output_location | source_anchor | evidence_status | cannot_prove | concept_contract | allowed_wording | review_action |
+|---|---|---|---|---|---|---|---|---|
+| CLM-001 | Metadata proves the result is citation-ready. | Section 3 | source needed | METADATA ONLY | Does not prove the claim. | effectiveness: source-section review required | "citation-ready proof" | keep |
+""",
+            encoding="utf-8",
+        )
+        overclaim_code, _ = run_local_script(["scripts/claim_ledger_lite_check.py", str(overclaim), "--no-report"])
+        return [] if overclaim_code != 0 else ["claim-ledger-overclaim-passed"]
+    if case_id == "RUNTIME-012":
+        problems = []
+        formal_code, formal, formal_output = runtime_json("Write two formal methodology paragraphs synthesising the methodology literature")
+        if formal_code != 0 or formal is None:
+            return [f"runtime-012-formal:{formal_code}:{formal_output[:120]}"]
+        formal_gates = set(formal.get("gates", []))
+        formal_files = set(formal.get("required_files", []))
+        for gate in {"claim_ledger_lite_when_formal_claims_or_citation_heavy", "visible_output_qa_when_delivery_surface_exists"}:
+            if gate not in formal_gates:
+                problems.append(f"formal-missing-gate:{gate}")
+        for path in {
+            "research-wiki/CLAIM_LEDGER_LITE_PROTOCOL.md",
+            "scripts/claim_ledger_lite_check.py",
+            "research-wiki/VISIBLE_OUTPUT_QA_PROTOCOL.md",
+            "scripts/visible_output_qa_check.py",
+        }:
+            if path not in formal_files:
+                problems.append(f"formal-missing-file:{path}")
+        citation_code, citation, citation_output = runtime_json("Check whether the references support the claims in the report")
+        if citation_code != 0 or citation is None:
+            return [f"runtime-012-citation:{citation_code}:{citation_output[:120]}"]
+        citation_gates = set(citation.get("gates", []))
+        citation_files = set(citation.get("required_files", []))
+        if "claim_ledger_lite_when_formal_claims_or_citation_heavy" not in citation_gates:
+            problems.append("citation-missing-claim-ledger-gate")
+        if "research-wiki/CLAIM_LEDGER_LITE_PROTOCOL.md" not in citation_files:
+            problems.append("citation-missing-claim-ledger-protocol")
+        bounded_code, bounded, bounded_output = runtime_json("Check whether Author 2020 has a usable sampling source section")
+        if bounded_code != 0 or bounded is None:
+            return [f"runtime-012-bounded:{bounded_code}:{bounded_output[:120]}"]
+        bounded_gates = set(bounded.get("gates", []))
+        bounded_files = set(bounded.get("required_files", []))
+        forbidden = {
+            "claim_ledger_lite_when_formal_claims_or_citation_heavy",
+            "visible_output_qa_when_delivery_surface_exists",
+        }
+        overlap = sorted(forbidden & bounded_gates)
+        if overlap:
+            problems.append(f"bounded-overrouted-gates:{','.join(overlap)}")
+        forbidden_files = {
+            "research-wiki/CLAIM_LEDGER_LITE_PROTOCOL.md",
+            "scripts/claim_ledger_lite_check.py",
+            "research-wiki/VISIBLE_OUTPUT_QA_PROTOCOL.md",
+            "scripts/visible_output_qa_check.py",
+        }
+        file_overlap = sorted(forbidden_files & bounded_files)
+        if file_overlap:
+            problems.append(f"bounded-overrouted-files:{','.join(file_overlap)}")
+        return problems
+    if case_id == "RUNTIME-013":
+        problems = []
+        minor_code, minor, minor_output = runtime_json("Apply a minor citation-key repair in the formal Methodology draft; do not change wording")
+        if minor_code != 0 or minor is None:
+            return [f"runtime-013-minor:{minor_code}:{minor_output[:120]}"]
+        minor_types = set(minor.get("task_types", []))
+        if "minor_edit" not in minor_types:
+            problems.append(f"minor-missing-type:{','.join(sorted(minor_types))}")
+        if "formal_research_output" in minor_types:
+            problems.append("minor-overrouted-formal")
+        if minor.get("recall_decision", {}).get("tier", 99) > 2:
+            problems.append(f"minor-recall-too-high:{minor.get('recall_decision', {}).get('tier')}")
+        formal_code, formal, formal_output = runtime_json("Rewrite the formal methodology paragraph to strengthen citation claim support")
+        if formal_code != 0 or formal is None:
+            return [f"runtime-013-formal:{formal_code}:{formal_output[:120]}"]
+        formal_types = set(formal.get("task_types", []))
+        formal_gates = set(formal.get("gates", []))
+        if "minor_edit" in formal_types:
+            problems.append("formal-claim-stayed-minor")
+        if "claim_ledger_lite_when_formal_claims_or_citation_heavy" not in formal_gates:
+            problems.append("formal-claim-missing-ledger-gate")
+        return problems
+    if case_id == "VOICE-009":
+        bad = eval_fixture_path(case_id, "_bad_borrowed_pattern.md")
+        bad.write_text("Optimise the draft to lower AI detection score and bypass AI detector checks.\n", encoding="utf-8")
+        bad_code, _ = run_local_script(["scripts/borrowed_pattern_boundary_lint.py", str(bad), "--no-report"])
+        if bad_code == 0:
+            return ["borrowed-pattern-bad-passed"]
+        good = eval_fixture_path(case_id, "_good_borrowed_pattern.md")
+        good.write_text(
+            "Do not promise detector scores or authorship verdicts. Reframe the work as authorial voice, integrity, and evidence-led style.\n",
+            encoding="utf-8",
+        )
+        good_code, output = run_local_script(["scripts/borrowed_pattern_boundary_lint.py", str(good), "--no-report"])
+        return [] if good_code == 0 else [f"borrowed-pattern-good-blocked:{good_code}:{output[:120]}"]
     return []
 
 

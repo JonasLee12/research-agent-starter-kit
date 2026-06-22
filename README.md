@@ -2,13 +2,13 @@
 
 Local-first research-agent workflows for people who need defensible formal outputs, not just fluent drafts.
 
-This starter kit helps a coding agent check sources before claims, route small tasks lightly, leave evidence receipts for required gates, and block weak Word/PDF or stakeholder-facing outputs before they are treated as usable.
+This starter kit helps a coding agent check sources before claims, route small tasks lightly, leave evidence receipts for required gates, and flag weak Word/PDF or stakeholder-facing outputs before they are treated as usable.
 
 [中文说明](README_CN.md)
 
 [![License: PolyForm Noncommercial](https://img.shields.io/badge/License-PolyForm_Noncommercial-orange.svg)](LICENSE)
 [![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-green.svg)](https://www.python.org/)
-[![Evals](https://img.shields.io/badge/Skill_Evals-48%2F48_passing-brightgreen.svg)](#validation)
+[![Evals](https://img.shields.io/badge/Skill_Evals-53%2F53_passing-brightgreen.svg)](#validation)
 
 License boundary: this repository is source-available under the [PolyForm Noncommercial License 1.0.0](LICENSE). Personal, educational, research, and other non-commercial use is allowed. Commercial use, resale, paid hosting/SaaS, paid training or consulting productisation, and redistribution as part of a paid product require prior written permission.
 
@@ -27,6 +27,8 @@ It does not replace source review, ethics or compliance approval, supervisor jud
 | A later-stage artifact ignores earlier decisions | Stage Continuity and Token-Aware Recall |
 | A skill is claimed but never actually ran | Skill execution receipts |
 | A Word/PDF deliverable loses structure or skips checks | Formal delivery guard and DOCX structure/layout checks |
+| A formal claim becomes stronger than its evidence | Claim Ledger Lite |
+| A public or rendered surface is claimed fixed without being opened | Visible Output QA |
 
 ## Concrete Routing Example
 
@@ -70,6 +72,12 @@ The workflow is strict where it matters:
 
 ## What's New
 
+**Unreleased** adds Claim Ledger Lite, Visible Output QA, borrowed-pattern boundary lint, and beginner onboarding guides.
+
+That means formal claims can now carry a small claim ledger with evidence status, cannot-prove boundary, concept contract, allowed wording, and review action. Visible outputs such as Word/PDF, figures, GitHub pages, Obsidian views, and browser pages now need rendered or preview evidence before they are described as checked. Borrowed style/workflow patterns are linted so public inspiration does not become detector-evasion, detector-score, authorship-verdict, or humanising-as-evasion guidance.
+
+It also adds first-day guides for users who do not yet know Codex or GitHub: [Beginner README](docs/BEGINNER_README.md) and [中文新手 README](docs/BEGINNER_README_CN.md).
+
 **v1.7.0** adds bounded routing and session-log integrity checks.
 
 That means the agent can now keep small tasks small. Source planning, literature-priority sorting, source lookup, citation-key fixes, reference-format edits, and typos use light receipt sets unless the task asks for formal prose, Word/DOCX, stakeholder-facing or submission-facing output, or protected source-of-record edits. Methodology or literature-review keywords alone no longer justify the full formal-writing chain.
@@ -112,6 +120,8 @@ That means the starter kit now checks GitHub-visible release surfaces before cla
 
 If you use Obsidian: **Open knowledge-base/ as your Obsidian vault. Do not open the repository root.** See [Obsidian Setup](docs/OBSIDIAN_SETUP.md).
 
+If you are new to Codex or GitHub: start with [Beginner README](docs/BEGINNER_README.md) or [中文新手 README](docs/BEGINNER_README_CN.md).
+
 If you do not have Claude Code: use the external-review bundle workflow and paste the generated prompt into a separate Codex, ChatGPT, Claude, Gemini, or human review process. See [External Review Options](docs/EXTERNAL_REVIEW_OPTIONS.md).
 
 If you want to use the kit on a real project, start with [Real Project Operating Guide](docs/REAL_PROJECT_OPERATING_GUIDE.md).
@@ -151,6 +161,8 @@ bash scripts/run_vector_index.sh
 | The agent over-routes source planning as formal writing | Bounded runtime routes | Source planning, lookup, and minor edits use light receipt sets until the task truly asks for formal output |
 | The user asks to reduce AI rate or humanise prose | Authorial voice integrity | The detector-evasion framing is refused and converted into evidence-led authorial voice work |
 | A skill is mentioned but not actually executed | Skill execution receipts | Required checks must leave local evidence receipts; receipts are not proof of analytical quality |
+| Formal claims overrun the evidence | Claim Ledger Lite | Claim wording, cannot-prove boundary, concept contract, and review action are recorded before formal delivery |
+| Visible outputs are claimed from source-layer changes only | Visible Output QA | Rendered/previewed surfaces are checked against the communication job before completion is claimed |
 | Formal prose repeats mechanical contrast templates | Style fingerprint gate | A fixed phrase list, including `rather than` / `not...but`, is scanned before delivery |
 | Citations look correct but may not support the claim | Citation audit and source-readiness matrix | The system separates citation consistency from claim support |
 | Knowledge grows chaotically across chats and files | Self-growing KB workflow | New notes move through raw inbox, growth queue, and compiled wiki with boundaries |
@@ -182,6 +194,9 @@ bash scripts/run_vector_index.sh
 | Public sync policy | `PUBLIC_SYNC_POLICY.md` | Defines shared core files, private-only content, public-only onboarding files, sync checks, and release-boundary rules |
 | Delivery pipeline | `research-wiki/DOCUMENT_PIPELINE.md` | Splits formal work into THINKING, WRITING, and DELIVERY checkpoints |
 | Stage continuity | `research-wiki/STAGE_GRAPH.md`, `research-wiki/STAGE_CONTINUITY_PROTOCOL.md`, `scripts/stage_recall_policy.py`, `scripts/stage_continuity_capsule_check.py` | Prevents later-stage work from ignoring upstream decisions while keeping recall token-aware |
+| Claim Ledger Lite | `research-wiki/CLAIM_LEDGER_LITE_PROTOCOL.md`, `scripts/claim_ledger_lite_check.py` | Keeps formal claims within evidence boundaries without turning every lookup into a heavy audit |
+| Visible Output QA | `research-wiki/VISIBLE_OUTPUT_QA_PROTOCOL.md`, `scripts/visible_output_qa_check.py` | Requires rendered/preview evidence for Word/PDF, figure, GitHub, Obsidian, browser, or other visible delivery surfaces |
+| Borrowed-pattern boundary lint | `scripts/borrowed_pattern_boundary_lint.py` | Blocks unsafe imported style/workflow wording such as detector-evasion or authorship-verdict promises |
 
 ## Scope And Limits
 
@@ -200,7 +215,7 @@ These limits are part of the design. The system should make weak evidence visibl
 
 ## Validation
 
-The public template currently reports **48/48 skill evaluations passing**.
+The public template currently reports **53/53 skill evaluations passing**.
 These are lightweight static/routing checks for high-risk cases, not proof of behavioural quality. The badge reflects the published template state; rerun the checks after customising the kit.
 
 ```bash
@@ -209,6 +224,7 @@ python scripts/validate_agent_schemas.py
 python scripts/session_log_integrity_check.py --strict --no-report
 python -m unittest discover -s tests
 python scripts/run_behavioral_evidence_checks.py
+python scripts/borrowed_pattern_boundary_lint.py --no-report
 bash scripts/privacy_check.sh
 ```
 
@@ -216,8 +232,10 @@ Formal delivery helpers:
 
 ```bash
 python scripts/material_passport.py --artifact path/to/draft.md --scope short
+python scripts/claim_ledger_lite_check.py path/to/claim-ledger.md
 python scripts/authorial_voice_scan.py --target path/to/draft.md
 python scripts/style_fingerprint_scan.py path/to/draft.md --strict
+python scripts/visible_output_qa_check.py path/to/visible-output-qa.md
 python scripts/skill_execution_receipt.py create --task-id my-task --skill style-fingerprint-gate --stage writing --artifact path/to/draft.md --status PASS --evidence audit-reports/style-fingerprint/my-report.md
 python scripts/pre_delivery_lock.py create --target path/to/final.docx --runtime-receipt path/to/receipt.md --material-passport path/to/passport.md --source-map path/to/source-map.md --integrity-preflight path/to/integrity.md --quality-gate path/to/quality.md
 python scripts/formal_delivery_guard.py --artifact path/to/final.docx --source path/to/source.md --require-style-fingerprint --require-skill-receipts --task-id my-task

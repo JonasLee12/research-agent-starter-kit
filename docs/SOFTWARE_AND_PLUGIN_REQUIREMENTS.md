@@ -67,8 +67,11 @@ The style and execution-evidence helpers are also standard-library Python script
 - `scripts/skill_execution_receipt.py`
 - `scripts/document_quality_check.py`
 - `scripts/self_review_loop_check.py`
+- `scripts/claim_ledger_lite_check.py`
+- `scripts/visible_output_qa_check.py`
+- `scripts/borrowed_pattern_boundary_lint.py`
 
-They do not require an external model. They make repeated style templates, missing skill evidence, shallow document-quality reviews, and shallow self-review loops visible before delivery.
+They do not require an external model. They make repeated style templates, missing skill evidence, shallow document-quality reviews, shallow self-review loops, claim-boundary gaps, missing visible-output checks, and unsafe borrowed style/workflow language visible before delivery.
 
 Install extra tools only when your project workflow clearly needs them.
 
