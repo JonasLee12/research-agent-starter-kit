@@ -76,7 +76,7 @@ Do not use it as a substitute for:
 | Self-growing KB layer | `knowledge-base/self-growing/`, `scripts/kb_health_check.py` | Controls raw intake, growth queue triage, compiled-wiki navigation, and KB health checks |
 | Retrieval layer | `scripts/build_agent_index.py`, `scripts/local_retrieval_search.py`, `scripts/build_vector_index.py` | Provides local SQLite/FTS/hashed retrieval and optional ChromaDB neural retrieval |
 | Privacy layer | `PRIVACY_CHECKLIST.md`, `PUBLIC_RELEASE_AUDIT.md`, `scripts/privacy_check.sh` | Prevents private data from being shared accidentally |
-| Runtime layer | `scripts/agent_runtime.py`, `scripts/session_log_integrity_check.py`, `research-wiki/runtime-receipts/`, `research-wiki/SESSION_EVENT_LOG.jsonl` | Makes workflow routing, light/full receipt choices, and session-log integrity auditable |
+| Runtime layer | `scripts/agent_runtime.py`, `scripts/session_log_integrity_check.py`, `scripts/codex_sqlite_log_guard.py`, `research-wiki/runtime-receipts/`, `research-wiki/SESSION_EVENT_LOG.jsonl` | Makes workflow routing, light/full receipt choices, session-log integrity, and Codex diagnostic-log safety auditable |
 | Connector layer | `scripts/academic_database_connector.py`, `config/academic_database_connectors.example.json` | Supports public metadata search and subscription credential checks |
 | Independent review layer | `scripts/build_external_review_bundle.py`, `scripts/claude_independent_review.py` | Optional advisory review through a local bundle for Codex/ChatGPT/Claude/Gemini/human review, with Claude Code as one direct runner |
 | Schema layer | `research-wiki/tool-schemas/`, `scripts/validate_agent_schemas.py` | Keeps local workflow tools explicit and testable |
@@ -211,6 +211,7 @@ Version `v0.4.0` adds a local engineering layer.
 | `scripts/stage_recall_policy.py` | Computes token-aware recall tiers from task intent, target files, and change type |
 | `scripts/stage_continuity_capsule_check.py` | Checks whether a Stage Continuity Capsule names upstream files, inherited decisions, open confirmations, and boundaries |
 | `scripts/session_log_integrity_check.py` | Checks JSONL session logs, legal window labels, runtime/window alignment, paired session starts/ends, and timestamp parseability |
+| `scripts/codex_sqlite_log_guard.py` | Scans and monitors Codex `logs_*.sqlite` / WAL growth; optional trigger, checkpoint, and archive actions are guarded and dry-run by default |
 | `scripts/claim_ledger_lite_check.py` | Checks Claim Ledger Lite tables for required fields, evidence-status boundaries, cannot-prove fields, concept contracts, and metadata-only overclaims |
 | `scripts/visible_output_qa_check.py` | Checks Visible Output QA notes for artifact, communication job, rendered/preview evidence, deterministic checks, visual inspection, baseline/regression boundary, unresolved risks, and verdict |
 | `scripts/borrowed_pattern_boundary_lint.py` | Lints borrowed public style/workflow pattern language for unsafe detector-evasion, detector-score, authorship-verdict, or humanising-as-evasion imports |

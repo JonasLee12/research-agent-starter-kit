@@ -10,15 +10,18 @@
 - `research-wiki/VISIBLE_OUTPUT_QA_PROTOCOL.md`, `scripts/visible_output_qa_check.py`, and schema coverage for rendered/previewed output checks.
 - `scripts/borrowed_pattern_boundary_lint.py` and schema coverage to prevent imported style/workflow patterns from becoming detector-evasion, detector-score, authorship-verdict, or humanising-as-evasion guidance.
 - Beginner onboarding guides for users new to Codex and GitHub: `docs/BEGINNER_README.md` and `docs/BEGINNER_README_CN.md`.
+- `scripts/codex_sqlite_log_guard.py` and schema/eval coverage for the Codex `logs_*.sqlite` / WAL growth failure mode reported by users.
 - Eval cases for Claim Ledger Lite, Visible Output QA, borrowed-pattern lint, formal/citation-heavy gate routing, and citation-key minor-edit routing.
+- Eval cases for read-only Codex log scans, selective log-table trigger installation, and safe old-log archiving.
 
 ### Changed
 
 - Simplified the README and README_CN workflow diagrams to show the public control path: output-risk routing, light receipts, source packaging, skill receipts, and delivery guard.
 - Changed the project license for future distributions from MIT to PolyForm Noncommercial License 1.0.0, allowing personal, educational, research, and other non-commercial use while reserving commercial use.
 - Runtime routing now adds Claim Ledger Lite to formal/citation-heavy routes, adds Visible Output QA to formal visible-output routes, and keeps no-content citation-key/reference-format repairs on the minor-edit path.
-- README and README_CN now report 53 public skill evals and link the beginner guides.
+- README and README_CN now report 56 public skill evals and link the beginner guides.
 - AGENTS, AGENTS template, project preferences, relevant skills, and receipt validation now document the new claim-ledger and visible-output boundaries.
+- AGENTS and AGENTS template now route Codex diagnostic SQLite log growth through a read-only-first guard before any trigger, WAL checkpoint, or archive action.
 
 ### Boundary
 
@@ -28,6 +31,7 @@
 - Claim Ledger Lite is a claim-strength and structure check only; it does not prove source support or make metadata-only sources citation-ready.
 - Visible Output QA verifies the rendered or previewed surface only; it does not prove compliance, citation support, academic/professional quality, or approval readiness.
 - Beginner guides are public onboarding docs and contain no private project facts.
+- Codex SQLite log guard is a local mitigation for Codex diagnostic log growth. It does not patch Codex itself and must not be used on conversation state, memory, goal, session, project, or arbitrary SQLite databases.
 
 ## v1.7.0 - Bounded Routing And Session Log Integrity - 2026-06-11
 

@@ -90,6 +90,7 @@ Domain-specific skills are included as optional examples. Rename, edit, or remov
   If it returns `BLOCKED`, fix the missing file or gate before continuing.
 - Keep bounded tasks bounded. Source-planning, literature-priority sorting, source lookup, and minor citation/typo edits should use light receipt sets unless the user asks for formal prose, Word/DOCX, stakeholder-facing or submission-facing output, or protected source-of-record edits. Methodology/literature keywords alone do not justify the full formal-writing chain.
 - Use `scripts/session_log_integrity_check.py --strict` when auditing runtime/session records. Malformed JSONL, illegal window labels, runtime/window mismatches, or unpaired `session_start` events are maintenance issues, not harmless log noise.
+- For Codex `logs_*.sqlite` / WAL growth, use `scripts/codex_sqlite_log_guard.py` before suggesting cleanup. Start with read-only `scan` or `monitor`. Do not delete, move, checkpoint, or add SQLite triggers to Codex log files unless the user explicitly asks for remediation, Codex is fully closed or the user accepts an override, and the target is confirmed as a Codex diagnostic `logs_*.sqlite` database rather than state, memory, goal, session, or project data.
 - For long-running projects, use `research-wiki/STAGE_GRAPH.md` and `research-wiki/STAGE_CONTINUITY_PROTOCOL.md` before a later-stage task changes, designs, restates, translates, formalises, or produces a high-risk deliverable with upstream dependencies. High-risk deliverables include proposal/brief material, method plans, compliance or ethics material, fieldwork instruments, concept cards/scenario stimuli, RQ-to-method mapping, analysis plans, stakeholder-facing decision memos, and formal chapter/section drafts.
 - Use the runtime `recall_decision` or run `python3 scripts/stage_recall_policy.py --task "<TASK>"` as the Token-Aware Recall controller. Tier 0=no project recall, Tier 1=anchor scan, Tier 2=pointer lookup, Tier 3=targeted Stage Continuity Capsule, Tier 4=full upstream audit or pause. This controller saves context but cannot override source-first, compliance, citation, privacy, document-quality, delivery, or Stage Continuity A+B gates.
 - If a user asks to skip an upstream check for a triggered deliverable, surface the omitted dependency first. Only after explicit user acceptance may the task proceed as an override risk; do not call the Stage Continuity Gate a pass.
@@ -187,6 +188,7 @@ Domain-specific skills are included as optional examples. Rename, edit, or remov
 32. Use `scripts/claude_independent_review.py` only as one optional Claude Code runner when available.
 33. Use staged literature gap-watch automation only for candidate discovery unless the user confirms ingestion.
 34. Use `release-surface-verification` before saying a public GitHub release or template update is visible and ready for readers.
+35. For Codex `logs_*.sqlite` / WAL growth, diagnose with `scripts/codex_sqlite_log_guard.py scan` or `monitor` first; only apply trigger/checkpoint/archive actions after confirming the target and write-safety boundary.
 
 ## Public Template Boundary
 

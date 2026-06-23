@@ -8,7 +8,7 @@ This starter kit helps a coding agent check sources before claims, route small t
 
 [![License: PolyForm Noncommercial](https://img.shields.io/badge/License-PolyForm_Noncommercial-orange.svg)](LICENSE)
 [![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-green.svg)](https://www.python.org/)
-[![Evals](https://img.shields.io/badge/Skill_Evals-53%2F53_passing-brightgreen.svg)](#validation)
+[![Evals](https://img.shields.io/badge/Skill_Evals-56%2F56_passing-brightgreen.svg)](#validation)
 
 License boundary: this repository is source-available under the [PolyForm Noncommercial License 1.0.0](LICENSE). Personal, educational, research, and other non-commercial use is allowed. Commercial use, resale, paid hosting/SaaS, paid training or consulting productisation, and redistribution as part of a paid product require prior written permission.
 
@@ -29,6 +29,7 @@ It does not replace source review, ethics or compliance approval, supervisor jud
 | A Word/PDF deliverable loses structure or skips checks | Formal delivery guard and DOCX structure/layout checks |
 | A formal claim becomes stronger than its evidence | Claim Ledger Lite |
 | A public or rendered surface is claimed fixed without being opened | Visible Output QA |
+| Older Codex installs grow `logs_*.sqlite` / WAL files aggressively | Codex SQLite log guard |
 
 ## Concrete Routing Example
 
@@ -72,9 +73,11 @@ The workflow is strict where it matters:
 
 ## What's New
 
-**Unreleased** adds Claim Ledger Lite, Visible Output QA, borrowed-pattern boundary lint, and beginner onboarding guides.
+**Unreleased** adds Claim Ledger Lite, Visible Output QA, borrowed-pattern boundary lint, beginner onboarding guides, and a Codex SQLite log guard for the `logs_*.sqlite` / WAL growth failure mode reported by users.
 
 That means formal claims can now carry a small claim ledger with evidence status, cannot-prove boundary, concept contract, allowed wording, and review action. Visible outputs such as Word/PDF, figures, GitHub pages, Obsidian views, and browser pages now need rendered or preview evidence before they are described as checked. Borrowed style/workflow patterns are linted so public inspiration does not become detector-evasion, detector-score, authorship-verdict, or humanising-as-evasion guidance.
+
+The Codex SQLite guard is deliberately conservative. `scan` and `monitor` are read-only. Trigger installation, WAL checkpointing, and old log archiving are dry-run by default and require `--apply`; write actions also require `--confirm-codex-closed` unless the user deliberately overrides that safety check. The guard targets Codex diagnostic `logs_*.sqlite` files, not conversation state, memories, goals, or arbitrary SQLite databases.
 
 It also adds first-day guides for users who do not yet know Codex or GitHub: [Beginner README](docs/BEGINNER_README.md) and [中文新手 README](docs/BEGINNER_README_CN.md).
 
@@ -178,6 +181,7 @@ bash scripts/run_vector_index.sh
 | Skills | `.agents/skills/` | Local instructions for routing, writing, review, source checks, KB operations, and maintenance |
 | Runtime routing | `scripts/agent_runtime.py` | Classifies task types and lists required skills, files, and gates |
 | Session log integrity | `scripts/session_log_integrity_check.py` | Checks JSONL validity, window labels, runtime/window alignment, paired sessions, and timestamp parseability |
+| Codex SQLite log guard | `scripts/codex_sqlite_log_guard.py` | Scans and monitors Codex diagnostic SQLite log growth; optional selective trigger, WAL checkpoint, and old-log archive actions are guarded and dry-run by default |
 | Source readiness | `knowledge-base/SOURCE_READINESS_MATRIX.md` | Tracks whether a source is metadata-only, partly reviewed, or citation-ready |
 | Self-growing KB | `knowledge-base/self-growing/` | Manages controlled knowledge-base growth |
 | Retrieval | `scripts/local_retrieval_search.py`, `scripts/build_agent_index.py` | Builds local searchable indexes without replacing source review |
@@ -208,6 +212,7 @@ This kit is deliberately strict about what it cannot prove.
 - It cannot complete ethics approval, compliance approval, peer review, or supervisor approval.
 - It cannot guarantee marks, publication, funding, acceptance, or official approval.
 - It cannot stop someone from manually bypassing the workflow outside the agent pipeline.
+- It cannot fix Codex itself; the SQLite log guard is a local mitigation for diagnostic log growth while affected users wait for or verify an upstream fix.
 - Skill receipts prove execution evidence exists. They do not prove the underlying analysis is academically sufficient, truthful, or acted on.
 - Style and authorial voice scans are advisory writing-quality checks. They are not AI detectors.
 
@@ -215,17 +220,43 @@ These limits are part of the design. The system should make weak evidence visibl
 
 ## Validation
 
-The public template currently reports **53/53 skill evaluations passing**.
+The public template currently reports **56/56 skill evaluations passing**.
 These are lightweight static/routing checks for high-risk cases, not proof of behavioural quality. The badge reflects the published template state; rerun the checks after customising the kit.
 
 ```bash
 python scripts/run_skill_evals.py
 python scripts/validate_agent_schemas.py
 python scripts/session_log_integrity_check.py --strict --no-report
+python scripts/codex_sqlite_log_guard.py scan --no-report
 python -m unittest discover -s tests
 python scripts/run_behavioral_evidence_checks.py
 python scripts/borrowed_pattern_boundary_lint.py --no-report
 bash scripts/privacy_check.sh
+```
+
+Codex SQLite log guard, for older Codex installations affected by runaway `logs_*.sqlite` or `logs_*.sqlite-wal` growth:
+
+```bash
+# Read-only inventory of likely Codex diagnostic log databases.
+python scripts/codex_sqlite_log_guard.py scan
+
+# Read-only short monitor for active growth rate.
+python scripts/codex_sqlite_log_guard.py monitor --seconds 15 --warn-rate-mbps 1
+
+# Inspect the log database schema before any trigger action.
+python scripts/codex_sqlite_log_guard.py tables --db ~/.codex/logs_2.sqlite
+
+# Dry-run the selective trigger SQL. This does not modify the database.
+python scripts/codex_sqlite_log_guard.py install-trigger --db ~/.codex/logs_2.sqlite --table logs
+
+# Apply only after fully quitting Codex and confirming the target is the diagnostic log DB.
+python scripts/codex_sqlite_log_guard.py install-trigger --db ~/.codex/logs_2.sqlite --table logs --apply --confirm-codex-closed
+
+# If the WAL is already large, truncate it only after Codex is fully closed.
+python scripts/codex_sqlite_log_guard.py checkpoint --db ~/.codex/logs_2.sqlite --apply --confirm-codex-closed
+
+# Archive old backups by default. Add --move-active-logs only when intentionally rotating active diagnostic logs.
+python scripts/codex_sqlite_log_guard.py archive-old --root ~/.codex --apply --confirm-codex-closed
 ```
 
 Formal delivery helpers:

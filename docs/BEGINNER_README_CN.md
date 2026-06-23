@@ -184,6 +184,7 @@ agent 应该做 source-first、claim boundary、integrity check、self-review、
 python scripts/run_skill_evals.py
 python scripts/validate_agent_schemas.py
 python scripts/session_log_integrity_check.py --strict --no-report
+python scripts/codex_sqlite_log_guard.py scan --no-report
 python scripts/borrowed_pattern_boundary_lint.py --no-report
 python -m unittest discover -s tests
 bash scripts/privacy_check.sh

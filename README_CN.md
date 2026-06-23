@@ -8,7 +8,7 @@
 
 [![License: PolyForm Noncommercial](https://img.shields.io/badge/License-PolyForm_Noncommercial-orange.svg)](LICENSE)
 [![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-green.svg)](https://www.python.org/)
-[![Evals](https://img.shields.io/badge/Skill_Evals-53%2F53_passing-brightgreen.svg)](#validation)
+[![Evals](https://img.shields.io/badge/Skill_Evals-56%2F56_passing-brightgreen.svg)](#validation)
 
 许可边界：本仓库以 [PolyForm Noncommercial License 1.0.0](LICENSE) 提供源码。允许个人学习、教育、研究和其他非商业使用；未经书面许可，不允许商业使用、转售、付费托管/SaaS、付费培训或咨询产品化，也不允许作为付费产品的一部分再分发。
 
@@ -29,6 +29,7 @@
 | Word/PDF 交付丢失结构或跳过检查 | Formal delivery guard 和 DOCX structure/layout checks |
 | 正式 claim 超出证据能支持的范围 | Claim Ledger Lite |
 | 公开页面或渲染结果没有打开检查却被说成已修好 | Visible Output QA |
+| 旧版 Codex 持续增长 `logs_*.sqlite` / WAL 文件 | Codex SQLite log guard |
 
 ## 路由示例
 
@@ -72,9 +73,11 @@ flowchart LR
 
 ## 最新更新
 
-**Unreleased** 加入 Claim Ledger Lite、Visible Output QA、borrowed-pattern boundary lint，以及面向完全新手的中英文上手指南。
+**Unreleased** 加入 Claim Ledger Lite、Visible Output QA、borrowed-pattern boundary lint、面向完全新手的中英文上手指南，以及用于 `logs_*.sqlite` / WAL 异常增长问题的 Codex SQLite log guard。
 
 这意味着正式 claim 现在可以用轻量 claim ledger 记录 evidence status、cannot-prove boundary、concept contract、allowed wording 和 review action。Word/PDF、figure、GitHub 页面、Obsidian 视图、browser page 等可见输出，需要有 rendered/preview evidence，不能只凭本地文件或 commit 就声称已检查。借鉴外部 style/workflow 项目时，也会用 lint 防止把公共项目里的灵感变成 detector-evasion、detector-score、authorship-verdict 或 humanising-as-evasion 规则。
+
+Codex SQLite guard 的设计是保守的。`scan` 和 `monitor` 只读；安装 trigger、WAL checkpoint、归档旧日志默认都是 dry-run，必须显式加 `--apply`；写操作还要求 `--confirm-codex-closed`，除非用户明确覆盖这个安全检查。它只针对 Codex 诊断日志 `logs_*.sqlite`，不是 conversation state、memories、goals 或任意 SQLite 数据库。
 
 如果你还不熟悉 Codex 或 GitHub，先看 [Beginner README](docs/BEGINNER_README.md) 或 [中文新手 README](docs/BEGINNER_README_CN.md)。
 
@@ -178,6 +181,7 @@ bash scripts/run_vector_index.sh
 | Skills | `.agents/skills/` | 任务路由、写作、审查、source check、知识库和维护规则 |
 | Runtime routing | `scripts/agent_runtime.py` | 判断任务类型，列出需要的 skills、files 和 gates |
 | Session log integrity | `scripts/session_log_integrity_check.py` | 检查 JSONL、window label、runtime/window alignment、session 配对和 timestamp |
+| Codex SQLite log guard | `scripts/codex_sqlite_log_guard.py` | 扫描和监控 Codex 诊断 SQLite 日志增长；可选 trigger、WAL checkpoint 和旧日志归档都默认 dry-run，并带写操作防护 |
 | Source readiness | `knowledge-base/SOURCE_READINESS_MATRIX.md` | 记录 source 是 metadata-only、partly reviewed，还是 citation-ready |
 | Self-growing KB | `knowledge-base/self-growing/` | 管理可控的知识库增长 |
 | Retrieval | `scripts/local_retrieval_search.py`, `scripts/build_agent_index.py` | 建立本地可检索索引，但不替代 source review |
@@ -208,6 +212,7 @@ bash scripts/run_vector_index.sh
 - 它不能替代 ethics approval、compliance approval、peer review 或 supervisor approval。
 - 它不能保证分数、发表、资助、录用或正式批准。
 - 它不能阻止用户绕过 agent pipeline 手动复制文件。
+- 它不能修复 Codex 本身；SQLite log guard 只是受影响用户在等待或确认上游修复期间的本地缓解工具。
 - Skill receipts 只能证明有执行证据，不证明底层分析已经足够、真实或已被认真采纳。
 - Style 和 authorial voice scan 是写作质量顾问检查，不是 AI detector。
 
@@ -215,17 +220,43 @@ bash scripts/run_vector_index.sh
 
 ## 验证
 
-当前公开模板显示 **53/53 skill evaluations passing**。
+当前公开模板显示 **56/56 skill evaluations passing**。
 这些是轻量级 static/routing checks，用来检查高风险流程是否指向真实文件和工具，不证明 agent 行为质量。这个 badge 反映的是已发布模板状态；你自定义系统后应重新运行下面的检查。
 
 ```bash
 python scripts/run_skill_evals.py
 python scripts/validate_agent_schemas.py
 python scripts/session_log_integrity_check.py --strict --no-report
+python scripts/codex_sqlite_log_guard.py scan --no-report
 python -m unittest discover -s tests
 python scripts/run_behavioral_evidence_checks.py
 python scripts/borrowed_pattern_boundary_lint.py --no-report
 bash scripts/privacy_check.sh
+```
+
+Codex SQLite log guard，用于旧版 Codex 可能出现的 `logs_*.sqlite` 或 `logs_*.sqlite-wal` 异常增长：
+
+```bash
+# 只读扫描可能的 Codex 诊断日志数据库。
+python scripts/codex_sqlite_log_guard.py scan
+
+# 只读监控短时间内是否还在快速增长。
+python scripts/codex_sqlite_log_guard.py monitor --seconds 15 --warn-rate-mbps 1
+
+# 在任何 trigger 操作前，先看这个日志数据库里有哪些表。
+python scripts/codex_sqlite_log_guard.py tables --db ~/.codex/logs_2.sqlite
+
+# 预演选择性 trigger SQL；这一步不会改数据库。
+python scripts/codex_sqlite_log_guard.py install-trigger --db ~/.codex/logs_2.sqlite --table logs
+
+# 只有完全退出 Codex，并确认目标是诊断日志库后，才实际应用。
+python scripts/codex_sqlite_log_guard.py install-trigger --db ~/.codex/logs_2.sqlite --table logs --apply --confirm-codex-closed
+
+# 如果 WAL 已经很大，完全关闭 Codex 后再截断 WAL。
+python scripts/codex_sqlite_log_guard.py checkpoint --db ~/.codex/logs_2.sqlite --apply --confirm-codex-closed
+
+# 默认只归档旧备份日志；只有明确要轮换 active diagnostic logs 时才加 --move-active-logs。
+python scripts/codex_sqlite_log_guard.py archive-old --root ~/.codex --apply --confirm-codex-closed
 ```
 
 正式交付辅助工具：

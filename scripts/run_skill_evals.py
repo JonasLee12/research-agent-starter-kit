@@ -11,6 +11,8 @@ import argparse
 import importlib.util
 import json
 import re
+import shutil
+import sqlite3
 import subprocess
 import sys
 from dataclasses import dataclass
@@ -362,6 +364,122 @@ def check_behavioral_case(case_id: str) -> list[str]:
             ]
         )
         return [] if code == 1 and "Blocking issues: 1" in output else [f"session-log-window-mismatch:{code}:{output[:120]}"]
+    if case_id == "CODEXLOG-001":
+        fixture_dir = ROOT / ".agent-runtime" / "eval-evidence" / "codexlog-001_codex"
+        if fixture_dir.exists():
+            shutil.rmtree(fixture_dir)
+        fixture_dir.mkdir(parents=True, exist_ok=True)
+        db = fixture_dir / "logs_2.sqlite"
+        conn = sqlite3.connect(db)
+        try:
+            conn.execute("CREATE TABLE logs (id INTEGER PRIMARY KEY, level TEXT, message TEXT)")
+            conn.commit()
+        finally:
+            conn.close()
+        code, output = run_local_script(
+            [
+                "scripts/codex_sqlite_log_guard.py",
+                "scan",
+                "--root",
+                str(fixture_dir),
+                "--strict",
+                "--no-report",
+                "--max-wal-mb",
+                "1",
+                "--max-total-mb",
+                "1",
+            ]
+        )
+        if code != 0:
+            return [f"codex-log-scan-exit:{code}:{output[:120]}"]
+        return [] if "Candidates: 1" in output and "Issues: 0" in output else [f"codex-log-scan-output:{output[:120]}"]
+    if case_id == "CODEXLOG-002":
+        fixture_dir = ROOT / ".agent-runtime" / "eval-evidence" / "codexlog-002_codex"
+        if fixture_dir.exists():
+            shutil.rmtree(fixture_dir)
+        fixture_dir.mkdir(parents=True, exist_ok=True)
+        db = fixture_dir / "logs_2.sqlite"
+        conn = sqlite3.connect(db)
+        try:
+            conn.execute("CREATE TABLE logs (id INTEGER PRIMARY KEY, level TEXT, message TEXT)")
+            conn.commit()
+        finally:
+            conn.close()
+        dry_code, dry_output = run_local_script(
+            ["scripts/codex_sqlite_log_guard.py", "install-trigger", "--db", str(db), "--table", "logs"]
+        )
+        if dry_code != 0 or "Status: DRY_RUN" not in dry_output:
+            return [f"codex-log-trigger-dry-run:{dry_code}:{dry_output[:120]}"]
+        conn = sqlite3.connect(db)
+        try:
+            before = conn.execute("SELECT COUNT(*) FROM sqlite_master WHERE type='trigger'").fetchone()[0]
+        finally:
+            conn.close()
+        if before != 0:
+            return ["codex-log-trigger-dry-run-mutated-db"]
+        apply_code, apply_output = run_local_script(
+            [
+                "scripts/codex_sqlite_log_guard.py",
+                "install-trigger",
+                "--db",
+                str(db),
+                "--table",
+                "logs",
+                "--apply",
+                "--confirm-codex-closed",
+            ]
+        )
+        if apply_code != 0:
+            return [f"codex-log-trigger-apply:{apply_code}:{apply_output[:120]}"]
+        conn = sqlite3.connect(db)
+        try:
+            conn.execute("INSERT INTO logs(level, message) VALUES ('TRACE', 'should be ignored')")
+            conn.commit()
+            rows = conn.execute("SELECT COUNT(*) FROM logs").fetchone()[0]
+        finally:
+            conn.close()
+        return [] if rows == 0 else [f"codex-log-trigger-did-not-ignore:{rows}"]
+    if case_id == "CODEXLOG-003":
+        fixture_dir = ROOT / ".agent-runtime" / "eval-evidence" / "codexlog-003_codex"
+        archive_dir = ROOT / ".agent-runtime" / "eval-evidence" / "codexlog-003_archive"
+        for path in [fixture_dir, archive_dir]:
+            if path.exists():
+                shutil.rmtree(path)
+            path.mkdir(parents=True, exist_ok=True)
+        old_log = fixture_dir / "logs_2.sqlite.bak"
+        old_log.write_text("old diagnostic log placeholder\n", encoding="utf-8")
+        dry_code, dry_output = run_local_script(
+            ["scripts/codex_sqlite_log_guard.py", "archive-old", "--root", str(fixture_dir), "--archive-dir", str(archive_dir)]
+        )
+        if dry_code != 0 or "Status: DRY_RUN" not in dry_output or not old_log.exists():
+            return [f"codex-log-archive-dry-run:{dry_code}:{dry_output[:120]}"]
+        blocked_code, blocked_output = run_local_script(
+            [
+                "scripts/codex_sqlite_log_guard.py",
+                "archive-old",
+                "--root",
+                str(fixture_dir),
+                "--archive-dir",
+                str(archive_dir),
+                "--apply",
+            ]
+        )
+        if blocked_code == 0 or "Status: BLOCK" not in blocked_output:
+            return [f"codex-log-archive-missing-confirm:{blocked_code}:{blocked_output[:120]}"]
+        apply_code, apply_output = run_local_script(
+            [
+                "scripts/codex_sqlite_log_guard.py",
+                "archive-old",
+                "--root",
+                str(fixture_dir),
+                "--archive-dir",
+                str(archive_dir),
+                "--apply",
+                "--confirm-codex-closed",
+            ]
+        )
+        archives = list(archive_dir.glob("*.zip"))
+        return [] if apply_code == 0 and archives and not old_log.exists() else [f"codex-log-archive-apply:{apply_code}:{apply_output[:120]}"]
     if case_id == "DOC-007":
         weak = eval_fixture_path(case_id, "_weak_visible_output.md")
         weak.write_text(

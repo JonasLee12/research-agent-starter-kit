@@ -1,0 +1,36 @@
+{
+  "name": "codex_sqlite_log_guard",
+  "version": "2026-06-23",
+  "inputs_required": [
+    "codex_log_database_or_codex_data_root",
+    "command",
+    "apply_mode_when_write_action_is_requested"
+  ],
+  "outputs_expected": [
+    "candidate_log_database_inventory",
+    "wal_and_total_size_threshold_status",
+    "optional_growth_rate_status",
+    "optional_trigger_action_status",
+    "optional_archive_or_checkpoint_status"
+  ],
+  "preconditions": [
+    "scan_and_monitor_are_read_only",
+    "write_actions_require_apply",
+    "write_actions_require_confirm_codex_closed_or_explicit_override",
+    "target_paths_must_look_like_codex_log_paths_unless_force_is_used"
+  ],
+  "quality_gate": [
+    "only_logs_sqlite_candidate_files_are_targeted_by_default",
+    "trigger_installation_is_table_specific_and_dry_run_by_default",
+    "guard_trigger_names_use_codex_log_guard_prefix",
+    "wal_checkpoint_and_log_archiving_are_dry_run_by_default",
+    "active_log_archiving_requires_explicit_move_active_logs"
+  ],
+  "failure_modes": [
+    "runaway_logs_sqlite_wal_growth",
+    "large_codex_diagnostic_log_database",
+    "accidental_targeting_of_non_codex_sqlite_database",
+    "write_action_attempted_while_codex_closure_not_confirmed",
+    "missing_or_unexpected_log_table"
+  ]
+}
