@@ -42,8 +42,10 @@ You can still use many files as checklists even if you are not comfortable with 
 2. Open the folder in your coding-agent tool.
 3. Read `README.md` for the normal overview.
 4. Copy `templates/AGENTS.example.md` to `AGENTS.md` if you are making a fresh project.
-5. Fill in only confirmed project facts. Leave unknown fields as `TO CONFIRM`.
-6. Ask your agent to run the local checks.
+5. If you are unsure which workflow to use, open `docs/TASK_CARDS.md`.
+6. Copy `templates/SOURCE_FIRST_INTAKE_CARD.md` before your first substantial task.
+7. Fill in only confirmed project facts. Leave unknown fields as `TO CONFIRM`.
+8. Ask your agent to run the local checks.
 
 Useful first prompt:
 
@@ -118,6 +120,8 @@ Instead, say what the output is for, who will read it, and which sources are all
 | `PROJECT_AGENT_PREFERENCES.md` | Your preferences and project boundaries |
 | `RESEARCH_PROJECT_BRIEF_TEMPLATE.md` | Template for describing your project |
 | `PROJECT_TYPE_PROFILES.md` | Helps choose whether this is a thesis, paper, report, grant, etc. |
+| `docs/TASK_CARDS.md` | Helps choose the smallest safe workflow before asking the agent to act |
+| `templates/SOURCE_FIRST_INTAKE_CARD.md` | Copyable intake form for source corpus, output surface, evidence boundary, and gates |
 | `knowledge-base/SOURCE_READINESS_MATRIX.md` | Tracks whether sources are metadata-only, partly reviewed, or ready to cite |
 | `research-wiki/TASK_STATE.md` | Project memory and current status |
 | `research-wiki/STAGE_GRAPH.md` | Helps later work remember earlier decisions |
@@ -208,6 +212,8 @@ Read `LICENSE` before sharing or reusing the kit beyond personal or educational 
 - [ ] Open it in Codex or another coding agent.
 - [ ] Read this guide and `README.md`.
 - [ ] Create or customise `AGENTS.md`.
+- [ ] Read `docs/TASK_CARDS.md` if you are unsure how to start.
+- [ ] Copy `templates/SOURCE_FIRST_INTAKE_CARD.md` for your first substantial task.
 - [ ] Fill project facts only when confirmed.
 - [ ] Keep private material outside public GitHub.
 - [ ] Run the basic validation commands.

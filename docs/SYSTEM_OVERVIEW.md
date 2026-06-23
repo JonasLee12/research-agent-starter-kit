@@ -58,6 +58,7 @@ Do not use it as a substitute for:
 | Layer | Main Files | Job |
 |---|---|---|
 | Rule layer | `AGENTS.md`, `PROJECT_AGENT_PREFERENCES.md` | Defines how the agent should behave |
+| Task intake layer | `docs/TASK_CARDS.md`, `docs/TASK_CARDS_CN.md`, `templates/SOURCE_FIRST_INTAKE_CARD.md` | Helps a new user choose the smallest safe workflow and record source, evidence, privacy, route, and gate fields before work starts |
 | Profile layer | `PROJECT_TYPE_PROFILES.md`, `RESEARCH_PROJECT_BRIEF_TEMPLATE.md` | Adapts the system to different project types |
 | Skill layer | `.agents/skills/` | Provides task-specific workflows |
 | Memory layer | `research-wiki/` | Stores project state, decisions, open questions, and handoff notes |

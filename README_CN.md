@@ -8,7 +8,7 @@
 
 [![License: PolyForm Noncommercial](https://img.shields.io/badge/License-PolyForm_Noncommercial-orange.svg)](LICENSE)
 [![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-green.svg)](https://www.python.org/)
-[![Evals](https://img.shields.io/badge/Skill_Evals-56%2F56_passing-brightgreen.svg)](#validation)
+[![Evals](https://img.shields.io/badge/Skill_Evals-58%2F58_passing-brightgreen.svg)](#validation)
 
 许可边界：本仓库以 [PolyForm Noncommercial License 1.0.0](LICENSE) 提供源码。允许个人学习、教育、研究和其他非商业使用；未经书面许可，不允许商业使用、转售、付费托管/SaaS、付费培训或咨询产品化，也不允许作为付费产品的一部分再分发。
 
@@ -18,11 +18,16 @@
 
 它不能替代 source review、ethics/compliance approval、supervisor judgement、peer review 或机构凭据。设计目标是让这些限制在 polished prose 掩盖问题之前就显露出来。
 
+## 不适用范围
+
+不要用这个 kit 做 thesis、dissertation、paper、proposal、report 或 assignment 代写；不要用于降重、规避查重、降 AI、规避 AI detector、优化 detector score；不要编造 citation、data、participants、source support 或 institutional requirements；不要加入付费转售、积分池、支付或代理用户工作流。Task intake 只是任务规划，不是证据、不是引用就绪，也不是 source-section verification。
+
 ## 它保护什么
 
 | Risk | Guard |
 |---|---|
 | 流畅草稿编造事实，或把 metadata 当证据 | Source-first gate 和 source-readiness matrix |
+| 用户不知道哪条工作流适合安全开始 | Task Cards 显示可选路由；Source-First Intake Card 在 gate 运行前收集输入 |
 | 小型 lookup 被误路由成昂贵正式写作流程 | Bounded routing 和 light receipts |
 | 切换阶段后忽略旧决定 | Stage Continuity 和 Token-Aware Recall |
 | Skill 只是被声称使用，但没有真正执行 | Skill execution receipts |
@@ -73,11 +78,13 @@ flowchart LR
 
 ## 最新更新
 
-**Unreleased** 加入 Claim Ledger Lite、Visible Output QA、borrowed-pattern boundary lint、面向完全新手的中英文上手指南，以及用于 `logs_*.sqlite` / WAL 异常增长问题的 Codex SQLite log guard。
+**Unreleased** 加入 Claim Ledger Lite、Visible Output QA、borrowed-pattern boundary lint、面向完全新手的中英文上手指南、Task Cards、Source-First Intake Card，以及用于 `logs_*.sqlite` / WAL 异常增长问题的 Codex SQLite log guard。
 
 这意味着正式 claim 现在可以用轻量 claim ledger 记录 evidence status、cannot-prove boundary、concept contract、allowed wording 和 review action。Word/PDF、figure、GitHub 页面、Obsidian 视图、browser page 等可见输出，需要有 rendered/preview evidence，不能只凭本地文件或 commit 就声称已检查。借鉴外部 style/workflow 项目时，也会用 lint 防止把公共项目里的灵感变成 detector-evasion、detector-score、authorship-verdict 或 humanising-as-evasion 规则。
 
 Codex SQLite guard 的设计是保守的。`scan` 和 `monitor` 只读；安装 trigger、WAL checkpoint、归档旧日志默认都是 dry-run，必须显式加 `--apply`；写操作还要求 `--confirm-codex-closed`，除非用户明确覆盖这个安全检查。它只针对 Codex 诊断日志 `logs_*.sqlite`，不是 conversation state、memories、goals 或任意 SQLite 数据库。
+
+Task Cards 让用户更容易开始，但不削弱 gate。它把常见请求转成 bounded、standard 或 full 路由，并用 Source-First Intake Card 在起草或交付前收集 source corpus、output surface、evidence boundary、privacy boundary 和 required gates。
 
 如果你还不熟悉 Codex 或 GitHub，先看 [Beginner README](docs/BEGINNER_README.md) 或 [中文新手 README](docs/BEGINNER_README_CN.md)。
 
@@ -125,6 +132,8 @@ Codex SQLite guard 的设计是保守的。`scan` 和 `monitor` 只读；安装 
 
 如果你刚接触 Codex 或 GitHub：先看 [Beginner README](docs/BEGINNER_README.md) 或 [中文新手 README](docs/BEGINNER_README_CN.md)。
 
+如果你知道要做什么，但不知道该走哪条 workflow：先看 [Task Cards](docs/TASK_CARDS.md) 或 [中文任务卡](docs/TASK_CARDS_CN.md)，再复制 [Source-First Intake Card](templates/SOURCE_FIRST_INTAKE_CARD.md)。
+
 如果你没有 Claude Code：使用 external-review bundle workflow，把生成的 prompt 复制到另一个 Codex、ChatGPT、Claude、Gemini 或人工 review 流程。见 [External Review Options](docs/EXTERNAL_REVIEW_OPTIONS.md)。
 
 如果你想把这套模板真正用到自己的项目上，先读 [Real Project Operating Guide](docs/REAL_PROJECT_OPERATING_GUIDE.md)。
@@ -159,6 +168,7 @@ bash scripts/run_vector_index.sh
 | Research-agent problem | Kit mechanism | Practical result |
 |---|---|---|
 | Agent 容易编造事实或要求 | Source-first gate | 正式写作先查本地证据，不靠记忆发挥 |
+| 用户不知道该选哪条 workflow | Task Cards + Source-First Intake Card | 常见任务被转成带输入和边界的可见路由，先明确再开工 |
 | 文稿看起来流畅，但论证很薄 | Cognitive frameworks + self-review loop | 交付前检查 claim、warrant 和段落推进 |
 | 切换阶段后忘记回顾旧决定 | Stage Continuity + Token-Aware Recall | Agent 根据 Stage Graph 做最小必要回顾，并在任务变化时重新检查 recall tier |
 | Source planning 被误当作正式写作 | Bounded runtime routes | Source planning、lookup 和小修先走 light receipt set，直到任务真的要求正式输出 |
@@ -179,6 +189,7 @@ bash scripts/run_vector_index.sh
 | Piece | Where it lives | What it does |
 |---|---|---|
 | Skills | `.agents/skills/` | 任务路由、写作、审查、source check、知识库和维护规则 |
+| Task Cards | `docs/TASK_CARDS.md`, `docs/TASK_CARDS_CN.md`, `templates/SOURCE_FIRST_INTAKE_CARD.md` | 把常见任务做成产品化入口，同时保留 source-first 和 integrity 边界 |
 | Runtime routing | `scripts/agent_runtime.py` | 判断任务类型，列出需要的 skills、files 和 gates |
 | Session log integrity | `scripts/session_log_integrity_check.py` | 检查 JSONL、window label、runtime/window alignment、session 配对和 timestamp |
 | Codex SQLite log guard | `scripts/codex_sqlite_log_guard.py` | 扫描和监控 Codex 诊断 SQLite 日志增长；可选 trigger、WAL checkpoint 和旧日志归档都默认 dry-run，并带写操作防护 |
@@ -220,7 +231,7 @@ bash scripts/run_vector_index.sh
 
 ## 验证
 
-当前公开模板显示 **56/56 skill evaluations passing**。
+当前公开模板显示 **58/58 skill evaluations passing**。
 这些是轻量级 static/routing checks，用来检查高风险流程是否指向真实文件和工具，不证明 agent 行为质量。这个 badge 反映的是已发布模板状态；你自定义系统后应重新运行下面的检查。
 
 ```bash

@@ -136,6 +136,67 @@ def runtime_json(task: str) -> tuple[int, dict | None, str]:
 
 
 def check_behavioral_case(case_id: str) -> list[str]:
+    if case_id == "INTAKE-001":
+        task_cards = (ROOT / "docs" / "TASK_CARDS.md").read_text(encoding="utf-8")
+        task_cards_cn = (ROOT / "docs" / "TASK_CARDS_CN.md").read_text(encoding="utf-8")
+        intake = (ROOT / "templates" / "SOURCE_FIRST_INTAKE_CARD.md").read_text(encoding="utf-8")
+        combined = "\n".join([task_cards, task_cards_cn, intake])
+        combined_lower = combined.lower()
+        required_terms = [
+            "source-first intake card",
+            "submitted",
+            "running",
+            "blocked",
+            "needs_confirmation",
+            "completed",
+            "failed",
+            "cancelled",
+            "bounded",
+            "standard",
+            "full",
+            "allowed source corpus",
+            "evidence and citation boundary",
+            "privacy / compliance boundary",
+            "do not use",
+            "ghostwriting",
+            "plagiarism reduction",
+            "ai-detector evasion",
+            "paid reseller",
+            "citation-ready",
+        ]
+        problems = [f"intake-missing:{term}" for term in required_terms if term not in combined_lower]
+        chinese_terms = ["任务卡", "降重", "降AI", "代写", "来源", "证据", "隐私", "引用就绪"]
+        problems.extend(f"intake-missing:{term}" for term in chinese_terms if term not in combined)
+        return problems
+    if case_id == "INTAKE-002":
+        files = [
+            ROOT / "README.md",
+            ROOT / "README_CN.md",
+            ROOT / "docs" / "TASK_CARDS.md",
+            ROOT / "docs" / "TASK_CARDS_CN.md",
+            ROOT / "templates" / "SOURCE_FIRST_INTAKE_CARD.md",
+        ]
+        combined = "\n".join(path.read_text(encoding="utf-8") for path in files)
+        combined_lower = combined.lower()
+        required_terms = [
+            "out of scope",
+            "ghostwriting",
+            "plagiarism reduction",
+            "ai-detector evasion",
+            "fake citations",
+            "paid reseller",
+            "proxy-user",
+            "task intake is planning only",
+            "not evidence",
+            "citation readiness",
+            "source-section verification",
+            "route levels",
+            "do not use for",
+        ]
+        problems = [f"intake-boundary-missing:{term}" for term in required_terms if term not in combined_lower]
+        chinese_terms = ["不适用范围", "代写", "降重", "降 AI", "引用就绪", "不是证据", "路由层级"]
+        problems.extend(f"intake-boundary-missing:{term}" for term in chinese_terms if term not in combined)
+        return problems
     if case_id == "RUNTIME-005":
         code, data, output = runtime_json("Fix the citation format and typos only in this report")
         if code != 0:

@@ -8,7 +8,7 @@ This starter kit helps a coding agent check sources before claims, route small t
 
 [![License: PolyForm Noncommercial](https://img.shields.io/badge/License-PolyForm_Noncommercial-orange.svg)](LICENSE)
 [![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-green.svg)](https://www.python.org/)
-[![Evals](https://img.shields.io/badge/Skill_Evals-56%2F56_passing-brightgreen.svg)](#validation)
+[![Evals](https://img.shields.io/badge/Skill_Evals-58%2F58_passing-brightgreen.svg)](#validation)
 
 License boundary: this repository is source-available under the [PolyForm Noncommercial License 1.0.0](LICENSE). Personal, educational, research, and other non-commercial use is allowed. Commercial use, resale, paid hosting/SaaS, paid training or consulting productisation, and redistribution as part of a paid product require prior written permission.
 
@@ -18,11 +18,16 @@ Built for researchers working under citation, evidence, compliance, style, or de
 
 It does not replace source review, ethics or compliance approval, supervisor judgement, peer review, or institutional credentials. The point is to make those limits visible before polished text hides them.
 
+## Out Of Scope
+
+Do not use this kit for thesis, dissertation, paper, proposal, report, or assignment ghostwriting; plagiarism reduction; AI-detector evasion or detector-score optimisation; fake citations, data, participants, source support, or institutional requirements; paid reseller, credit-pool, payment, or proxy-user workflows. Task intake is planning only. It is not evidence, citation readiness, or source-section verification.
+
 ## What It Protects
 
 | Risk | Guard |
 |---|---|
 | A fluent draft invents facts or overuses metadata | Source-first gate and source-readiness matrix |
+| A user cannot tell which workflow is safe to start | Task Cards make routes visible; Source-First Intake Card collects inputs before gates run |
 | A small lookup becomes an expensive formal-writing workflow | Bounded routing and light receipts |
 | A later-stage artifact ignores earlier decisions | Stage Continuity and Token-Aware Recall |
 | A skill is claimed but never actually ran | Skill execution receipts |
@@ -73,11 +78,13 @@ The workflow is strict where it matters:
 
 ## What's New
 
-**Unreleased** adds Claim Ledger Lite, Visible Output QA, borrowed-pattern boundary lint, beginner onboarding guides, and a Codex SQLite log guard for the `logs_*.sqlite` / WAL growth failure mode reported by users.
+**Unreleased** adds Claim Ledger Lite, Visible Output QA, borrowed-pattern boundary lint, beginner onboarding guides, Task Cards, a Source-First Intake Card, and a Codex SQLite log guard for the `logs_*.sqlite` / WAL growth failure mode reported by users.
 
 That means formal claims can now carry a small claim ledger with evidence status, cannot-prove boundary, concept contract, allowed wording, and review action. Visible outputs such as Word/PDF, figures, GitHub pages, Obsidian views, and browser pages now need rendered or preview evidence before they are described as checked. Borrowed style/workflow patterns are linted so public inspiration does not become detector-evasion, detector-score, authorship-verdict, or humanising-as-evasion guidance.
 
 The Codex SQLite guard is deliberately conservative. `scan` and `monitor` are read-only. Trigger installation, WAL checkpointing, and old log archiving are dry-run by default and require `--apply`; write actions also require `--confirm-codex-closed` unless the user deliberately overrides that safety check. The guard targets Codex diagnostic `logs_*.sqlite` files, not conversation state, memories, goals, or arbitrary SQLite databases.
+
+Task Cards make the workflow easier to start without weakening the guardrails. They turn common requests into bounded, standard, or full routes and use a Source-First Intake Card to collect source corpus, output surface, evidence boundary, privacy boundary, and required gates before drafting or delivery begins.
 
 It also adds first-day guides for users who do not yet know Codex or GitHub: [Beginner README](docs/BEGINNER_README.md) and [中文新手 README](docs/BEGINNER_README_CN.md).
 
@@ -125,6 +132,8 @@ If you use Obsidian: **Open knowledge-base/ as your Obsidian vault. Do not open 
 
 If you are new to Codex or GitHub: start with [Beginner README](docs/BEGINNER_README.md) or [中文新手 README](docs/BEGINNER_README_CN.md).
 
+If you know what you want but not which workflow to use: start with [Task Cards](docs/TASK_CARDS.md) or [中文任务卡](docs/TASK_CARDS_CN.md), then copy [Source-First Intake Card](templates/SOURCE_FIRST_INTAKE_CARD.md).
+
 If you do not have Claude Code: use the external-review bundle workflow and paste the generated prompt into a separate Codex, ChatGPT, Claude, Gemini, or human review process. See [External Review Options](docs/EXTERNAL_REVIEW_OPTIONS.md).
 
 If you want to use the kit on a real project, start with [Real Project Operating Guide](docs/REAL_PROJECT_OPERATING_GUIDE.md).
@@ -159,6 +168,7 @@ bash scripts/run_vector_index.sh
 | Research-agent problem | Kit mechanism | Practical result |
 |---|---|---|
 | The agent invents facts or requirements | Source-first gate | Formal writing starts from local evidence, not memory |
+| The user does not know which workflow to choose | Task Cards + Source-First Intake Card | Common tasks become visible routes with required inputs and boundaries before work starts |
 | The draft sounds polished but the argument is thin | Cognitive frameworks + self-review loop | Claims, warrants, and paragraph logic are checked before delivery |
 | A later-stage artifact ignores earlier project commitments | Stage Continuity + Token-Aware Recall | The agent checks the Stage Graph, writes a targeted capsule, and recomputes recall when the task changes |
 | The agent over-routes source planning as formal writing | Bounded runtime routes | Source planning, lookup, and minor edits use light receipt sets until the task truly asks for formal output |
@@ -179,6 +189,7 @@ bash scripts/run_vector_index.sh
 | Piece | Where it lives | What it does |
 |---|---|---|
 | Skills | `.agents/skills/` | Local instructions for routing, writing, review, source checks, KB operations, and maintenance |
+| Task Cards | `docs/TASK_CARDS.md`, `docs/TASK_CARDS_CN.md`, `templates/SOURCE_FIRST_INTAKE_CARD.md` | Provides product-style workflow entry points while preserving source-first and integrity boundaries |
 | Runtime routing | `scripts/agent_runtime.py` | Classifies task types and lists required skills, files, and gates |
 | Session log integrity | `scripts/session_log_integrity_check.py` | Checks JSONL validity, window labels, runtime/window alignment, paired sessions, and timestamp parseability |
 | Codex SQLite log guard | `scripts/codex_sqlite_log_guard.py` | Scans and monitors Codex diagnostic SQLite log growth; optional selective trigger, WAL checkpoint, and old-log archive actions are guarded and dry-run by default |
@@ -220,7 +231,7 @@ These limits are part of the design. The system should make weak evidence visibl
 
 ## Validation
 
-The public template currently reports **56/56 skill evaluations passing**.
+The public template currently reports **58/58 skill evaluations passing**.
 These are lightweight static/routing checks for high-risk cases, not proof of behavioural quality. The badge reflects the published template state; rerun the checks after customising the kit.
 
 ```bash
