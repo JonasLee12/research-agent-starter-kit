@@ -140,13 +140,15 @@ Important skill groups:
 | Document delivery | `formal-delivery-guard`, `dissertation-document-quality-gate`, `context-continuity` |
 | Literature and sources | `dissertation-research-search-protocol`, `dissertation-literature-review`, `dissertation-learning-loop`, `dissertation-knowledge-ops` |
 | Ethics, compliance, and risk | `responsible-ai-agent-audit`, `dissertation-shared` |
-| Qualitative research | `qualitative-theme-audit`, `codesign-output-synthesis`, `teacher-adoption-modeling` |
-| AI-agent concept work | `ai-agent-design-spec`, `active-learning-design-support`, `prototype-evaluation-audit` |
+| Qualitative research | `qualitative-theme-audit`, `dissertation-research-review`, `responsible-ai-agent-audit` |
+| Design or prototype concept work | `cognitive-frameworks`, `dissertation-research-review`, `responsible-ai-agent-audit` |
 | Maintenance | `dissertation-agent-self-debug`, `dissertation-agent-architecture-audit`, `dissertation-workspace-surface-audit`, `dissertation-automation-audit`, `dissertation-skill-stocktake` |
 | Workflow adapters | `using-superpowers`, `brainstorming`, `project-skill-creator-governance`, `playwright-dissertation-browser`, `markitdown` |
 | Research figure and article-style layers | `research-neural-network-figure`, `research-nature-figure`, `research-nature-writing` |
 
 The `research-*` skills are optional quality layers. Use them only after local source, privacy, compliance, and writing-quality gates. They should improve figure logic or article-style flow, not inflate claims or replace evidence.
+
+Archived topic packs live under `.agents/skills/_archived/`. They are preserved for restoration, but they do not count as active default skills and should not be routed until a real project phase justifies restoring them.
 
 ## 6. New Workflow Adapters
 

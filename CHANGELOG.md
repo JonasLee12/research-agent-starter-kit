@@ -2,8 +2,17 @@
 
 ## Unreleased
 
+No changes yet.
+
+## v1.8.0 - Context Health And Skill Lifecycle - 2026-07-09
+
+Status: context-load reliability, active-skill lifecycle, and public onboarding update.
+
 ### Added
 
+- `.codexignore` to keep generated runtime evidence, receipts, audit reports, session logs, context-health logs, and generated Word/PDF outputs out of default agent context.
+- `scripts/context_health_signal.py` and automatic runtime context-health route signals for recording compression notices, approximate context scale, model label when exposed, route type, and degradation symptoms.
+- Archived skill layer under `.agents/skills/_archived/` for topic-specific or late-phase example packs that should not load as active routes by default.
 - GitHub social preview asset at `docs/assets/social-preview.png`, with editable SVG source and manifest in `docs/assets/`.
 - Annotated runtime routing demo image at `docs/assets/terminal-routing-demo.png`, with editable SVG source and manifest in `docs/assets/`.
 - Task Cards and a copyable Source-First Intake Card: `docs/TASK_CARDS.md`, `docs/TASK_CARDS_CN.md`, and `templates/SOURCE_FIRST_INTAKE_CARD.md`.
@@ -15,13 +24,16 @@
 - Eval cases for Claim Ledger Lite, Visible Output QA, borrowed-pattern lint, formal/citation-heavy gate routing, and citation-key minor-edit routing.
 - Eval cases for read-only Codex log scans, selective log-table trigger installation, and safe old-log archiving.
 - Eval coverage for source-first task intake, route boundaries, and unsafe task-card boundary language.
+- Eval coverage for `.codexignore`, context-health logging, archived skills not appearing in active routes, bounded source-planning context load, and fresh-clone maintenance preflight behaviour.
 
 ### Changed
 
 - Simplified the README and README_CN workflow diagrams to show the public control path: output-risk routing, light receipts, source packaging, skill receipts, and delivery guard.
 - Changed the project license for future distributions from MIT to PolyForm Noncommercial License 1.0.0, allowing personal, educational, research, and other non-commercial use while reserving commercial use.
 - Runtime routing now adds Claim Ledger Lite to formal/citation-heavy routes, adds Visible Output QA to formal visible-output routes, and keeps no-content citation-key/reference-format repairs on the minor-edit path.
-- README and README_CN now report 58 public skill evals and link Task Cards, Chinese Task Cards, and the Source-First Intake Card.
+- Runtime routing now keeps pure bounded source-planning routes off heavy history/log files such as task state, production register, session event log, and workflow prompt files.
+- AGENTS, agent-orchestration, system overview, and adaptation docs now treat archived topic packs as restorable examples rather than active default routes.
+- README and README_CN now report 62 public skill evals and link Task Cards, Chinese Task Cards, the Source-First Intake Card, and context-health guidance.
 - AGENTS, AGENTS template, project preferences, relevant skills, and receipt validation now document the new claim-ledger and visible-output boundaries.
 - AGENTS and AGENTS template now route Codex diagnostic SQLite log growth through a read-only-first guard before any trigger, WAL checkpoint, or archive action.
 - AGENTS and AGENTS template now route unclear user goals through Task Cards and the Source-First Intake Card before work begins.
@@ -36,6 +48,9 @@
 - Beginner guides are public onboarding docs and contain no private project facts.
 - Codex SQLite log guard is a local mitigation for Codex diagnostic log growth. It does not patch Codex itself and must not be used on conversation state, memory, goal, session, project, or arbitrary SQLite databases.
 - Task Cards are intake and routing aids only. They explicitly exclude ghostwriting, plagiarism reduction, AI-detector evasion, fake citation/source-support workflows, and paid reseller/proxy/credit-pool patterns. Task intake is planning only; it is not evidence, citation readiness, or source-section verification.
+- Context-health logs are maintenance trend data only. They do not prove model routing, source support, privacy compliance, academic/professional quality, or delivery readiness.
+- `.codexignore` is a context-load guard, not a privacy or publication control. Public sync still requires `scripts/privacy_check.sh` and release-surface verification.
+- Archived skills remain recoverable examples. Do not route them as active skills until a concrete project phase restores them deliberately.
 
 ## v1.7.0 - Bounded Routing And Session Log Integrity - 2026-06-11
 

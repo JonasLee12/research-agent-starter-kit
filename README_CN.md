@@ -8,7 +8,7 @@
 
 [![License: PolyForm Noncommercial](https://img.shields.io/badge/License-PolyForm_Noncommercial-orange.svg)](LICENSE)
 [![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-green.svg)](https://www.python.org/)
-[![Evals](https://img.shields.io/badge/Skill_Evals-58%2F58_passing-brightgreen.svg)](#validation)
+[![Evals](https://img.shields.io/badge/Skill_Evals-62%2F62_passing-brightgreen.svg)](#validation)
 
 许可边界：本仓库以 [PolyForm Noncommercial License 1.0.0](LICENSE) 提供源码。允许个人学习、教育、研究和其他非商业使用；未经书面许可，不允许商业使用、转售、付费托管/SaaS、付费培训或咨询产品化，也不允许作为付费产品的一部分再分发。
 
@@ -35,6 +35,7 @@
 | 正式 claim 超出证据能支持的范围 | Claim Ledger Lite |
 | 公开页面或渲染结果没有打开检查却被说成已修好 | Visible Output QA |
 | 旧版 Codex 持续增长 `logs_*.sqlite` / WAL 文件 | Codex SQLite log guard |
+| 长会话在上下文压缩或历史加载过多后表现变差 | Context health logging、`.codexignore` 和 archived-skill lifecycle |
 
 ## 路由示例
 
@@ -78,7 +79,13 @@ flowchart LR
 
 ## 最新更新
 
-**Unreleased** 加入 Claim Ledger Lite、Visible Output QA、borrowed-pattern boundary lint、面向完全新手的中英文上手指南、Task Cards、Source-First Intake Card，以及用于 `logs_*.sqlite` / WAL 异常增长问题的 Codex SQLite log guard。
+**Unreleased / v1.8.0 candidate** 在已有 Claim Ledger Lite、Visible Output QA、borrowed-pattern boundary lint、新手指南、Task Cards、Source-First Intake Card 和 Codex SQLite log guard 之上，加入 context-health logging、`.codexignore` 和 active-vs-archived skill lifecycle。
+
+这意味着 starter kit 现在把 context load 当作一个需要管理的运行风险。runtime preflight 在 `--write` 时会写入轻量 context-health route signal；`scripts/context_health_signal.py` 可以让用户手动记录上下文压缩提示、大致 token 规模、可见的模型标签，以及“突然变浅、词不达意、明显变笨”等症状。这些日志只用于维护趋势分析，不是 source evidence、不是隐私控制，也不能证明实际模型路由。
+
+新的 `.codexignore` 会把高噪音生成内容排除在默认 agent context 之外：runtime receipts、skill receipts、eval reports、audit reports、session logs、context-health logs，以及生成的 Word/PDF 输出。它是 `.gitignore` 的补充，不替代 privacy check 或 release-surface review。
+
+v1.8.0 也让 active skill 面更轻。主题专用或后期阶段示例包保存在 `.agents/skills/_archived/`，但默认不再作为 active route。只有当某个项目阶段确实需要时，才应该由 Maintenance 恢复。默认路线优先使用通用 research、source、compliance、review、knowledge 和 context-continuity skills。
 
 这意味着正式 claim 现在可以用轻量 claim ledger 记录 evidence status、cannot-prove boundary、concept contract、allowed wording 和 review action。Word/PDF、figure、GitHub 页面、Obsidian 视图、browser page 等可见输出，需要有 rendered/preview evidence，不能只凭本地文件或 commit 就声称已检查。借鉴外部 style/workflow 项目时，也会用 lint 防止把公共项目里的灵感变成 detector-evasion、detector-score、authorship-verdict 或 humanising-as-evasion 规则。
 
@@ -231,7 +238,7 @@ bash scripts/run_vector_index.sh
 
 ## 验证
 
-当前公开模板显示 **58/58 skill evaluations passing**。
+当前公开模板显示 **62/62 skill evaluations passing**。
 这些是轻量级 static/routing checks，用来检查高风险流程是否指向真实文件和工具，不证明 agent 行为质量。这个 badge 反映的是已发布模板状态；你自定义系统后应重新运行下面的检查。
 
 ```bash

@@ -37,7 +37,7 @@ agent-orchestration
 
 ```text
 agent-orchestration
-  -> dissertation-knowledge-ops / teaching-knowledge-base-plan
+  -> dissertation-knowledge-ops
   -> source and privacy boundary check
   -> raw-inbox intake
   -> growth-queue triage
@@ -51,3 +51,5 @@ Retrieval skills and scripts must stay downstream of source/privacy boundaries. 
 ## Boundary
 
 This graph is a workflow guide, not a hosted runtime. Use `scripts/agent_runtime.py` for deterministic preflight when local tools are available.
+
+Archived skills under `.agents/skills/_archived/` are preserved examples, not active routing nodes. Restore an archived topic pack only after a concrete project phase needs it and Maintenance records why the added active context is justified.

@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 from dataclasses import dataclass, asdict
 from datetime import datetime
@@ -20,6 +21,7 @@ from stage_recall_policy import decide as decide_stage_recall
 
 ROOT = Path(__file__).resolve().parents[1]
 EVENT_LOG = ROOT / "research-wiki" / "SESSION_EVENT_LOG.jsonl"
+CONTEXT_HEALTH_LOG = ROOT / "research-wiki" / "CONTEXT_HEALTH_SIGNAL_LOG.jsonl"
 OUT_DIR = ROOT / "research-wiki" / "runtime-receipts"
 
 
@@ -32,6 +34,19 @@ BASE_FILES = [
     "research-wiki/TASK_STATE.md",
     "research-wiki/WINDOW_WORKFLOW_PROMPTS.md",
 ]
+
+LIGHT_BASE_FILES = [
+    "AGENTS.md",
+    "PROJECT_AGENT_PREFERENCES.md",
+    "PROJECT_TYPE_PROFILES.md",
+    "RESEARCH_PROJECT_BRIEF_TEMPLATE.md",
+]
+
+LIGHT_TASK_TYPES = {
+    "bounded_source_planning",
+    "bounded_research_lookup",
+    "minor_edit",
+}
 
 CLAIM_LEDGER_LITE_FILES = [
     "research-wiki/CLAIM_LEDGER_LITE_PROTOCOL.md",
@@ -203,8 +218,6 @@ TASK_RULES: list[dict] = [
             ".agents/skills/dissertation-learning-loop/SKILL.md",
             "knowledge-base/SOURCE_REGISTER.md",
             "knowledge-base/SOURCE_READINESS_MATRIX.md",
-            "research-wiki/TASK_STATE.md",
-            "research-wiki/PRODUCTION_RUN_REGISTER.md",
         ],
         "receipt_requirements": BOUNDED_SOURCE_PLANNING_RECEIPTS,
     },
@@ -464,7 +477,6 @@ TASK_RULES: list[dict] = [
         "skills": [
             "agent-orchestration",
             "dissertation-knowledge-ops",
-            "teaching-knowledge-base-plan",
             "dissertation-source-first-gate",
             "context-continuity",
         ],
@@ -537,7 +549,6 @@ TASK_RULES: list[dict] = [
         "required_files": [
             "research-wiki/PRODUCTION_RUN_REGISTER.md",
             "research-wiki/PRODUCTION_RECEIPT_VALIDATION.md",
-            "research-wiki/SESSION_EVENT_LOG.jsonl",
         ],
         "receipt_requirements": [
             "dissertation-agent-self-debug@maintenance",
@@ -784,7 +795,10 @@ def classify(task: str, window: str) -> RuntimeRoute:
     skills = unique([skill for rule in matched for skill in rule["skills"]])
     gates = unique([gate for rule in matched for gate in rule["gates"]])
     receipt_requirements = unique([item for rule in matched for item in rule.get("receipt_requirements", [])])
-    required_files = unique(BASE_FILES + [path for rule in matched for path in rule["required_files"]])
+    task_types = [rule["name"] for rule in matched]
+    light_only = bool(task_types) and set(task_types).issubset(LIGHT_TASK_TYPES)
+    base_files = LIGHT_BASE_FILES if light_only else BASE_FILES
+    required_files = unique(base_files + [path for rule in matched for path in rule["required_files"]])
     recall = decide_stage_recall(task=task, change_type="unspecified")
     if recall.tier >= 3:
         skills = unique(skills + ["context-continuity", "cognitive-frameworks"])
@@ -878,6 +892,61 @@ def append_event(route: RuntimeRoute, event_type: str, status: str, evidence: st
         handle.write(json.dumps(event, ensure_ascii=False) + "\n")
 
 
+def model_label() -> tuple[str, str]:
+    for key in ("CODEX_MODEL", "OPENAI_MODEL", "MODEL", "GPT_MODEL"):
+        value = os.environ.get(key)
+        if value:
+            return value, f"env:{key}"
+    return "unknown", "not_exposed_to_runtime"
+
+
+def required_file_bytes(paths: list[str]) -> int:
+    total = 0
+    for rel_path in paths:
+        path = ROOT / rel_path
+        if path.exists() and path.is_file():
+            total += path.stat().st_size
+    return total
+
+
+def append_context_health_signal(route: RuntimeRoute, runtime_receipt: Path | None = None) -> None:
+    model, model_source = model_label()
+    bytes_total = required_file_bytes(route.required_files)
+    signal = {
+        "schema": "context_health_signal.v1",
+        "timestamp": route.timestamp,
+        "source": "runtime_preflight",
+        "run_id": route.run_id,
+        "window": route.window,
+        "task": route.task,
+        "mode": route.mode,
+        "task_types": route.task_types,
+        "model": model,
+        "model_source": model_source,
+        "turn_count": None,
+        "turn_count_source": "not_exposed_to_runtime",
+        "context_compressed": "unknown",
+        "context_compressed_source": "not_exposed_to_runtime",
+        "approx_input_tokens": None,
+        "approx_output_tokens": None,
+        "approx_total_tokens": None,
+        "token_scale": "unknown",
+        "symptom": "runtime preflight route signal",
+        "severity": "info",
+        "recall_tier": route.recall_decision.get("tier"),
+        "recall_tier_name": route.recall_decision.get("tier_name"),
+        "required_file_count": len(route.required_files),
+        "required_file_bytes": bytes_total,
+        "skills_count": len(route.skills),
+        "gates_count": len(route.gates),
+        "receipt_requirement_count": len(route.receipt_requirements),
+        "runtime_receipt_json": str(runtime_receipt.relative_to(ROOT)) if runtime_receipt else None,
+    }
+    CONTEXT_HEALTH_LOG.parent.mkdir(parents=True, exist_ok=True)
+    with CONTEXT_HEALTH_LOG.open("a", encoding="utf-8") as handle:
+        handle.write(json.dumps(signal, ensure_ascii=False) + "\n")
+
+
 def markdown(route: RuntimeRoute) -> str:
     lines = [
         "# Agent Runtime Preflight",
@@ -953,6 +1022,7 @@ def main() -> int:
     print(json.dumps(asdict(route), ensure_ascii=False, indent=2))
     if args.write:
         json_path, md_path = write_receipts(route)
+        append_context_health_signal(route, json_path)
         append_event(
             route,
             "session_start",

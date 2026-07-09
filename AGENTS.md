@@ -59,7 +59,6 @@ Use these skills for research-project work. Some skill names still begin with `d
 - `release-surface-verification`: verify GitHub Releases, About/sidebar, topics, rendered README/docs, and public links before claiming a public release or template update is complete.
 - `dissertation-automation-audit`: audit scheduled checks, hooks, monitors, and automation safety.
 - `dissertation-skill-stocktake`: review skills for overlap, stale rules, and trigger clarity.
-- `using-superpowers`: apply a project-safe Superpowers-style skill-first workflow without overriding source-first, quality-gate, privacy, or window-separation rules.
 - `brainstorming`: structure unclear research-project or agent-system ideas before drafting, implementation, or skill changes.
 - `project-skill-creator-governance`: govern new or updated project skills and route SKILL.md authoring to the global `skill-creator` skill.
 - `playwright-dissertation-browser`: safely route browser automation to the global `playwright` skill while preserving read-only and privacy boundaries.
@@ -68,6 +67,7 @@ Use these skills for research-project work. Some skill names still begin with `d
 - `research-neural-network-figure`: plan or audit neural-network architecture figures and tool routes such as NN-SVG, PlotNeuralNet, draw_convnet, TikZ, or custom SVG.
 - `research-nature-figure`: apply high-impact scientific figure-contract logic to data, conceptual, architecture, and multi-panel figures.
 - `research-nature-writing`: sharpen high-impact article-style argument structure after source, compliance, citation, cognitive, and self-review gates.
+- `using-superpowers`: apply a project-safe Superpowers-style skill-first workflow without overriding source-first, quality-gate, privacy, or window-separation rules.
 
 Global/system skills intentionally used by this template:
 
@@ -75,6 +75,8 @@ Global/system skills intentionally used by this template:
 - `playwright`: use with `playwright-dissertation-browser` when a task needs CLI browser automation.
 
 Domain-specific skills are included as optional examples. Rename, edit, or remove them if your research topic does not need them.
+
+Archived project skills are kept under `.agents/skills/_archived/` and must not be routed as active skills unless Maintenance restores them. v1.8.0 moves topic-specific or late-phase example packs out of the default active set to reduce context load: `active-learning-design-support`, `ai-agent-design-spec`, `codesign-output-synthesis`, `dissertation-figure-spec`, `dissertation-research-wiki`, `prototype-evaluation-audit`, `teacher-adoption-modeling`, `teaching-knowledge-base-plan`, and `viva-prep`. Restore one only when the current project phase has a concrete recurring need for it.
 
 ## Safety Rules
 
@@ -89,6 +91,8 @@ Domain-specific skills are included as optional examples. Rename, edit, or remov
 - Keep bounded tasks bounded. Source-planning, literature-priority sorting, source lookup, and minor citation/typo edits should use light receipt sets unless the user asks for formal prose, Word/DOCX, stakeholder-facing or submission-facing output, or protected source-of-record edits. Methodology/literature keywords alone do not justify the full formal-writing chain.
 - Use `scripts/session_log_integrity_check.py --strict` when auditing runtime/session records. Malformed JSONL, illegal window labels, runtime/window mismatches, or unpaired `session_start` events are maintenance issues, not harmless log noise.
 - For Codex `logs_*.sqlite` / WAL growth, use `scripts/codex_sqlite_log_guard.py` before suggesting cleanup. Start with read-only `scan` or `monitor`. Do not delete, move, checkpoint, or add SQLite triggers to Codex log files unless the user explicitly asks for remediation, Codex is fully closed or the user accepts an override, and the target is confirmed as a Codex diagnostic `logs_*.sqlite` database rather than state, memory, goal, session, or project data.
+- For long sessions, context compression, or "the agent suddenly got worse" symptoms, use `scripts/context_health_signal.py` to record a lightweight context-health signal. Runtime preflight writes an automatic route signal when `--write` is used, but actual turn count, exact token count, compression notices, and model routing may need manual entry because most agent hosts do not expose them to local scripts.
+- Treat `.codexignore` as a context-load guard, not a privacy or publication control. It keeps receipts, runtime state, audit reports, logs, and generated documents out of default agent context; still run `scripts/privacy_check.sh` before public sync.
 - For long-running projects, use `research-wiki/STAGE_GRAPH.md` and `research-wiki/STAGE_CONTINUITY_PROTOCOL.md` before a later-stage task changes, designs, restates, translates, formalises, or produces a high-risk deliverable with upstream dependencies. High-risk deliverables include proposal/brief material, method plans, compliance or ethics material, fieldwork instruments, concept cards/scenario stimuli, RQ-to-method mapping, analysis plans, stakeholder-facing decision memos, and formal chapter/section drafts.
 - Use the runtime `recall_decision` or run `python3 scripts/stage_recall_policy.py --task "<TASK>"` as the Token-Aware Recall controller. Tier 0=no project recall, Tier 1=anchor scan, Tier 2=pointer lookup, Tier 3=targeted Stage Continuity Capsule, Tier 4=full upstream audit or pause. This controller saves context but cannot override source-first, compliance, citation, privacy, document-quality, delivery, or Stage Continuity A+B gates.
 - If a user asks to skip an upstream check for a triggered deliverable, surface the omitted dependency first. Only after explicit user acceptance may the task proceed as an override risk; do not call the Stage Continuity Gate a pass.
@@ -110,6 +114,7 @@ Domain-specific skills are included as optional examples. Rename, edit, or remov
 - For important formal `.docx` outputs, run `scripts/docx_layout_review_check.py` and record a layout self-review verdict. When a previous accepted `.docx` exists, pass it as `--previous-docx`. Deterministic checks catch table, heading, list, and visible hierarchy regressions, but do not replace visual inspection of rendered pages. Any `--skip-*` or `--allow-*` DOCX layout exception requires `--layout-decision-reason`.
 - For academic or professional prose, use `uk-academic-writing-style` and `style-memory-and-revision-gate` when language quality matters. Adapt spelling, tone, and format to the project context.
 - For AI-writing, de-AI, humanising, lower-AI-rate, AIGC, AI detector, or disclosure-hiding requests, use `authorial-voice-integrity` and `research-wiki/AI_WRITING_AUTHORIAL_VOICE_POLICY.md`. Reframe the task as authorial voice, academic/professional integrity, and evidence-led style. Do not promise detector scores, use evasion tactics, or hide AI-use disclosure.
+- Do not route to archived skills by default. If a task appears to need an archived topic pack, first use the active core workflow (`research-project-adapter`, `brainstorming`, `cognitive-frameworks`, source-first, compliance/privacy, document-quality, and relevant review skills). Restore the archived skill only after Maintenance records why the phase needs it.
 - When adapting public style or workflow patterns, run `scripts/borrowed_pattern_boundary_lint.py` when local tools are available. Boundary language is allowed, but positive instructions that promise detector evasion, detector-score optimisation, authorship verdicts, or humanising-as-evasion are not allowed.
 - Keep confirmed evidence separate from interpretation.
 - Mark unresolved facts as `TO CONFIRM`.

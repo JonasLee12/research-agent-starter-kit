@@ -1,0 +1,19 @@
+# High-volume generated evidence. Load individual files explicitly when needed.
+.agent-runtime/
+research-wiki/runtime-receipts/
+research-wiki/skill-receipts/
+research-wiki/skill-evals/Skill_Eval_Run_*
+research-wiki/skill-evals/Behavioural_Evidence_*
+research-wiki/material-passports/
+research-wiki/pre-delivery-locks/
+audit-reports/
+
+# Large mutable logs. Use scripts for targeted inspection instead of default context loading.
+research-wiki/SESSION_EVENT_LOG.jsonl
+research-wiki/CONTEXT_HEALTH_SIGNAL_LOG.jsonl
+
+# Generated document outputs. Inspect explicitly for delivery or visible-output QA.
+**/*.docx
+**/*.pdf
+outputs/
+exports/
