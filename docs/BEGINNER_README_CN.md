@@ -179,6 +179,15 @@ agent 应该做 source-first、claim boundary、integrity check、self-review、
 - 没有确认的事实保留 `TO CONFIRM`。
 - 用 commit 保存工作节点。
 - 重大更新后先跑验证再信任。
+- 重要写作尽量使用短会话。如果 agent 界面提示上下文已经压缩，或者 agent 突然变浅、词不达意、明显变笨，先让它写 checkpoint，然后开新窗口从文件继续，不要在已经压缩的聊天里继续正式写作。
+
+可选的 context-health 记录：
+
+```bash
+python scripts/context_health_signal.py record --latest-runtime --context-compressed yes --symptom "agent became shallow after context compression"
+```
+
+这个日志只用于维护趋势分析，不是研究证据，也不是隐私检查。
 
 ## 基础验证
 
@@ -188,6 +197,7 @@ agent 应该做 source-first、claim boundary、integrity check、self-review、
 python scripts/run_skill_evals.py
 python scripts/validate_agent_schemas.py
 python scripts/session_log_integrity_check.py --strict --no-report
+python scripts/context_health_signal.py summary --limit 5
 python scripts/codex_sqlite_log_guard.py scan --no-report
 python scripts/borrowed_pattern_boundary_lint.py --no-report
 python -m unittest discover -s tests

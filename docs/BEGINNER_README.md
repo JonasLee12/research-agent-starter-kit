@@ -179,6 +179,15 @@ The agent should use Visible Output QA. A file existing on disk is not enough.
 - Keep `TO CONFIRM` when a fact is not proven.
 - Use commits as checkpoints.
 - Run validation before trusting a major update.
+- Keep important writing sessions short. If the agent UI says the context was compressed, or the agent suddenly becomes shallow or incoherent, ask it to write a checkpoint, open a fresh session, and continue from files rather than from the compressed chat.
+
+Optional context-health note:
+
+```bash
+python scripts/context_health_signal.py record --latest-runtime --context-compressed yes --symptom "agent became shallow after context compression"
+```
+
+Use this log for maintenance trend analysis only. It is not evidence for research claims and it is not a privacy check.
 
 ## Basic Validation
 
@@ -188,6 +197,7 @@ After setup or major changes, run:
 python scripts/run_skill_evals.py
 python scripts/validate_agent_schemas.py
 python scripts/session_log_integrity_check.py --strict --no-report
+python scripts/context_health_signal.py summary --limit 5
 python scripts/codex_sqlite_log_guard.py scan --no-report
 python scripts/borrowed_pattern_boundary_lint.py --no-report
 python -m unittest discover -s tests

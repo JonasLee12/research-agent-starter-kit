@@ -8,7 +8,7 @@ This starter kit helps a coding agent check sources before claims, route small t
 
 [![License: PolyForm Noncommercial](https://img.shields.io/badge/License-PolyForm_Noncommercial-orange.svg)](LICENSE)
 [![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-green.svg)](https://www.python.org/)
-[![Evals](https://img.shields.io/badge/Skill_Evals-58%2F58_passing-brightgreen.svg)](#validation)
+[![Evals](https://img.shields.io/badge/Skill_Evals-62%2F62_passing-brightgreen.svg)](#validation)
 
 License boundary: this repository is source-available under the [PolyForm Noncommercial License 1.0.0](LICENSE). Personal, educational, research, and other non-commercial use is allowed. Commercial use, resale, paid hosting/SaaS, paid training or consulting productisation, and redistribution as part of a paid product require prior written permission.
 
@@ -35,6 +35,7 @@ Do not use this kit for thesis, dissertation, paper, proposal, report, or assign
 | A formal claim becomes stronger than its evidence | Claim Ledger Lite |
 | A public or rendered surface is claimed fixed without being opened | Visible Output QA |
 | Older Codex installs grow `logs_*.sqlite` / WAL files aggressively | Codex SQLite log guard |
+| Long sessions degrade after context compression or excessive history loading | Context health logging, `.codexignore`, and archived-skill lifecycle |
 
 ## Concrete Routing Example
 
@@ -78,7 +79,13 @@ The workflow is strict where it matters:
 
 ## What's New
 
-**Unreleased** adds Claim Ledger Lite, Visible Output QA, borrowed-pattern boundary lint, beginner onboarding guides, Task Cards, a Source-First Intake Card, and a Codex SQLite log guard for the `logs_*.sqlite` / WAL growth failure mode reported by users.
+**Unreleased / v1.8.0 candidate** adds context-health logging, `.codexignore`, and an active-vs-archived skill lifecycle on top of the existing Claim Ledger Lite, Visible Output QA, borrowed-pattern boundary lint, beginner onboarding guides, Task Cards, Source-First Intake Card, and Codex SQLite log guard work.
+
+That means the starter kit now treats context load as an operating risk. Runtime preflight can write a lightweight context-health route signal, and `scripts/context_health_signal.py` lets users manually record compression notices, rough token scale, model label when visible, and symptoms such as suddenly shallow or incoherent behaviour. These logs are for maintenance trend analysis only; they are not source evidence, privacy controls, or proof of model routing.
+
+The new `.codexignore` keeps high-volume generated evidence out of default agent context: runtime receipts, skill receipts, eval reports, audit reports, session logs, context-health logs, and generated Word/PDF outputs. It complements `.gitignore`; it does not replace the privacy check or release-surface review.
+
+v1.8.0 also introduces a lighter active skill surface. Topic-specific or late-phase example packs are preserved under `.agents/skills/_archived/`, but they are not active routes until a project phase restores them deliberately. The default workflow now reaches for core research, source, compliance, review, knowledge, and context-continuity skills first.
 
 That means formal claims can now carry a small claim ledger with evidence status, cannot-prove boundary, concept contract, allowed wording, and review action. Visible outputs such as Word/PDF, figures, GitHub pages, Obsidian views, and browser pages now need rendered or preview evidence before they are described as checked. Borrowed style/workflow patterns are linted so public inspiration does not become detector-evasion, detector-score, authorship-verdict, or humanising-as-evasion guidance.
 
@@ -231,7 +238,7 @@ These limits are part of the design. The system should make weak evidence visibl
 
 ## Validation
 
-The public template currently reports **58/58 skill evaluations passing**.
+The public template currently reports **62/62 skill evaluations passing**.
 These are lightweight static/routing checks for high-risk cases, not proof of behavioural quality. The badge reflects the published template state; rerun the checks after customising the kit.
 
 ```bash

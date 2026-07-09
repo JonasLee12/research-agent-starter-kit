@@ -13,6 +13,7 @@ build/
 research-wiki/runtime-receipts/*.md
 research-wiki/runtime-receipts/*.json
 research-wiki/SESSION_EVENT_LOG.jsonl
+research-wiki/CONTEXT_HEALTH_SIGNAL_LOG.jsonl
 research-wiki/system-audits/*
 !research-wiki/system-audits/.gitkeep
 research-wiki/retrieval-evals/*

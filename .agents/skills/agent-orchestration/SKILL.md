@@ -87,31 +87,31 @@ Classify the user's request into one or more categories:
 | Task Type | Primary Skills |
 |---|---|
 | project setup / project type adaptation | `research-project-adapter`, `agent-orchestration`, `dissertation-knowledge-ops` |
-| project memory / notes / supervisor discussion | `dissertation-research-wiki`, `dissertation-learning-loop`, `supervisor-feedback-loop` |
+| project memory / notes / supervisor discussion | `dissertation-knowledge-ops`, `dissertation-learning-loop`, `supervisor-feedback-loop`, `context-continuity` |
 | proposal / manuscript / report / grant writing | `research-project-adapter`, `dissertation-source-first-gate`, `material-passport`, `academic-integrity-preflight`, `cognitive-frameworks`, `dissertation-argument-spine`, `dissertation-chapter-plan`, `dissertation-research-review`, `academic-self-review-loop`, `authorial-voice-integrity`, `uk-academic-writing-style`, `style-memory-and-revision-gate`, `dissertation-document-quality-gate` |
 | ethics / compliance / participant materials | `dissertation-source-first-gate`, `responsible-ai-agent-audit`, `dissertation-research-review`, `dissertation-shared`, `dissertation-document-quality-gate` |
-| LMS/module requirements | `dissertation-research-search-protocol`, `dissertation-research-wiki`, `dissertation-chapter-plan`, `dissertation-citation-audit` |
+| LMS/module requirements | `dissertation-research-search-protocol`, `dissertation-knowledge-ops`, `dissertation-chapter-plan`, `dissertation-citation-audit` |
 | literature search / literature review | `dissertation-research-search-protocol`, `dissertation-learning-loop`, `dissertation-literature-review`, `cognitive-frameworks`, `dissertation-argument-spine`, `dissertation-citation-audit`, `academic-self-review-loop` when drafting formal synthesis |
 | bounded source planning / reading priority sorting | `dissertation-source-first-gate`, `dissertation-research-search-protocol`, `dissertation-citation-audit`, `dissertation-learning-loop`, `context-continuity`; do not add the full formal-writing chain unless the user asks for formal prose, Word/DOCX, stakeholder-facing output, submission-facing output, or protected source-of-record edits |
 | bounded research lookup | `dissertation-research-search-protocol`, `dissertation-citation-audit`, `context-continuity`; label metadata-only, source-section-reviewed, or evidence-insufficient status and do not update source registers without confirmation |
 | minor edit / typo / citation-key formatting | `dissertation-source-first-gate`, `dissertation-citation-audit`, `context-continuity`; preserve the no-substantive-change boundary and do not upgrade citation readiness |
 | research questions / methodology | `cognitive-frameworks`, `dissertation-argument-spine`, `dissertation-research-review`, `dissertation-chapter-plan`, `academic-self-review-loop` when drafting formal prose |
 | Stage Continuity triggered deliverable | `context-continuity`, `cognitive-frameworks`, `dissertation-source-first-gate`, `dissertation-argument-spine`, `dissertation-research-review` |
-| interview guide / data collection | `qualitative-theme-audit`, `responsible-ai-agent-audit`, `teacher-adoption-modeling` |
-| confirmed design-elicitation / co-design outputs | `codesign-output-synthesis`, `qualitative-theme-audit`, `ai-agent-design-spec` |
-| AI agent concept / prototype | `ai-agent-design-spec`, `active-learning-design-support`, `prototype-evaluation-audit` |
-| adoption conditions | `teacher-adoption-modeling`, `responsible-ai-agent-audit` |
-| active learning design | `active-learning-design-support`, `ai-agent-design-spec` |
-| teaching knowledge base / RAG plan | `teaching-knowledge-base-plan`, `dissertation-research-wiki` |
+| interview guide / data collection | `qualitative-theme-audit`, `responsible-ai-agent-audit`, `dissertation-research-review` |
+| confirmed design-elicitation / co-design outputs | `qualitative-theme-audit`, `responsible-ai-agent-audit`, `dissertation-research-review`; restore archived co-design/design-spec skills only after Maintenance confirms a recurring dedicated deliverable |
+| AI agent concept / prototype | `cognitive-frameworks`, `responsible-ai-agent-audit`, `dissertation-research-review`; restore archived design/prototype skills only for a dedicated specification or prototype audit |
+| adoption conditions | `responsible-ai-agent-audit`, `cognitive-frameworks`, `dissertation-research-review` |
+| active learning or intervention design | `cognitive-frameworks`, `responsible-ai-agent-audit`, `dissertation-research-review`; restore archived topic packs only when this is a concrete project phase |
+| teaching knowledge base / RAG plan | `dissertation-knowledge-ops`, `dissertation-research-search-protocol`, `context-continuity` |
 | unclear research route / high-impact idea / early design discussion | `brainstorming`, `dissertation-argument-spine`, `dissertation-research-review` |
 | file-to-Markdown conversion / source ingestion from documents | `markitdown`, `dissertation-source-first-gate`, `dissertation-knowledge-ops`, `dissertation-learning-loop` |
 | learning loop / source ingestion | `dissertation-learning-loop`, `dissertation-knowledge-ops`, `context-continuity` |
 | academic writing / authorial voice / AI-style cleanup | `authorial-voice-integrity`, `academic-integrity-preflight` when disclosure or prompt-residue risk appears, `academic-self-review-loop`, `uk-academic-writing-style`, `style-memory-and-revision-gate`, `dissertation-document-quality-gate` |
 | rubric / marking criteria / journal / funder / client requirement audit | `research-project-adapter`, `dissertation-source-first-gate`, `dissertation-research-search-protocol`, `dissertation-argument-spine`, `dissertation-research-review`, `dissertation-citation-audit`, `dissertation-chapter-plan` |
-| LMS / portal / requirement / deadline / word count / submission rule | `research-project-adapter`, `dissertation-source-first-gate`, `dissertation-research-search-protocol`, `dissertation-research-wiki`, `dissertation-document-quality-gate` |
+| LMS / portal / requirement / deadline / word count / submission rule | `research-project-adapter`, `dissertation-source-first-gate`, `dissertation-research-search-protocol`, `dissertation-knowledge-ops`, `dissertation-document-quality-gate` |
 | major chapter rewrite / argument audit | `dissertation-argument-spine`, `dissertation-research-review`, `dissertation-citation-audit` |
-| final review / viva | `viva-prep`, `dissertation-research-review` |
-| long task / context handoff / compaction risk | `context-continuity`, `dissertation-research-wiki` |
+| final review / defense / viva | `dissertation-research-review`, `context-continuity`; restore archived `viva-prep` only when a thesis/dissertation defense phase is active |
+| long task / context handoff / compaction risk | `context-continuity`, `dissertation-knowledge-ops` |
 | formal document delivery / QA | `cognitive-frameworks` when argument planning is needed, `academic-self-review-loop`, `uk-academic-writing-style`, `style-memory-and-revision-gate`, `dissertation-document-quality-gate`, `context-continuity` |
 | agent self-debug / false-run recovery | `dissertation-agent-self-debug`, `dissertation-workspace-surface-audit`, `context-continuity` |
 | GitHub release / public template visible-surface verification | `release-surface-verification`, `dissertation-agent-self-debug`, `dissertation-workspace-surface-audit` when live browser or rendered-surface checks are needed |
@@ -130,6 +130,8 @@ Classify the user's request into one or more categories:
 When creating or updating Codex skill files, use the system `skill-creator` skill if it is available. For external workflow migration, audit first, then adapt into existing dissertation skills unless the user explicitly asks for a new active skill.
 
 For project skill creation or updates, use `project-skill-creator-governance` before global `skill-creator`. Do not copy global `skill-creator` or global `playwright` into `.agents/skills/` unless the user explicitly asks for frozen local copies.
+
+Archived adapter or topic-pack skills under `.agents/skills/_archived/` are not active routing targets. If a task appears to need one, first use the active core route and only restore the archived skill after Maintenance confirms a recurring project-phase need that justifies the added context load.
 
 For Superpowers-style workflows, use `using-superpowers` as an adapter. It must not override source-first, rubric evidence, document-quality, privacy, or window-separation rules.
 

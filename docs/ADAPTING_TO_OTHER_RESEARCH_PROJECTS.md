@@ -8,7 +8,7 @@ This repository can support many research themes. It is not limited to dissertat
 2. Copy `RESEARCH_PROJECT_BRIEF_TEMPLATE.md` to `RESEARCH_PROJECT_BRIEF.md`.
 3. Choose one primary project profile.
 4. Fill only confirmed project facts.
-5. Decide which optional topic skills are relevant.
+5. Decide whether any archived topic packs should be restored for this project phase.
 6. Run:
 
 ```bash
@@ -41,17 +41,21 @@ python3 scripts/agent_runtime.py "adapt this starter kit to my project" --window
 
 These skills still have `dissertation-*` names for compatibility, but most of them are general research-project workflows.
 
-## What To Treat As Optional
+## Archived Topic Packs
 
-Use these only when the topic needs them:
+These skills are preserved under `.agents/skills/_archived/` so the default starter kit stays lighter. Restore one only when the topic and project phase need it repeatedly:
 
 - `active-learning-design-support`
 - `ai-agent-design-spec`
 - `codesign-output-synthesis`
+- `dissertation-figure-spec`
+- `dissertation-research-wiki`
 - `prototype-evaluation-audit`
 - `teacher-adoption-modeling`
 - `teaching-knowledge-base-plan`
 - `viva-prep`
+
+For one-off tasks, prefer the active core route first: `brainstorming`, `cognitive-frameworks`, `dissertation-research-review`, `responsible-ai-agent-audit`, `dissertation-knowledge-ops`, and `context-continuity`.
 
 ## What To Replace Or Edit
 

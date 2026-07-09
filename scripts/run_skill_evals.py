@@ -34,6 +34,25 @@ LOCAL_FILE_REFS = {
     "RUBRIC_EVIDENCE_GATE.md": "university-guidance/RUBRIC_EVIDENCE_GATE.md",
 }
 
+ARCHIVED_SKILLS = {
+    "active-learning-design-support",
+    "ai-agent-design-spec",
+    "codesign-output-synthesis",
+    "dissertation-figure-spec",
+    "dissertation-research-wiki",
+    "prototype-evaluation-audit",
+    "teacher-adoption-modeling",
+    "teaching-knowledge-base-plan",
+    "viva-prep",
+}
+
+LIGHT_ROUTE_HEAVY_FILES = {
+    "research-wiki/TASK_STATE.md",
+    "research-wiki/PRODUCTION_RUN_REGISTER.md",
+    "research-wiki/SESSION_EVENT_LOG.jsonl",
+    "research-wiki/WINDOW_WORKFLOW_PROMPTS.md",
+}
+
 
 @dataclass
 class EvalCase:
@@ -84,6 +103,10 @@ def check_case(case: EvalCase, available_skills: set[str]) -> tuple[str, list[st
         if token.endswith((".md", ".txt", ".json", ".yml", ".yaml")):
             rel_path = LOCAL_FILE_REFS.get(token, token)
             if not (ROOT / rel_path).exists():
+                missing.append(token)
+            continue
+        if token.startswith(".") or "/" in token:
+            if not (ROOT / token).exists():
                 missing.append(token)
             continue
         if token.endswith(".py") or token.startswith("scripts/"):
@@ -683,6 +706,72 @@ Visible Output QA:
             problems.append("formal-claim-stayed-minor")
         if "claim_ledger_lite_when_formal_claims_or_citation_heavy" not in formal_gates:
             problems.append("formal-claim-missing-ledger-gate")
+        return problems
+    if case_id == "RUNTIME-014":
+        code, data, output = runtime_json("Run methodology literature search and rematch sources")
+        if code != 0 or data is None:
+            return [f"runtime-014-bounded-source:{code}:{output[:120]}"]
+        task_types = set(data.get("task_types", []))
+        required_files = set(data.get("required_files", []))
+        problems = []
+        if "bounded_source_planning" not in task_types:
+            problems.append(f"runtime-014-not-bounded:{','.join(sorted(task_types))}")
+        overlap = sorted(LIGHT_ROUTE_HEAVY_FILES & required_files)
+        if overlap:
+            problems.append(f"runtime-014-heavy-files:{','.join(overlap)}")
+        if len(required_files) > 12:
+            problems.append(f"runtime-014-file-count:{len(required_files)}")
+        return problems
+    if case_id == "RUNTIME-015":
+        code, data, output = runtime_json("Audit this starter kit workflow and update skill lifecycle policy")
+        if code != 0 or data is None:
+            return [f"runtime-015-maintenance:{code}:{output[:120]}"]
+        required_files = set(data.get("required_files", []))
+        problems = []
+        if "system_maintenance" not in set(data.get("task_types", [])):
+            problems.append("runtime-015-not-maintenance")
+        if "research-wiki/SESSION_EVENT_LOG.jsonl" in required_files:
+            problems.append("runtime-015-requires-generated-session-log")
+        return problems
+    if case_id == "CONTEXT-001":
+        problems = []
+        codexignore = (ROOT / ".codexignore").read_text(encoding="utf-8")
+        required_patterns = [
+            ".agent-runtime/",
+            "research-wiki/runtime-receipts/",
+            "research-wiki/skill-receipts/",
+            "audit-reports/",
+            "research-wiki/SESSION_EVENT_LOG.jsonl",
+            "research-wiki/CONTEXT_HEALTH_SIGNAL_LOG.jsonl",
+            "**/*.docx",
+            "**/*.pdf",
+        ]
+        for pattern in required_patterns:
+            if pattern not in codexignore:
+                problems.append(f"codexignore-missing:{pattern}")
+        code, output = run_local_script(["scripts/context_health_signal.py", "summary", "--limit", "1"])
+        if code != 0:
+            problems.append(f"context-health-summary-exit:{code}:{output[:120]}")
+        return problems
+    if case_id == "ARCHIVE-001":
+        active = project_skills()
+        problems = []
+        active_overlap = sorted(active & ARCHIVED_SKILLS)
+        if active_overlap:
+            problems.append(f"archived-still-active:{','.join(active_overlap)}")
+        for skill in sorted(ARCHIVED_SKILLS):
+            if not (ROOT / ".agents" / "skills" / "_archived" / skill / "SKILL.md").exists():
+                problems.append(f"archived-missing:{skill}")
+        if len(active) > 40:
+            problems.append(f"active-skill-count-too-high:{len(active)}")
+        orchestration = (ROOT / ".agents" / "skills" / "agent-orchestration" / "SKILL.md").read_text(encoding="utf-8")
+        stale_names = [
+            name
+            for name in ARCHIVED_SKILLS
+            if f"`{name}`" in orchestration and "restore archived" not in orchestration.lower()
+        ]
+        if stale_names:
+            problems.append(f"orchestration-stale-archived:{','.join(sorted(stale_names))}")
         return problems
     if case_id == "VOICE-009":
         bad = eval_fixture_path(case_id, "_bad_borrowed_pattern.md")
