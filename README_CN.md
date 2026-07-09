@@ -79,7 +79,7 @@ flowchart LR
 
 ## 最新更新
 
-**Unreleased / v1.8.0 candidate** 在已有 Claim Ledger Lite、Visible Output QA、borrowed-pattern boundary lint、新手指南、Task Cards、Source-First Intake Card 和 Codex SQLite log guard 之上，加入 context-health logging、`.codexignore` 和 active-vs-archived skill lifecycle。
+**v1.8.0** 在已有 Claim Ledger Lite、Visible Output QA、borrowed-pattern boundary lint、新手指南、Task Cards、Source-First Intake Card 和 Codex SQLite log guard 之上，加入 context-health logging、`.codexignore` 和 active-vs-archived skill lifecycle。
 
 这意味着 starter kit 现在把 context load 当作一个需要管理的运行风险。runtime preflight 在 `--write` 时会写入轻量 context-health route signal；`scripts/context_health_signal.py` 可以让用户手动记录上下文压缩提示、大致 token 规模、可见的模型标签，以及“突然变浅、词不达意、明显变笨”等症状。这些日志只用于维护趋势分析，不是 source evidence、不是隐私控制，也不能证明实际模型路由。
 

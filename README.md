@@ -79,7 +79,7 @@ The workflow is strict where it matters:
 
 ## What's New
 
-**Unreleased / v1.8.0 candidate** adds context-health logging, `.codexignore`, and an active-vs-archived skill lifecycle on top of the existing Claim Ledger Lite, Visible Output QA, borrowed-pattern boundary lint, beginner onboarding guides, Task Cards, Source-First Intake Card, and Codex SQLite log guard work.
+**v1.8.0** adds context-health logging, `.codexignore`, and an active-vs-archived skill lifecycle on top of the existing Claim Ledger Lite, Visible Output QA, borrowed-pattern boundary lint, beginner onboarding guides, Task Cards, Source-First Intake Card, and Codex SQLite log guard work.
 
 That means the starter kit now treats context load as an operating risk. Runtime preflight can write a lightweight context-health route signal, and `scripts/context_health_signal.py` lets users manually record compression notices, rough token scale, model label when visible, and symptoms such as suddenly shallow or incoherent behaviour. These logs are for maintenance trend analysis only; they are not source evidence, privacy controls, or proof of model routing.
 
