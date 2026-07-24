@@ -79,13 +79,17 @@ The workflow is strict where it matters:
 
 ## What's New
 
+**v1.8.1** is an archive-discovery isolation hotfix. Archived topic packs now live under `.agents/archived-skills/`, outside the active `.agents/skills/` discovery root. This closes a host-dependent gap where recursive skill discovery could still list logically archived skills as available at startup.
+
+The hotfix adds a regression test and eval coverage for physical isolation. Restoring an archived skill is now an explicit Maintenance action: move only the required pack back into `.agents/skills/`, update routing if needed, and rerun the eval suite. No formal-writing, source-readiness, citation, privacy, or delivery boundary changed in this release.
+
 **v1.8.0** adds context-health logging, `.codexignore`, and an active-vs-archived skill lifecycle on top of the existing Claim Ledger Lite, Visible Output QA, borrowed-pattern boundary lint, beginner onboarding guides, Task Cards, Source-First Intake Card, and Codex SQLite log guard work.
 
 That means the starter kit now treats context load as an operating risk. Runtime preflight can write a lightweight context-health route signal, and `scripts/context_health_signal.py` lets users manually record compression notices, rough token scale, model label when visible, and symptoms such as suddenly shallow or incoherent behaviour. These logs are for maintenance trend analysis only; they are not source evidence, privacy controls, or proof of model routing.
 
 The new `.codexignore` keeps high-volume generated evidence out of default agent context: runtime receipts, skill receipts, eval reports, audit reports, session logs, context-health logs, and generated Word/PDF outputs. It complements `.gitignore`; it does not replace the privacy check or release-surface review.
 
-v1.8.0 also introduces a lighter active skill surface. Topic-specific or late-phase example packs are preserved under `.agents/skills/_archived/`, but they are not active routes until a project phase restores them deliberately. The default workflow now reaches for core research, source, compliance, review, knowledge, and context-continuity skills first.
+v1.8.0 also introduced a lighter active skill surface. In the current release, topic-specific or late-phase example packs are preserved under `.agents/archived-skills/`, outside active discovery, until a project phase restores them deliberately. The default workflow reaches for core research, source, compliance, review, knowledge, and context-continuity skills first.
 
 That means formal claims can now carry a small claim ledger with evidence status, cannot-prove boundary, concept contract, allowed wording, and review action. Visible outputs such as Word/PDF, figures, GitHub pages, Obsidian views, and browser pages now need rendered or preview evidence before they are described as checked. Borrowed style/workflow patterns are linted so public inspiration does not become detector-evasion, detector-score, authorship-verdict, or humanising-as-evasion guidance.
 

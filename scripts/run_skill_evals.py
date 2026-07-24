@@ -23,6 +23,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 REGISTRY = ROOT / "research-wiki" / "SKILL_EVAL_REGISTRY.md"
 DEFAULT_OUTPUT = ROOT / "research-wiki" / "skill-evals" / f"Skill_Eval_Run_{date.today().isoformat()}.md"
+ARCHIVED_SKILLS_DIR = ROOT / ".agents" / "archived-skills"
 
 GLOBAL_OR_EXTERNAL_REFS = {
     "documents",
@@ -760,8 +761,17 @@ Visible Output QA:
         if active_overlap:
             problems.append(f"archived-still-active:{','.join(active_overlap)}")
         for skill in sorted(ARCHIVED_SKILLS):
-            if not (ROOT / ".agents" / "skills" / "_archived" / skill / "SKILL.md").exists():
+            if not (ARCHIVED_SKILLS_DIR / skill / "SKILL.md").exists():
                 problems.append(f"archived-missing:{skill}")
+        archived_under_active_root = sorted(
+            skill_md.parent.name
+            for skill_md in (ROOT / ".agents" / "skills").glob("**/SKILL.md")
+            if skill_md.parent.name in ARCHIVED_SKILLS
+        )
+        if archived_under_active_root:
+            problems.append(f"archived-under-active-root:{','.join(archived_under_active_root)}")
+        if (ROOT / ".agents" / "skills" / "_archived").exists():
+            problems.append("legacy-archive-root-still-present")
         if len(active) > 40:
             problems.append(f"active-skill-count-too-high:{len(active)}")
         orchestration = (ROOT / ".agents" / "skills" / "agent-orchestration" / "SKILL.md").read_text(encoding="utf-8")

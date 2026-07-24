@@ -4,6 +4,23 @@
 
 No changes yet.
 
+## v1.8.1 - Archive Discovery Isolation Hotfix - 2026-07-24
+
+Status: active-skill discovery reliability hotfix.
+
+### Fixed
+
+- Moved all nine archived topic packs from below `.agents/skills/` to `.agents/archived-skills/`, outside the active discovery root.
+- Prevented recursive host discovery from listing logically archived packs as available startup skills.
+- Updated the archive lifecycle instructions, dependency graph, adaptation guide, system overview, orchestration rule, and eval registry to use the physically isolated archive root.
+- Added regression coverage that fails if an archived `SKILL.md` appears anywhere below `.agents/skills/`.
+
+### Boundary
+
+- This release changes archive placement and discovery isolation only. It does not change live task routing, formal-writing gates, source/citation readiness, privacy rules, automation, or delivery behaviour.
+- Archived packs remain recoverable examples. Restoration is an explicit Maintenance action that moves only a justified pack back into `.agents/skills/` and reruns validation.
+- No private project content, participant material, institution-specific requirements, local paths, credentials, runtime state, or generated private reports are included.
+
 ## v1.8.0 - Context Health And Skill Lifecycle - 2026-07-09
 
 Status: context-load reliability, active-skill lifecycle, and public onboarding update.
@@ -12,7 +29,7 @@ Status: context-load reliability, active-skill lifecycle, and public onboarding 
 
 - `.codexignore` to keep generated runtime evidence, receipts, audit reports, session logs, context-health logs, and generated Word/PDF outputs out of default agent context.
 - `scripts/context_health_signal.py` and automatic runtime context-health route signals for recording compression notices, approximate context scale, model label when exposed, route type, and degradation symptoms.
-- Archived skill layer under `.agents/skills/_archived/` for topic-specific or late-phase example packs that should not load as active routes by default.
+- Archived skill lifecycle for topic-specific or late-phase example packs that should not load as active routes by default.
 - GitHub social preview asset at `docs/assets/social-preview.png`, with editable SVG source and manifest in `docs/assets/`.
 - Annotated runtime routing demo image at `docs/assets/terminal-routing-demo.png`, with editable SVG source and manifest in `docs/assets/`.
 - Task Cards and a copyable Source-First Intake Card: `docs/TASK_CARDS.md`, `docs/TASK_CARDS_CN.md`, and `templates/SOURCE_FIRST_INTAKE_CARD.md`.

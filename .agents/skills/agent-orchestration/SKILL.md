@@ -131,7 +131,7 @@ When creating or updating Codex skill files, use the system `skill-creator` skil
 
 For project skill creation or updates, use `project-skill-creator-governance` before global `skill-creator`. Do not copy global `skill-creator` or global `playwright` into `.agents/skills/` unless the user explicitly asks for frozen local copies.
 
-Archived adapter or topic-pack skills under `.agents/skills/_archived/` are not active routing targets. If a task appears to need one, first use the active core route and only restore the archived skill after Maintenance confirms a recurring project-phase need that justifies the added context load.
+Archived adapter or topic-pack skills under `.agents/archived-skills/` are outside the active discovery root and are not routing targets. If a task appears to need one, first use the active core route and only move the required pack back into `.agents/skills/` after Maintenance confirms a recurring project-phase need that justifies the added context load.
 
 For Superpowers-style workflows, use `using-superpowers` as an adapter. It must not override source-first, rubric evidence, document-quality, privacy, or window-separation rules.
 

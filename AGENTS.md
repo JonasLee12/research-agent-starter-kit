@@ -76,7 +76,7 @@ Global/system skills intentionally used by this template:
 
 Domain-specific skills are included as optional examples. Rename, edit, or remove them if your research topic does not need them.
 
-Archived project skills are kept under `.agents/skills/_archived/` and must not be routed as active skills unless Maintenance restores them. v1.8.0 moves topic-specific or late-phase example packs out of the default active set to reduce context load: `active-learning-design-support`, `ai-agent-design-spec`, `codesign-output-synthesis`, `dissertation-figure-spec`, `dissertation-research-wiki`, `prototype-evaluation-audit`, `teacher-adoption-modeling`, `teaching-knowledge-base-plan`, and `viva-prep`. Restore one only when the current project phase has a concrete recurring need for it.
+Archived project skills are kept under `.agents/archived-skills/`, outside the active `.agents/skills/` discovery root, and must not be routed unless Maintenance restores them. v1.8.1 physically isolates the topic-specific or late-phase example packs so recursive startup discovery cannot treat them as available skills: `active-learning-design-support`, `ai-agent-design-spec`, `codesign-output-synthesis`, `dissertation-figure-spec`, `dissertation-research-wiki`, `prototype-evaluation-audit`, `teacher-adoption-modeling`, `teaching-knowledge-base-plan`, and `viva-prep`. Restore one by moving it back into `.agents/skills/` only when the current project phase has a concrete recurring need for it.
 
 ## Safety Rules
 

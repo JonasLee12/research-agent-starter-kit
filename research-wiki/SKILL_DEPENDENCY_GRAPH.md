@@ -52,4 +52,4 @@ Retrieval skills and scripts must stay downstream of source/privacy boundaries. 
 
 This graph is a workflow guide, not a hosted runtime. Use `scripts/agent_runtime.py` for deterministic preflight when local tools are available.
 
-Archived skills under `.agents/skills/_archived/` are preserved examples, not active routing nodes. Restore an archived topic pack only after a concrete project phase needs it and Maintenance records why the added active context is justified.
+Archived skills under `.agents/archived-skills/` are preserved examples outside the active discovery root, not active routing nodes. Restore an archived topic pack into `.agents/skills/` only after a concrete project phase needs it and Maintenance records why the added active context is justified.

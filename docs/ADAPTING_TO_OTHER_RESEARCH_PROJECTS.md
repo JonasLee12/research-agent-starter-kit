@@ -43,7 +43,7 @@ These skills still have `dissertation-*` names for compatibility, but most of th
 
 ## Archived Topic Packs
 
-These skills are preserved under `.agents/skills/_archived/` so the default starter kit stays lighter. Restore one only when the topic and project phase need it repeatedly:
+These skills are preserved under `.agents/archived-skills/`, outside active skill discovery, so the default starter kit stays lighter. Restore one by moving that pack back into `.agents/skills/` only when the topic and project phase need it repeatedly:
 
 - `active-learning-design-support`
 - `ai-agent-design-spec`

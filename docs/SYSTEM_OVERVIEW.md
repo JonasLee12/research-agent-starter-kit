@@ -148,7 +148,7 @@ Important skill groups:
 
 The `research-*` skills are optional quality layers. Use them only after local source, privacy, compliance, and writing-quality gates. They should improve figure logic or article-style flow, not inflate claims or replace evidence.
 
-Archived topic packs live under `.agents/skills/_archived/`. They are preserved for restoration, but they do not count as active default skills and should not be routed until a real project phase justifies restoring them.
+Archived topic packs live under `.agents/archived-skills/`, outside the active `.agents/skills/` discovery root. They are preserved for restoration, but they do not count as active default skills and should not be routed until a real project phase justifies moving one back into the active root.
 
 ## 6. New Workflow Adapters
 

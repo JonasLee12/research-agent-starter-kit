@@ -79,13 +79,17 @@ flowchart LR
 
 ## 最新更新
 
+**v1.8.1** 是一次归档发现隔离热修复。归档 topic packs 现在放在 `.agents/archived-skills/`，位于 active `.agents/skills/` discovery root 之外。这样可以修复一个依赖宿主实现的问题：有些客户端会递归扫描 `.agents/skills/`，导致逻辑上已归档的 skill 仍在新窗口启动时被列为 available skills。
+
+这次热修复增加了物理隔离的 regression test 和 eval。恢复归档 skill 现在是一项显式 Maintenance 操作：只把当前阶段确实需要的 pack 移回 `.agents/skills/`，必要时更新 routing，然后重跑 eval suite。本版本没有改变正式写作、source readiness、citation、privacy 或 delivery boundary。
+
 **v1.8.0** 在已有 Claim Ledger Lite、Visible Output QA、borrowed-pattern boundary lint、新手指南、Task Cards、Source-First Intake Card 和 Codex SQLite log guard 之上，加入 context-health logging、`.codexignore` 和 active-vs-archived skill lifecycle。
 
 这意味着 starter kit 现在把 context load 当作一个需要管理的运行风险。runtime preflight 在 `--write` 时会写入轻量 context-health route signal；`scripts/context_health_signal.py` 可以让用户手动记录上下文压缩提示、大致 token 规模、可见的模型标签，以及“突然变浅、词不达意、明显变笨”等症状。这些日志只用于维护趋势分析，不是 source evidence、不是隐私控制，也不能证明实际模型路由。
 
 新的 `.codexignore` 会把高噪音生成内容排除在默认 agent context 之外：runtime receipts、skill receipts、eval reports、audit reports、session logs、context-health logs，以及生成的 Word/PDF 输出。它是 `.gitignore` 的补充，不替代 privacy check 或 release-surface review。
 
-v1.8.0 也让 active skill 面更轻。主题专用或后期阶段示例包保存在 `.agents/skills/_archived/`，但默认不再作为 active route。只有当某个项目阶段确实需要时，才应该由 Maintenance 恢复。默认路线优先使用通用 research、source、compliance、review、knowledge 和 context-continuity skills。
+v1.8.0 也让 active skill 面更轻。在当前版本中，主题专用或后期阶段示例包保存在 `.agents/archived-skills/`，位于 active discovery 之外。只有当某个项目阶段确实需要时，才应该由 Maintenance 恢复。默认路线优先使用通用 research、source、compliance、review、knowledge 和 context-continuity skills。
 
 这意味着正式 claim 现在可以用轻量 claim ledger 记录 evidence status、cannot-prove boundary、concept contract、allowed wording 和 review action。Word/PDF、figure、GitHub 页面、Obsidian 视图、browser page 等可见输出，需要有 rendered/preview evidence，不能只凭本地文件或 commit 就声称已检查。借鉴外部 style/workflow 项目时，也会用 lint 防止把公共项目里的灵感变成 detector-evasion、detector-score、authorship-verdict 或 humanising-as-evasion 规则。
 
